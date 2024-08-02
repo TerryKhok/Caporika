@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharaMove : MonoBehaviour
@@ -26,24 +27,35 @@ public class CharaMove : MonoBehaviour
 
     void Update()
     {
-        float angulerVelocity = 0.0f;
-        float rotationZ = transform.rotation.z;
-        float rotationEulerZ = transform.rotation.eulerAngles.z;
-        if (rotationEulerZ > 180.0f) rotationEulerZ -= 360.0f;  // -180 ~ 180‚É‚·‚é
 
         // ƒvƒŒƒCƒ„[‚Ì“ü—Í‚ðŽæ“¾
         horizontalInput = Input.GetAxis("Horizontal");
 
         // …•½•ûŒü‚ÌˆÚ“®‚ðˆ—
-        Vector3 moveDirection = new Vector3(horizontalInput * moveSpeed * Time.deltaTime, 0, 0);
-        m_rb2.AddForce(moveDirection, ForceMode2D.Impulse);
+        Vector3 moveDirection = new Vector3(horizontalInput * moveSpeed, m_rb2.velocity.y, 0);
+        m_rb2.velocity = moveDirection;
 
+        if (Input.GetButtonUp("Horizontal"))
+        {
+            m_rb2.velocity = new Vector2(0.0f, m_rb2.velocity.y);
+        }
+
+        // ŒX‚­ˆ—
+        // •Ï”Ý’è
+        float angulerVelocity = 0.0f;
+        float rotationZ = transform.rotation.z;
+        float rotationEulerZ = transform.rotation.eulerAngles.z;
+        if (rotationEulerZ > 180.0f) rotationEulerZ -= 360.0f;  // -180 ~ 180‚É‚·‚é
+
+        // ŒX‚«‚ÌŒvŽZ
         angulerVelocity = m_rb2.angularVelocity;
-        angulerVelocity += tiltSpeed * horizontalInput; // ˆÚ“®•ûŒü‚É‰ž‚¶‚½ŒX‚«‘¬“x
-        if (rotationEulerZ != 0.0f) angulerVelocity += -rotationZ * angulerGravity;  // ‹——£ * ŒW”
+        angulerVelocity += tiltSpeed * horizontalInput * Time.deltaTime; // ˆÚ“®•ûŒü‚É‰ž‚¶‚½ŒX‚«‘¬“x
+        if (rotationEulerZ != 0.0f) angulerVelocity += Mathf.Clamp(-rotationZ * 3.0f, -1.0f, 1.0f) * angulerGravity * Time.deltaTime;  // ‹——£ * ŒW”
 
+        // ŒX‚«‚ÌÝ’è
         m_rb2.angularVelocity = angulerVelocity;
 
+        // ãŒÀÝ’è
         if (Mathf.Abs(rotationEulerZ) > tiltAngle)
         {
             transform.rotation = Quaternion.Euler(0.0f, 0.0f, tiltAngle * Mathf.Sign(rotationZ));

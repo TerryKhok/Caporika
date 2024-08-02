@@ -494,7 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29dc654e6142f974f9bdf3d855ce054a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 10
   tiltAngle: 45
   tiltSpeed: 10
   angulerGravity: -1
