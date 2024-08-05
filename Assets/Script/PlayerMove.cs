@@ -5,25 +5,32 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float speed = 5.0f;
+    public float moveSpeed = 5.0f;
     public float tiltAmount = 45.0f;        // 回転角の最大値
     public float returnSpeed = 2.0f;        // 回転を元に戻す速度
     public float damping = 0.1f;            // 減衰係数
     public float inputDeadZone = 0.1f;      // 入力のデッドゾーン
-    public float angleSwingZone = 0.3f;     // 揺れた判定内かどうか
     public int maxSwimg = 3;                // 何回揺れるか 
+    public float centerOfMassOffset = 0.6f; // 重心の位置の割合
 
     private Rigidbody2D rb;
     private float tiltVelocity = 0f;      // 傾きの速度
     private int swingCount = 0;           // 揺れの回数をカウント
     private bool isInDeadZone = false;    // デッドゾーン内にいるかどうか
+    private float angleSwingZone = 1.0f;  // 揺れた判定内かどうか
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
         // 重心を下に設定
-        rb.centerOfMass = new Vector2(0, -0.6f);
+        if (rb != null)
+        {
+            Renderer renderer = GetComponent<Renderer>();
+            Vector2 size = renderer.bounds.size;          
+            rb.centerOfMass = new Vector2(0.0f, -size.y * (1 - centerOfMassOffset));
+            rb.isKinematic = false; // 物理演算を有効化
+        }
     }
 
     void FixedUpdate()
@@ -45,8 +52,7 @@ public class PlayerMove : MonoBehaviour
             tiltVelocity = 0.0f;    // 傾きの速度をリセット
             swingCount = 0;         // 揺れの回数をリセット
             isInDeadZone = false;   // デッドゾーンフラグをリセット
-            rb.isKinematic = false; // 物理演算を無効化
-
+            rb.isKinematic = false; // 物理演算を有効化
         }
         // 止まった時-----------------------------------------------------------
         else
@@ -86,10 +92,10 @@ public class PlayerMove : MonoBehaviour
                 tiltVelocity = 0.0f;
                 rb.velocity = new Vector2(0.0f, 0.0f);
                 transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-
-                // 物理演算を無効化
-                rb.isKinematic = true; 
                 swingCount = maxSwimg;
+
+                // 止まった反動でめっちゃ滑るので物理演算を無効化
+                rb.isKinematic = true;         
             }
 
             // 角度のセット
@@ -100,6 +106,6 @@ public class PlayerMove : MonoBehaviour
         }
 
         // 速度をセット
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
     }
 }
