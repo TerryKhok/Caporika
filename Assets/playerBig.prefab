@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7299365118241174286}
   - component: {fileID: 7596826689376888251}
   - component: {fileID: 4272757586477236791}
-  - component: {fileID: 2480790818033018088}
+  - component: {fileID: 7659545395970484417}
   m_Layer: 6
   m_Name: playerBig
   m_TagString: player
@@ -205,7 +205,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
---- !u!114 &2480790818033018088
+--- !u!114 &7659545395970484417
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,14 +214,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5245428305636799772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 719b8d40af506ee4f94f9958354dbfdd, type: 3}
+  m_Script: {fileID: 11500000, guid: d0d8af28256333b43b3ffc49ae7e0fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matryoshkaPrefabs:
-  - {fileID: 1408998939359792833, guid: fcb68eeb1801a864d8e1b2bed110e780, type: 3}
-  - {fileID: 5739148845598494917, guid: b247d5631c6900f458d3a430bdbfdb9d, type: 3}
-  - {fileID: 5245428305636799772}
-  currentState: 3
-  nestPop: 32
-  obj: {fileID: 0}
-  jumpForce: 5
+  state: 0
+  sizeState: 2

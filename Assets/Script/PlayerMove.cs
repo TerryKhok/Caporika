@@ -6,6 +6,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 5.0f;
+    public float slowSpeed = 1.0f;
     public float tiltAmount = 45.0f;        // 回転角の最大値
     public float returnSpeed = 2.0f;        // 回転を元に戻す速度
     public float damping = 0.1f;            // 減衰係数
@@ -19,6 +20,8 @@ public class PlayerMove : MonoBehaviour
     private bool isInDeadZone = false;    // デッドゾーン内にいるかどうか
     private float angleSwingZone = 1.0f;  // 揺れた判定内かどうか
 
+    MatryoshkaState matryoshkaState = null; // マトリョーシカの状態
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -31,6 +34,9 @@ public class PlayerMove : MonoBehaviour
             rb.centerOfMass = new Vector2(0.0f, -size.y * (1 - centerOfMassOffset));
             rb.isKinematic = false; // 物理演算を有効化
         }
+
+        // マトリョーシカの状態を取得
+        matryoshkaState = GetComponent<MatryoshkaState>();
     }
 
     void FixedUpdate()
@@ -39,6 +45,7 @@ public class PlayerMove : MonoBehaviour
 
         // 入力値のデッドゾーンを適用
         if (Mathf.Abs(moveInput) < inputDeadZone){ moveInput = 0.0f; }
+        float speed = 0.0f;
 
         // 移動中-----------------------------------------------------------
         if (moveInput != 0.0f)
@@ -48,7 +55,15 @@ public class PlayerMove : MonoBehaviour
             tilt = Mathf.Clamp(tilt, -tiltAmount, tiltAmount);
             transform.rotation = Quaternion.Euler(0.0f, 0.0f, tilt);
 
-          
+            Debug.Log(matryoshkaState.state);
+
+            // 飛んでいるときはゆっくり動く
+            if(matryoshkaState.state== MatryoshkaState.State.Flying)
+            {
+                speed = slowSpeed;
+            }
+            else { speed = moveSpeed; }
+
             tiltVelocity = 0.0f;    // 傾きの速度をリセット
             swingCount = 0;         // 揺れの回数をリセット
             isInDeadZone = false;   // デッドゾーンフラグをリセット
@@ -106,6 +121,6 @@ public class PlayerMove : MonoBehaviour
         }
 
         // 速度をセット
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
     }
 }
