@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharaState : MonoBehaviour
+public class MatryoshkaState : MonoBehaviour
 {
     public enum State
     {
