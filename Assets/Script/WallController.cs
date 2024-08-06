@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ *  @brief 	壁の動き
+ * 
+ *  @memo   壁の当たり判定を消したりつけたりしているので複数体が通ることを想定できていない
+*/
 public class WallController : MonoBehaviour
 {
     public int wallSize;    // 壁のサイズ
@@ -25,9 +30,6 @@ public class WallController : MonoBehaviour
             // プレイヤーのサイズが壁のサイズよりも小さいとき
             if(playerSize　<= wallSize)
             {
-                Debug.Log("playerSize" + playerSize);
-                Debug.Log("wallSize" + wallSize);
-
                 // 壁の当たり判定を消して「通れる」
                 wallCollider.enabled=false;
             }
@@ -42,19 +44,19 @@ public class WallController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // プレイヤーが入った時
-        if(collision.CompareTag("player"))
+        if(collision.CompareTag("TriggerArea"))
         {
             isTrigger = true;
 
             // マトリョーシカのサイズを取得
-            playerSize= collision.gameObject.GetComponent<CharaState>().GetMatryoshkaSize();
+            playerSize= collision.gameObject.GetComponentInParent<CharaState>().GetCharaSize();
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         // プレイヤーが出たとき
-        if (collision.CompareTag("player"))
+        if (collision.CompareTag("TriggerArea"))
         {
             // リセット
             isTrigger = false;

@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
+/**
+ *  @brief 	プレイヤーの移動
+ *  
+ *  @memo   ・移動方向と反対の向きに傾く
+ *          ・止まった時指定回数揺れて止まる
+ *          ・飛んでいるときはゆっくり移動できる
+ *          
+ *          止まっているときはisKinematicを無効にしている
+*/
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 5.0f;
-    public float slowSpeed = 1.0f;
+    public float moveSpeed = 5.0f;          // 移動速度
+    public float slowSpeed = 1.0f;          // 飛んでいるときの速度
     public float tiltAmount = 45.0f;        // 回転角の最大値
     public float returnSpeed = 2.0f;        // 回転を元に戻す速度
     public float damping = 0.1f;            // 減衰係数
@@ -20,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     private bool isInDeadZone = false;      // デッドゾーン内にいるかどうか
     private float angleSwingZone = 1.0f;    // 揺れた判定内かどうか
 
-    CharaState matryoshkaState = null; // マトリョーシカの状態
+    CharaState matryoshkaState = null;      // マトリョーシカの状態
 
     void Start()
     {
@@ -41,13 +50,16 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        // 無効化されていれば有効にする
+        if (rb.isKinematic) { rb.isKinematic = false; }
+        // 左右移動入力
         float moveInput = Input.GetAxis("Horizontal");
 
         // 入力値のデッドゾーンを適用
         if (Mathf.Abs(moveInput) < inputDeadZone){ moveInput = 0.0f; }
-        float speed = 0.0f;
 
         // 移動速度
+        float speed = 0.0f;
         if (matryoshkaState.state == CharaState.State.Flying) { speed = slowSpeed; }   // 飛んでいるときはゆっくり動く
         else if(matryoshkaState.state == CharaState.State.Dead) { speed = 0.0f; }      // 死んでたら動かない
         else { speed = moveSpeed; }
@@ -68,7 +80,20 @@ public class PlayerMove : MonoBehaviour
         Debug.Log(matryoshkaState.state);
     }
 
-    // マトリョーシカが移動中の処理----------------------------------------------
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 地面と当たった時
+        if(collision.gameObject.CompareTag("ground"))
+        {
+            // 状態を「通常」に
+            matryoshkaState.SetCharaState(CharaState.State.Normal);
+        }
+    }
+
+    /**
+     *  @brief  マトリョーシカが移動中の処理
+     *  @param  float _moveInput          移動している向き
+    */
     private void Move(float _moveInput)
     {
         // 移動方向と逆に傾ける
@@ -82,7 +107,9 @@ public class PlayerMove : MonoBehaviour
         rb.isKinematic = false; // 物理演算を有効化
     }
 
-    // マトリョーシカが止まった時の処理-------------------------------------------
+    /**
+     *  @brief  マトリョーシカが止まった時の処理
+    */
     private void Stopped() 
     {
         // 戻したい角度と現在の角度

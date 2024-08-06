@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatryoshkaState : MonoBehaviour
+/**
+ * @brief 	キャラの状態を保持する
+*/
+public class CharaState : MonoBehaviour
 {
     public enum State
     {
@@ -11,23 +14,33 @@ public class MatryoshkaState : MonoBehaviour
         Dead,      // 死んでいる
     }
 
-    public State state;     // このマトリョーシカの状態
-    public int sizeState;   // このマトリョーシカの大きさ
+    public State state;     // このキャラの状態
+    public int sizeState;   // このキャラの大きさ
 
-    // 状態のセット
-    public void SetMatryoshkaState(State _state)
+
+    /**
+     *  @brief 	キャラの状態のセット
+     *  @param  State _state   状態
+    */
+    public void SetCharaState(State _state)
     {
         this.state = _state;
     }
 
-    // 状態の取得
-    public State GetMatryoshkaState()
+    /**
+     *  @brief 	キャラの状態の取得
+     *  @return State this.this.state  状態
+    */
+    public State GetCharaState()
     {
         return this.state;
     }
 
-    // 大きさの取得
-    public int GetMatryoshkaSize()
+    /**
+     *  @brief 	キャラのサイズの取得
+     *  @return int this.sizeState  サイズ
+    */
+    public int GetCharaSize()
     {
         return this.sizeState;
     }
