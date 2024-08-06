@@ -19,8 +19,9 @@ public class ButtonController : MonoBehaviour
     private bool isTouched = false;                 // true:ボタンに触った
     private bool isPressed = false;                 // true:ボタンを押した
     private bool isReleased = false;                // true:ボタンを離した
-    private List<GameObject> touchedObjects = new List<GameObject>(); // ボタンを触っているオブジェクトのリスト
-    private Vector3 origineScale = Vector3.zero;    // 元のボタンの大きさ
+
+    private List<GameObject> touchedObjects = new List<GameObject>();   // ボタンを触っているオブジェクトのリスト
+    private Vector3 origineScale = Vector3.zero;                        // 元のボタンの大きさ
 
     // Start is called before the first frame update
     void Start()
@@ -88,7 +89,6 @@ public class ButtonController : MonoBehaviour
         // ボタンを触ってきたオブジェクトをリストに追加
         isTouched = true;
         touchedObjects.Add(collision.gameObject);
-        Debug.Log("触った！");
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -101,7 +101,6 @@ public class ButtonController : MonoBehaviour
         }
         isPressed = false;
         isReleased = false;
-        Debug.Log("離した！");
     }
 
     // ボタンを押す処理

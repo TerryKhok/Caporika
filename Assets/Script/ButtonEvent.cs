@@ -17,10 +17,7 @@ public class ButtonEvent : MonoBehaviour
 
     public void OnButtonRelease()
     {
-
         // ”ñ•\Ž¦
         obj.SetActive(false);
-        Debug.Log("‚Ð‚Ð‚å‚¤‚¶ ");
-
     }
 }

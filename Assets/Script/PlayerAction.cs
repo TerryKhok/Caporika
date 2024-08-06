@@ -43,7 +43,6 @@ public class PlayerAction : MonoBehaviour
                 // このマトリョーシカの状態を「死んだ」に
                 matryoishkaState.SetCharaState(CharaState.State.Dead);
             }
-
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
