@@ -36,7 +36,7 @@ public class PlayerAction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // 自分が一番小さくない
-            if (sizeState > 0)
+            if (sizeState > 1)
             {
                 // 飛び出す処理
                 PopOut();
@@ -151,6 +151,11 @@ public class PlayerAction : MonoBehaviour
             // 斜め方向のベクトルを計算
             forceDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 
+            // ベクトルを正規化して調節
+            forceDirection.Normalize();
+            forceDirection.x *= 0.5f;
+            forceDirection.y *= 0.5f;
+
             // 角度に基づくベクトルの調整
             if (eulerAngleZ >= 0 && eulerAngleZ <= 90)
             {
@@ -168,7 +173,7 @@ public class PlayerAction : MonoBehaviour
         else
         {
             // 0度の時はまっすぐ飛ばす
-            forceDirection = Vector2.up;
+            forceDirection = Vector2.up * 0.5f;
         }
 
         //// 力の方向

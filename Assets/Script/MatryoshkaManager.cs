@@ -66,7 +66,7 @@ public class MatryoshkaManager : MonoBehaviour
     public GameObject InstanceMatryoshka(int _index)
     {
         GameObject createPrefab = null;
-        createPrefab = Instantiate(matryoshkaPrefabes[_index]);
+        createPrefab = Instantiate(matryoshkaPrefabes[_index - 1]);
         return createPrefab;
     }
 

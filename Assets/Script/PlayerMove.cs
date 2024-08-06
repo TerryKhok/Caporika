@@ -51,7 +51,7 @@ public class PlayerMove : MonoBehaviour
     void FixedUpdate()
     {
         // 無効化されていれば有効にする
-        if (rb.isKinematic) { rb.isKinematic = false; Debug.Log("無効化"); }
+        if (rb.isKinematic) { rb.isKinematic = false;  }
         // 左右移動入力
         float moveInput = Input.GetAxis("Horizontal");
         // 入力値のデッドゾーンを適用
@@ -132,7 +132,6 @@ public class PlayerMove : MonoBehaviour
         swingCount = 0;         // 揺れの回数をリセット
         isInDeadZone = false;   // デッドゾーンフラグをリセット
         if (rb.isKinematic) { rb.isKinematic = false; } // 物理演算を有効化
-        Debug.Log("有効化");
     }
 
     /**
