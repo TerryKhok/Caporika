@@ -275,5 +275,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3c045a1cd94d34cba0622f47630f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 10
+  jumpForce: 5
   tagName: TriggerArea

@@ -51,42 +51,69 @@ public class PlayerMove : MonoBehaviour
     void FixedUpdate()
     {
         // 無効化されていれば有効にする
-        if (rb.isKinematic) { rb.isKinematic = false; }
+        if (rb.isKinematic) { rb.isKinematic = false; Debug.Log("無効化"); }
         // 左右移動入力
         float moveInput = Input.GetAxis("Horizontal");
-
         // 入力値のデッドゾーンを適用
         if (Mathf.Abs(moveInput) < inputDeadZone){ moveInput = 0.0f; }
-
-        // 移動速度
+        // 移動量
         float speed = 0.0f;
-        if (matryoshkaState.state == CharaState.State.Flying) { speed = slowSpeed; }   // 飛んでいるときはゆっくり動く
-        else if(matryoshkaState.state == CharaState.State.Dead) { speed = 0.0f; }      // 死んでたら動かない
-        else { speed = moveSpeed; }
 
-        // 移動中
-        if (moveInput != 0.0f)
+        // 飛んでいるときは移動速度そのままで飛ばせる処理---------------------------------------------------------------
+        if (matryoshkaState.state == CharaState.State.Flying)
         {
-            Move(moveInput);
-        }
-        // 止まった時
-        else
-        {
-            Stopped();
+            // そのままで速度をセット
+            speed = rb.velocity.x;
         }
 
-        // 速度をセット
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        // 通常時は移動処理を行う------------------------------------------------------------------------------------
+        else if (matryoshkaState.state == CharaState.State.Normal)
+        {
+            // 移動中
+            if (moveInput != 0.0f)
+            {
+                Move(moveInput);
+            }
+            // 止まった時
+            else
+            {
+                Stopped();
+            }
+
+            // 速度を計算
+            speed = moveInput * moveSpeed;
+        }
+        // 死んでいるときは止まる処理だけ行う--------------------------------------------------------------------------
+        else if (matryoshkaState.state == CharaState.State.Dead)
+        {
+            bool isStopped = Stopped();
+            // 速度を計算
+            speed = rb.velocity.x;
+
+            // 止まった時このスクリプトを無効化する
+            if (isStopped)
+            {
+                rb.isKinematic = false; // 物理演算を有効化
+                enabled = false;
+                return;
+            }
+        }
+
+        rb.velocity = new Vector2(speed, rb.velocity.y);
         Debug.Log(matryoshkaState.state);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 地面と当たった時
-        if(collision.gameObject.CompareTag("ground"))
+        // 死んでいるとき以外で
+        if (matryoshkaState.state != CharaState.State.Dead)
         {
-            // 状態を「通常」に
-            matryoshkaState.SetCharaState(CharaState.State.Normal);
+            // 地面と当たった時
+            if (collision.gameObject.CompareTag("ground"))
+            {
+                // 状態を「通常」に
+                matryoshkaState.SetCharaState(CharaState.State.Normal);
+            }
         }
     }
 
@@ -104,13 +131,15 @@ public class PlayerMove : MonoBehaviour
         tiltVelocity = 0.0f;    // 傾きの速度をリセット
         swingCount = 0;         // 揺れの回数をリセット
         isInDeadZone = false;   // デッドゾーンフラグをリセット
-        rb.isKinematic = false; // 物理演算を有効化
+        if (rb.isKinematic) { rb.isKinematic = false; } // 物理演算を有効化
+        Debug.Log("有効化");
     }
 
     /**
      *  @brief  マトリョーシカが止まった時の処理
+     *  @return bool true:動きが完全に止まった
     */
-    private void Stopped() 
+    private bool Stopped()
     {
         // 戻したい角度と現在の角度
         float targetRotation = 0.0f;
@@ -142,15 +171,21 @@ public class PlayerMove : MonoBehaviour
         // 3回目の揺れが終わった時
         if (swingCount >= maxSwimg)
         {
-            // 回転、速度をリセット
+            // 回転、速度などをリセット
             newRotation = 0.0f;
             tiltVelocity = 0.0f;
-            rb.velocity = new Vector2(0.0f, 0.0f);
+            rb.velocity = Vector2.zero; 
+            rb.angularVelocity = 0.0f;  
             transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
             swingCount = maxSwimg;
 
-            // 止まった反動でめっちゃ滑るので物理演算を無効化
-            rb.isKinematic = true;
+            // 物理演算を無効化
+            if (!rb.isKinematic) { rb.isKinematic = true; }
+
+            // Rigidbodyを完全に停止
+            rb.Sleep();
+
+            return true;   // 動きが止まった
         }
 
         // 角度のセット
@@ -158,5 +193,7 @@ public class PlayerMove : MonoBehaviour
 
         // 段々ふり幅を小さくする
         tiltVelocity *= (1 - damping);
+
+        return false;   // まだ動いている
     }
 }

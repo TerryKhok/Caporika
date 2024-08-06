@@ -91,6 +91,9 @@ public class PlayerAction : MonoBehaviour
         if (triggerMove != null) triggerMove.enabled = true;
         if (triggerAction != null) triggerAction.enabled = true;
 
+        // 入るマトリョーシカの状態を「通常」にする
+        triggerState.GetComponentInParent<CharaState>().SetCharaState(CharaState.State.Normal);
+
         // このオブジェクトを消す
         Destroy(gameObject);
     }
@@ -112,7 +115,7 @@ public class PlayerAction : MonoBehaviour
             return;
         }
 
-        // 外側マトリョーシカと同じ回転、座標にセット
+        // 外側のマトリョーシカと同じ回転、座標にセット
         newobj.transform.position = position;
         newobj.transform.rotation = rotation;
 
@@ -127,38 +130,54 @@ public class PlayerAction : MonoBehaviour
         // 角度をラジアンに変換
         float eulerAngleZ = rotation.eulerAngles.z;
         float angleInRadians = eulerAngleZ * Mathf.Deg2Rad;
+        Vector2 forceDirection = Vector2.zero;
 
-        // 斜め方向のベクトルを計算
-        Vector2 forceDirection = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
-
-        // 角度に基づくベクトルの調整
-        if (eulerAngleZ >= 0 && eulerAngleZ <= 90)
+        // 傾きがあるときの計算
+        if (angleInRadians != 0)
         {
-            // 左に傾いている場合
-            forceDirection.x = -Mathf.Abs(forceDirection.x); // x軸をマイナス
-            forceDirection.y = Mathf.Abs(forceDirection.y);  // y軸をプラス
-        }
-        else if (eulerAngleZ >= 270 && eulerAngleZ <= 360)
+            // 角度に基づくベクトルの調整
+            float angle = 0.0f;
+            if (eulerAngleZ >= 0 && eulerAngleZ <= 90)
+            {
+                // 左に傾いている場合
+                angle = 90 - eulerAngleZ;
+            }
+            else if (eulerAngleZ >= 270 && eulerAngleZ <= 360)
+            {
+                // 右に傾いている場合
+                angle = eulerAngleZ - 270;
+            }
+
+            // 斜め方向のベクトルを計算
+            forceDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+            // 角度に基づくベクトルの調整
+            if (eulerAngleZ >= 0 && eulerAngleZ <= 90)
+            {
+                // 左に傾いている場合
+                forceDirection.x = -Mathf.Abs(forceDirection.x); // x軸をマイナス
+                forceDirection.y = Mathf.Abs(forceDirection.y);  // y軸をプラス
+            }
+            else if (eulerAngleZ >= 270 && eulerAngleZ <= 360)
+            {
+                // 右に傾いている場合
+                forceDirection.x = Mathf.Abs(forceDirection.x);  // x軸をプラス
+                forceDirection.y = Mathf.Abs(forceDirection.y);  // y軸をプラス
+            }
+        }    
+        else
         {
-            // 右に傾いている場合
-            forceDirection.x = Mathf.Abs(forceDirection.x);  // x軸をプラス
-            forceDirection.y = Mathf.Abs(forceDirection.y);  // y軸をプラス
+            // 0度の時はまっすぐ飛ばす
+            forceDirection = Vector2.up;
         }
 
-        // ベクトルの正規化
-        forceDirection.Normalize();
-
-        // ベクトルの力を調整
-        forceDirection.y *= 0.5f;   // y軸の力を半分に減少させる
-        forceDirection.x *= 10.0f;  // x軸の力を増加
-
-        // 力の方向
-        Debug.Log("Force Direction After Adjustment: " + forceDirection);
-        Debug.Log("Velocity before AddForce: " + rb.velocity);
+        //// 力の方向
+        //Debug.Log("Force Direction After Adjustment: " + forceDirection);
+        //Debug.Log("Velocity before AddForce: " + rb.velocity);
 
         // 力を加える
         rb.AddForce(forceDirection * jumpForce, ForceMode2D.Impulse);
-        Debug.Log("Velocity after AddForce: " + rb.velocity);
+        //Debug.Log("Velocity after AddForce: " + rb.velocity);
 
         // 飛び出たマトリョーシカを「飛んだ」状態に
         CharaState newState = newobj.GetComponent<CharaState>();
@@ -177,9 +196,7 @@ public class PlayerAction : MonoBehaviour
             if (moveRb != null)
             {
                 moveRb.velocity = Vector2.zero;
-                moveRb.isKinematic = false;
             }
-            moveScript.enabled = false;
         }
 
         // このスクリプトを無効化
