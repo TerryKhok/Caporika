@@ -49,13 +49,15 @@ public class MatryoshkaManager : MonoBehaviour
 
     /**
      *  @brief  残機を減らす
+     *  @return int 現在の残機
     */
-    public void LoseLife()
+    public int LoseLife()
     {
         if (currentLife >0)
         {
             currentLife--;
         }
+        return currentLife;
     }
 
     /**
@@ -66,7 +68,10 @@ public class MatryoshkaManager : MonoBehaviour
     public GameObject InstanceMatryoshka(int _index)
     {
         GameObject createPrefab = null;
-        createPrefab = Instantiate(matryoshkaPrefabes[_index - 1]);
+        if(_index >0)
+        {
+            createPrefab = Instantiate(matryoshkaPrefabes[_index - 1]);
+        }
         return createPrefab;
     }
 

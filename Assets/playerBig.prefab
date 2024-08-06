@@ -277,3 +277,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 2
   tagName: TriggerArea
+  nockbackAngle: 45

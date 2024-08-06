@@ -200,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 10
   tagName: TriggerArea
+  nockbackAngle: 45
 --- !u!1 &4918777916790173540
 GameObject:
   m_ObjectHideFlags: 0
