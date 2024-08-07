@@ -9,9 +9,10 @@ public class CharaState : MonoBehaviour
 {
     public enum State
     {
-        Normal,    // 通常
-        Flying,    // 飛んでいる
-        Dead,      // 死んでいる
+        Normal,     // 通常
+        Flying,     // 飛んでいる
+        Damaged,    // ダメージを受けている
+        Dead,       // 死んでいる
     }
 
     public State state;     // このキャラの状態

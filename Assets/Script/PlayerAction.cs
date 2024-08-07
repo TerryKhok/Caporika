@@ -15,15 +15,17 @@ public class PlayerAction : MonoBehaviour
 {
     public float jumpForce = 10.0f;                     // 力の大きさ
     public string tagName;                              // マトリョーシカの親タグ名
-    public float nockbackAngle;                         // 攻撃時のノックバックする角度
+    public float knockbackAngle;                         // 攻撃時のノックバックする角度
+    public float knockbackpForce;
 
     private bool isSametag = false;                     // 同じTag名
     private Collider2D currentTrigger = null;           // 今当たっているオブジェクト
     private CharaState triggerState = null;             // 当たっているオブジェクトの状態
 
-    private CharaState matryoishkaState = null;         // 今の状態
-    private MatryoshkaManager matryoshkaManager = null;
+    private CharaState matryoishkaState = null;         // 自身の状態
+    private MatryoshkaManager matryoshkaManager = null; // マトリョーシカの管理
     private int sizeState = 0;                          // 自身のサイズ
+    private Rigidbody2D matryoshkaRb = null;            // 自身のrigidbody2d
 
     private bool isCollEnemy = false;                   // 敵とぶつかった
     private Collider2D enemyColl=null;                  // 敵の当たり判定
@@ -32,7 +34,8 @@ public class PlayerAction : MonoBehaviour
     {
         matryoishkaState = GetComponent<CharaState>();              // このマトリョーシカの状態
         sizeState = matryoishkaState.GetCharaSize();                // このマトリョーシカの大きさ
-        matryoshkaManager = FindAnyObjectByType<MatryoshkaManager>();   
+        matryoshkaManager = FindAnyObjectByType<MatryoshkaManager>();
+        matryoshkaRb=GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -163,65 +166,12 @@ public class PlayerAction : MonoBehaviour
         if (rb == null)
         {
             rb = newobj.AddComponent<Rigidbody2D>();
-            rb.isKinematic = false; // 物理演算を有効化
+            rb.isKinematic = false; 
         }
 
-        // 角度をラジアンに変換
-        float eulerAngleZ = rotation.eulerAngles.z;
-        float angleInRadians = eulerAngleZ * Mathf.Deg2Rad;
-        Vector2 forceDirection = Vector2.zero;
-
-        // 傾きがあるときの計算
-        if (angleInRadians != 0)
-        {
-            // 角度に基づくベクトルの調整
-            float angle = 0.0f;
-            if (eulerAngleZ >= 0 && eulerAngleZ <= 90)
-            {
-                // 左に傾いている場合
-                angle = 90 - eulerAngleZ;
-            }
-            else if (eulerAngleZ >= 270 && eulerAngleZ <= 360)
-            {
-                // 右に傾いている場合
-                angle = eulerAngleZ - 270;
-            }
-
-            // 斜め方向のベクトルを計算
-            forceDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-
-            // ベクトルを正規化して調節
-            forceDirection.Normalize();
-            forceDirection.x *= 0.5f;
-            forceDirection.y *= 0.5f;
-
-            // 角度に基づくベクトルの調整
-            if (eulerAngleZ >= 0 && eulerAngleZ <= 90)
-            {
-                // 左に傾いている場合
-                forceDirection.x = -Mathf.Abs(forceDirection.x); // x軸をマイナス
-                forceDirection.y = Mathf.Abs(forceDirection.y);  // y軸をプラス
-            }
-            else if (eulerAngleZ >= 270 && eulerAngleZ <= 360)
-            {
-                // 右に傾いている場合
-                forceDirection.x = Mathf.Abs(forceDirection.x);  // x軸をプラス
-                forceDirection.y = Mathf.Abs(forceDirection.y);  // y軸をプラス
-            }
-        }    
-        else
-        {
-            // 0度の時はまっすぐ飛ばす
-            forceDirection = Vector2.up * 0.5f;
-        }
-
-        //// 力の方向
-        //Debug.Log("Force Direction After Adjustment: " + forceDirection);
-        //Debug.Log("Velocity before AddForce: " + rb.velocity);
-
-        // 力を加える
-        rb.AddForce(forceDirection * jumpForce, ForceMode2D.Impulse);
-        //Debug.Log("Velocity after AddForce: " + rb.velocity);
+        // オブジェクトの傾いた方向に飛んでいく
+        Vector2 jumpDirection = transform.up * jumpForce;
+        rb.AddForce(jumpDirection, ForceMode2D.Impulse);
 
         // 飛び出たマトリョーシカを「飛んだ」状態に
         CharaState newState = newobj.GetComponent<CharaState>();
@@ -231,17 +181,9 @@ public class PlayerAction : MonoBehaviour
         }
         else{ Debug.LogError("newStateがnull"); }
 
-        // 移動スクリプトを無効化
-        PlayerMove moveScript = GetComponent<PlayerMove>();
-        if (moveScript != null)
-        {
-            // 動きを止める
-            Rigidbody2D moveRb = moveScript.GetComponent<Rigidbody2D>();
-            if (moveRb != null)
-            {
-                moveRb.velocity = Vector2.zero;
-            }
-        }
+        // 自身の状態を「死んだ」に
+        matryoishkaState.SetCharaState(CharaState.State.Dead);
+        matryoshkaRb.velocity = Vector2.zero;
 
         // このスクリプトを無効化
         enabled = false;
@@ -258,19 +200,26 @@ public class PlayerAction : MonoBehaviour
         int curLife = matryoshkaManager.LoseLife();
         if (curLife <= 0){ return; }
 
-        // 現在のマトリョーシカの位置、角度を取得
-        Vector2 position = transform.position;
-        Quaternion rotation = transform.rotation;
-
         // 攻撃を受けた向きから飛び出る角度を決定
-        float direction = enemyColl.gameObject.transform.position.x - transform.position.x;
+        float direction = transform.position.x - enemyColl.gameObject.transform.position.x;
         float moveAngle = 0.0f;
+        float angle = 0.0f;
 
-        if (direction < 0) { moveAngle = 135.0f; }  // 左向き
-        else { moveAngle = 45.0f; }                 // 右向き
+        // 左向き
+        if (direction < 0) 
+        { 
+            moveAngle = 180.0f - knockbackAngle;
+            angle = knockbackAngle;
+        }
+        // 右向き
+        else
+        { 
+            moveAngle = knockbackAngle;
+            angle = 360.0f - knockbackAngle;
+        }
 
         // 角度を設定
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, moveAngle);
+        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, angle);
 
         // 自身より一段階小さいマトリョーシカを生成
         if (sizeState <= 0) { return; }
@@ -281,7 +230,11 @@ public class PlayerAction : MonoBehaviour
             return;
         }
 
-        // 外側のマトリョーシカと同じ回転、座標にセット
+        // 現在のマトリョーシカの位置、角度を取得
+        Vector2 position = transform.position;
+        Quaternion rotation = transform.rotation;
+
+        // 生成したマトリョーシカを現在のマトリョーシカと同じ回転、座標にセット
         newobj.transform.position = position;
         newobj.transform.rotation = rotation;
 
@@ -296,37 +249,25 @@ public class PlayerAction : MonoBehaviour
         // 角度をラジアンに変換
         float angleInRadians = moveAngle * Mathf.Deg2Rad;
 
-        // 力の方向を計算
-        Vector2 forceDirection = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+        // 飛び出す方向ベクトルを計算する
+        Vector2 knockbackDirection = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)).normalized * knockbackpForce;   
+        rb.AddForce(knockbackDirection, ForceMode2D.Impulse);
 
-        // 力を加える
-        rb.AddForce(forceDirection * jumpForce, ForceMode2D.Impulse);        
-
-        // 飛び出たマトリョーシカは「通常」状態に(敵を倒さないように)
+        // 飛び出たマトリョーシカは「ダメージ」状態に
         CharaState newState = newobj.GetComponent<CharaState>();
         if (newState != null)
         {
-            newState.SetCharaState(CharaState.State.Normal);
+            newState.SetCharaState(CharaState.State.Damaged);
         }
         else { Debug.LogError("newStateがnull"); }
 
-        // 移動スクリプトを無効化
-        PlayerMove moveScript = GetComponent<PlayerMove>();
-        if (moveScript != null)
-        {
-            // 動きを止める
-            Rigidbody2D moveRb = moveScript.GetComponent<Rigidbody2D>();
-            if (moveRb != null)
-            {
-                moveRb.velocity = Vector2.zero;
-            }
-        }
+        // 自身の状態を「死んだ」に
+        matryoishkaState.SetCharaState(CharaState.State.Dead);
+        matryoshkaRb.velocity = Vector2.zero;
 
         // このスクリプトを無効化
         enabled = false;
 
-        // 自身の状態を「死んだ」に
-        matryoishkaState.SetCharaState(CharaState.State.Dead);
         Debug.Log("ダメージを受けた！");
     }
 
@@ -339,6 +280,7 @@ public class PlayerAction : MonoBehaviour
         CharaState enemyState = enemyColl.GetComponent<CharaState>();
         // 状態を「死んだ」に
         enemyState.SetCharaState(CharaState.State.Dead);
+        enemyState.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
         Debug.Log("攻撃した");
     }

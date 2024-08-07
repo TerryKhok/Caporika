@@ -59,8 +59,8 @@ public class PlayerMove : MonoBehaviour
         // 移動量
         float speed = 0.0f;
 
-        // 飛んでいるときは移動速度そのままで飛ばせる処理---------------------------------------------------------------
-        if (matryoshkaState.state == CharaState.State.Flying)
+        // 飛んでいるとき、ダメージをくけているときは移動速度そのままで飛ばせる処理---------------------------------
+        if (matryoshkaState.state == CharaState.State.Flying|| matryoshkaState.state == CharaState.State.Damaged)
         {
             // そのままで速度をセット
             speed = rb.velocity.x;
@@ -83,7 +83,7 @@ public class PlayerMove : MonoBehaviour
             // 速度を計算
             speed = moveInput * moveSpeed;
         }
-        // 死んでいるときは止まる処理だけ行う--------------------------------------------------------------------------
+        // 死んでいるときは止まる処理だけ行う------------------------------------------------------------------------
         else if (matryoshkaState.state == CharaState.State.Dead)
         {
             bool isStopped = Stopped();
