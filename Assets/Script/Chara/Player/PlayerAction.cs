@@ -20,9 +20,9 @@ public class PlayerAction : MonoBehaviour
 
     private bool isSametag = false;                     // 同じTag名
     private Collider2D currentTrigger = null;           // 今当たっているオブジェクト
-    private CharaState triggerState = null;             // 当たっているオブジェクトの状態
+    private TenpState triggerState = null;             // 当たっているオブジェクトの状態
 
-    private CharaState matryoishkaState = null;         // 自身の状態
+    private TenpState matryoishkaState = null;         // 自身の状態
     private MatryoshkaManager matryoshkaManager = null; // マトリョーシカの管理
     private int sizeState = 0;                          // 自身のサイズ
     private Rigidbody2D matryoshkaRb = null;            // 自身のrigidbody2d
@@ -32,7 +32,7 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
-        matryoishkaState = GetComponent<CharaState>();              // このマトリョーシカの状態
+        matryoishkaState = GetComponent<TenpState>();              // このマトリョーシカの状態
         sizeState = matryoishkaState.GetCharaSize();                // このマトリョーシカの大きさ
         matryoshkaManager = FindAnyObjectByType<MatryoshkaManager>();
         matryoshkaRb=GetComponent<Rigidbody2D>();
@@ -48,7 +48,7 @@ public class PlayerAction : MonoBehaviour
                 // 飛び出す処理
                 PopOut();
                 // このマトリョーシカの状態を「死んだ」に
-                matryoishkaState.SetCharaState(CharaState.State.Dead);
+                matryoishkaState.SetCharaState(TenpState.State.Dead);
             }
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -62,10 +62,10 @@ public class PlayerAction : MonoBehaviour
         }
 
         // 敵と当たっていて、敵が死んでいなければ
-        if(isCollEnemy&&enemyColl.GetComponent<CharaState>().GetCharaState()!= CharaState.State.Dead)
+        if(isCollEnemy&&enemyColl.GetComponent<TenpState>().GetCharaState()!= TenpState.State.Dead)
         {
             // 自身が飛んでいるときなら
-            if (matryoishkaState.state == CharaState.State.Flying)
+            if (matryoishkaState.state == TenpState.State.Flying)
             {
                 // 攻撃する
                 Attack();
@@ -85,7 +85,7 @@ public class PlayerAction : MonoBehaviour
         {
             isSametag = true;
             currentTrigger = other;
-            triggerState = other.gameObject.GetComponentInParent<CharaState>(); // マトリョーシカの状態
+            triggerState = other.gameObject.GetComponentInParent<TenpState>(); // マトリョーシカの状態
         }
 
         // 敵にぶつかった時、当たったオブジェクトを保持
@@ -130,7 +130,7 @@ public class PlayerAction : MonoBehaviour
         if (triggerAction != null) triggerAction.enabled = true;
 
         // 入るマトリョーシカの状態を「通常」にする
-        triggerState.GetComponentInParent<CharaState>().SetCharaState(CharaState.State.Normal);
+        triggerState.GetComponentInParent<TenpState>().SetCharaState(TenpState.State.Normal);
 
         // このオブジェクトを消す
         Destroy(gameObject);
@@ -174,15 +174,15 @@ public class PlayerAction : MonoBehaviour
         rb.AddForce(jumpDirection, ForceMode2D.Impulse);
 
         // 飛び出たマトリョーシカを「飛んだ」状態に
-        CharaState newState = newobj.GetComponent<CharaState>();
+        TenpState newState = newobj.GetComponent<TenpState>();
         if (newState != null)
         {
-            newState.SetCharaState(CharaState.State.Flying);
+            newState.SetCharaState(TenpState.State.Flying);
         }
         else{ Debug.LogError("newStateがnull"); }
 
         // 自身の状態を「死んだ」に
-        matryoishkaState.SetCharaState(CharaState.State.Dead);
+        matryoishkaState.SetCharaState(TenpState.State.Dead);
         matryoshkaRb.velocity = Vector2.zero;
 
         // このスクリプトを無効化
@@ -254,15 +254,15 @@ public class PlayerAction : MonoBehaviour
         rb.AddForce(knockbackDirection, ForceMode2D.Impulse);
 
         // 飛び出たマトリョーシカは「ダメージ」状態に
-        CharaState newState = newobj.GetComponent<CharaState>();
+        TenpState newState = newobj.GetComponent<TenpState>();
         if (newState != null)
         {
-            newState.SetCharaState(CharaState.State.Damaged);
+            newState.SetCharaState(TenpState.State.Damaged);
         }
         else { Debug.LogError("newStateがnull"); }
 
         // 自身の状態を「死んだ」に
-        matryoishkaState.SetCharaState(CharaState.State.Dead);
+        matryoishkaState.SetCharaState(TenpState.State.Dead);
         matryoshkaRb.velocity = Vector2.zero;
 
         // このスクリプトを無効化
@@ -277,9 +277,9 @@ public class PlayerAction : MonoBehaviour
     void Attack()
     {
         // 当たったオブジェクトの状態を取得
-        CharaState enemyState = enemyColl.GetComponent<CharaState>();
+        TenpState enemyState = enemyColl.GetComponent<TenpState>();
         // 状態を「死んだ」に
-        enemyState.SetCharaState(CharaState.State.Dead);
+        enemyState.SetCharaState(TenpState.State.Dead);
         enemyState.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
         Debug.Log("攻撃した");

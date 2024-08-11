@@ -32,4 +32,22 @@ public class CharaMove : MonoBehaviour
     {
 
     }
+
+    /**
+     *  @brief キャラの状態をセットする
+     *  @param  CharaCondition _charaCondition 状態
+     */
+    public void SetCharaCondition(CharaCondition _charaCondition)
+    {
+        this.charaCondition = _charaCondition;
+    }
+
+    /**
+     *  @brief キャラの状態を取得する
+     *  @return  CharaCondition this.charaCondition 状態
+     */
+    public CharaCondition GetCharaCondition()
+    {
+        return this.charaCondition;
+    }
 }

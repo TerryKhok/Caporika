@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     private bool isInDeadZone = false;      // デッドゾーン内にいるかどうか
     private float angleSwingZone = 1.0f;    // 揺れた判定内かどうか
 
-    CharaState matryoshkaState = null;      // マトリョーシカの状態
+    TenpState matryoshkaState = null;      // マトリョーシカの状態
 
     void Start()
     {
@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         // マトリョーシカの状態を取得
-        matryoshkaState = GetComponent<CharaState>();
+        matryoshkaState = GetComponent<TenpState>();
     }
 
     void FixedUpdate()
@@ -60,14 +60,14 @@ public class PlayerMove : MonoBehaviour
         float speed = 0.0f;
 
         // 飛んでいるとき、ダメージをくけているときは移動速度そのままで飛ばせる処理---------------------------------
-        if (matryoshkaState.state == CharaState.State.Flying|| matryoshkaState.state == CharaState.State.Damaged)
+        if (matryoshkaState.state == TenpState.State.Flying|| matryoshkaState.state == TenpState.State.Damaged)
         {
             // そのままで速度をセット
             speed = rb.velocity.x;
         }
 
         // 通常時は移動処理を行う------------------------------------------------------------------------------------
-        else if (matryoshkaState.state == CharaState.State.Normal)
+        else if (matryoshkaState.state == TenpState.State.Normal)
         {
             // 移動中
             if (moveInput != 0.0f)
@@ -84,7 +84,7 @@ public class PlayerMove : MonoBehaviour
             speed = moveInput * moveSpeed;
         }
         // 死んでいるときは止まる処理だけ行う------------------------------------------------------------------------
-        else if (matryoshkaState.state == CharaState.State.Dead)
+        else if (matryoshkaState.state == TenpState.State.Dead)
         {
             bool isStopped = Stopped();
             // 速度を計算
@@ -106,13 +106,13 @@ public class PlayerMove : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // 死んでいるとき以外で
-        if (matryoshkaState.state != CharaState.State.Dead)
+        if (matryoshkaState.state != TenpState.State.Dead)
         {
             // 地面と当たった時
             if (collision.gameObject.CompareTag("ground"))
             {
                 // 状態を「通常」に
-                matryoshkaState.SetCharaState(CharaState.State.Normal);
+                matryoshkaState.SetCharaState(TenpState.State.Normal);
             }
         }
     }

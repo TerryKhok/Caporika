@@ -11,13 +11,13 @@ public class EnemyMove : MonoBehaviour
 
     private float direction = 1;    // “G‚ÌˆÚ“®‚·‚éŒü‚«
     Rigidbody2D rb = null;          // “G‚ÌRigidbody2D
-    CharaState enemyState = null;   // “G‚Ìó‘Ô
+    TenpState enemyState = null;   // “G‚Ìó‘Ô
 
     // Start is called before the first frame update
     void Start()
     {
         rb=GetComponent<Rigidbody2D>();
-        enemyState = GetComponent<CharaState>();
+        enemyState = GetComponent<TenpState>();
     }
 
     private void FixedUpdate()
@@ -25,12 +25,12 @@ public class EnemyMove : MonoBehaviour
         // ó‘Ô–ˆ‚É“®‚«‚ğ•Ï‚¦‚é
         switch (enemyState.state)
         {
-            case CharaState.State.Normal:
+            case TenpState.State.Normal:
                 // ŠÈ’P‚È¶‰EˆÚ“®
                 rb.velocity = new Vector2(moveSpeed * direction, rb.velocity.y);
                 break;
 
-            case CharaState.State.Dead:
+            case TenpState.State.Dead:
                 // €‚ñ‚¾
                 break;
 

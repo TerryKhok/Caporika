@@ -3,46 +3,63 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * @brief 	キャラの状態を保持する
+ * @brief 	キャラの大きさ、重さを保持する
+ * 
+ *  @memo   Rigidbody2D.Massに重さを適用させられるように一応変更可能(今は適用×)
 */
 public class CharaState : MonoBehaviour
 {
-    public enum State
+    [SerializeField]
+    private int size;   // キャラの大きさ
+
+    [SerializeField]
+    private int weight; // キャラの重さ
+
+    private void Start()
     {
-        Normal,     // 通常
-        Flying,     // 飛んでいる
-        Damaged,    // ダメージを受けている
-        Dead,       // 死んでいる
+        //// rigidbody2D.Massに重さを適用する
+        //Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        //if(!rb)
+        //{
+        //    Debug.LogError("Rigidbody2Dが見つかりませんでした。");
+        //    return;
+        //}
+        //rb.mass = this.weight;
     }
 
-    public State state;     // このキャラの状態
-    public int sizeState;   // このキャラの大きさ
-
-
     /**
-     *  @brief 	キャラの状態のセット
-     *  @param  State _state   状態
+     *  @brief 	キャラの重さのセット
+     *  @param int _charaWeight  重さ
     */
-    public void SetCharaState(State _state)
+    public void SetCharaWeight(int _charaWeight)
     {
-        this.state = _state;
+        this.weight= _charaWeight;
     }
 
     /**
-     *  @brief 	キャラの状態の取得
-     *  @return State this.this.state  状態
+     *  @brief 	キャラの重さの取得
+     *  @return int this.weight  重さ
     */
-    public State GetCharaState()
+    public int GetCharaWeight()
     {
-        return this.state;
+        return this.weight;
     }
 
     /**
-     *  @brief 	キャラのサイズの取得
-     *  @return int this.sizeState  サイズ
+     *  @brief 	キャラの大きさのセット
+     *  @param int _charaSize  大きさ
+    */
+    public void SetCharaSize(int _charaSize)
+    {
+        this.size = _charaSize;
+    }
+
+    /**
+     *  @brief 	キャラの大きさの取得
+     *  @return int this.size  大きさ
     */
     public int GetCharaSize()
     {
-        return this.sizeState;
+        return this.size;
     }
 }

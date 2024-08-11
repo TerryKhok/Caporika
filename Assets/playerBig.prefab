@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 4805004151498315711}
   - component: {fileID: 4917104878744807689}
   - component: {fileID: 4956801054291345172}
+  - component: {fileID: -5048421873868750512}
   m_Layer: 6
   m_Name: playerBig
   m_TagString: Player
@@ -261,8 +262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a97cd904035fc419c10c55e5b0f3d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  sizeState: 3
+  size: 0
+  weight: 0
 --- !u!114 &4956801054291345172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,3 +280,17 @@ MonoBehaviour:
   tagName: TriggerArea
   knockbackAngle: 45
   knockbackpForce: 5
+--- !u!114 &-5048421873868750512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218610990843375874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8add8807c114817449ba04d79b877a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  sizeState: 3
