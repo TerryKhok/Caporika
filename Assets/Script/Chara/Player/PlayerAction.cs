@@ -122,7 +122,7 @@ public class PlayerAction : MonoBehaviour
         matryoshkaManager.AddLife();
 
         // 親のマトリョーシカのスクリプトを取得
-        PlayerMove triggerMove = triggerState.GetComponentInParent<PlayerMove>();
+        TempMove triggerMove = triggerState.GetComponentInParent<TempMove>();
         PlayerAction triggerAction = triggerState.GetComponentInParent<PlayerAction>();
 
         // 入るマトリョーシカにアタッチされているスクリプトを全て有効に

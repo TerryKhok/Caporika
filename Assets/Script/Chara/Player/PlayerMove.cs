@@ -1,198 +1,149 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 /**
- *  @brief 	プレイヤーの移動
- *  
- *  @memo   ・移動方向と反対の向きに傾く
- *          ・止まった時指定回数揺れて止まる
- *          ・飛んでいるときはゆっくり移動できる
- *          
- *          止まっているときはisKinematicを無効にしている
+ *  @brief 	プレイヤーの動きをまとめたクラス
 */
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 5.0f;          // 移動速度
-    public float slowSpeed = 1.0f;          // 飛んでいるときの速度
-    public float tiltAmount = 45.0f;        // 回転角の最大値
-    public float returnSpeed = 2.0f;        // 回転を元に戻す速度
-    public float damping = 0.1f;            // 減衰係数
-    public float inputDeadZone = 0.1f;      // 入力のデッドゾーン
-    public int maxSwimg = 3;                // 何回揺れるか 
+
     public float centerOfMassOffset = 0.6f; // 重心の位置の割合
-
     private Rigidbody2D rb;
-    private float tiltVelocity = 0f;        // 傾きの速度
-    private int swingCount = 0;             // 揺れの回数をカウント
-    private bool isInDeadZone = false;      // デッドゾーン内にいるかどうか
-    private float angleSwingZone = 1.0f;    // 揺れた判定内かどうか
+    private Collider2D trigger;
 
-    TenpState matryoshkaState = null;      // マトリョーシカの状態
+    /**
+     *  @brief 	プレイヤー特有の状態の列挙型
+    */
+
+    public enum PlayerCondition
+    {
+        Ground,     // 地面にいる
+        Flying,     // 飛んでいる
+        Swimming,   // 水の中にいる
+        Dead,       // 死んでいる
+
+        Damaged,    // ダメージを受けている
+    }
+
+    public PlayerCondition playerCondition;             // プレイヤー特有の状態
+    private PlayerState currentState = null;            // プレイヤーの現在の状態の動き
+
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-
-        // 重心を下に設定
-        if (rb != null)
+        // マトリョーシカの重心を下に設定
+        this.rb = GetComponent<Rigidbody2D>();
+        if (this.rb != null)
         {
             Renderer renderer = GetComponent<Renderer>();
-            Vector2 size = renderer.bounds.size;          
-            rb.centerOfMass = new Vector2(0.0f, -size.y * (1 - centerOfMassOffset));
-            rb.isKinematic = false; // 物理演算を有効化
+            Vector2 size = renderer.bounds.size;
+            this.rb.centerOfMass = new Vector2(0.0f, -size.y * (1 - this.centerOfMassOffset));
         }
 
-        // マトリョーシカの状態を取得
-        matryoshkaState = GetComponent<TenpState>();
+        // プレイヤーの状態に合わせて現在の動きを設定
+        switch (this.playerCondition)
+        {
+            case PlayerCondition.Ground:
+                this.currentState = new PlayerStateGround();
+                break;
+            case PlayerCondition.Flying:
+                this.currentState = new PlayerStateFlying();
+                break;
+            case PlayerCondition.Swimming:
+                this.currentState = new PlayerStateSwimming();
+                break;
+            case PlayerCondition.Dead:
+                break;
+            case PlayerCondition.Damaged:
+                break;
+            default:
+                this.currentState = null;
+                break;
+        }
+
+        if (this.currentState != null)
+        {
+            // 変更後の状態の開始処理を行う
+            this.currentState.Enter(this);
+        }
     }
 
-    void FixedUpdate()
+
+    private void FixedUpdate()
     {
-        // 無効化されていれば有効にする
-        if (rb.isKinematic) { rb.isKinematic = false;  }
-        // 左右移動入力
-        float moveInput = Input.GetAxis("Horizontal");
-        // 入力値のデッドゾーンを適用
-        if (Mathf.Abs(moveInput) < inputDeadZone){ moveInput = 0.0f; }
-        // 移動量
-        float speed = 0.0f;
+        this.currentState.Update();
+        this.currentState.CollisionEnter(trigger);
 
-        // 飛んでいるとき、ダメージをくけているときは移動速度そのままで飛ばせる処理---------------------------------
-        if (matryoshkaState.state == TenpState.State.Flying|| matryoshkaState.state == TenpState.State.Damaged)
+        // 水に入っている
+        if (trigger&&trigger.CompareTag("water"))
         {
-            // そのままで速度をセット
-            speed = rb.velocity.x;
+            ChangePlayerCondition(PlayerCondition.Swimming);
         }
-
-        // 通常時は移動処理を行う------------------------------------------------------------------------------------
-        else if (matryoshkaState.state == TenpState.State.Normal)
+        else
         {
-            // 移動中
-            if (moveInput != 0.0f)
-            {
-                Move(moveInput);
-            }
-            // 止まった時
-            else
-            {
-                Stopped();
-            }
-
-            // 速度を計算
-            speed = moveInput * moveSpeed;
+            ChangePlayerCondition(PlayerCondition.Ground);
         }
-        // 死んでいるときは止まる処理だけ行う------------------------------------------------------------------------
-        else if (matryoshkaState.state == TenpState.State.Dead)
-        {
-            bool isStopped = Stopped();
-            // 速度を計算
-            speed = rb.velocity.x;
-
-            // 止まった時このスクリプトを無効化する
-            if (isStopped)
-            {
-                rb.isKinematic = false; // 物理演算を有効化
-                enabled = false;
-                return;
-            }
-        }
-
-        rb.velocity = new Vector2(speed, rb.velocity.y);
-        Debug.Log(matryoshkaState.state);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 死んでいるとき以外で
-        if (matryoshkaState.state != TenpState.State.Dead)
-        {
-            // 地面と当たった時
-            if (collision.gameObject.CompareTag("ground"))
-            {
-                // 状態を「通常」に
-                matryoshkaState.SetCharaState(TenpState.State.Normal);
-            }
-        }
+        trigger = collision;
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        trigger = collision;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        trigger = null;
+    }
+
 
     /**
-     *  @brief  マトリョーシカが移動中の処理
-     *  @param  float _moveInput          移動している向き
+     *  @brief 	プレイヤーの状態遷移を行う処理
+     *  @param  PlayerCondition _changeCondition    変更後のプレイヤーの状態
     */
-    private void Move(float _moveInput)
+    void    ChangePlayerCondition(PlayerCondition _changeCondition)
     {
-        // 移動方向と逆に傾ける
-        float tilt = _moveInput * tiltAmount;
-        tilt = Mathf.Clamp(tilt, -tiltAmount, tiltAmount);
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, tilt);
+        // 状態が同じなら処理を行わない
+        if(this.playerCondition == _changeCondition) { return; }
+        this.playerCondition = _changeCondition;
 
-        tiltVelocity = 0.0f;    // 傾きの速度をリセット
-        swingCount = 0;         // 揺れの回数をリセット
-        isInDeadZone = false;   // デッドゾーンフラグをリセット
-        if (rb.isKinematic) { rb.isKinematic = false; } // 物理演算を有効化
-    }
-
-    /**
-     *  @brief  マトリョーシカが止まった時の処理
-     *  @return bool true:動きが完全に止まった
-    */
-    private bool Stopped()
-    {
-        // 戻したい角度と現在の角度
-        float targetRotation = 0.0f;
-        float currentRotation = transform.rotation.eulerAngles.z;
-
-        // 角度を-180度から180度の範囲に変換して目標角度との差を出す
-        if (currentRotation > 180.0f) currentRotation -= 360.0f;
-        float deltaRotation = targetRotation - currentRotation;
-
-        // 反動で揺れてから真っ直ぐに戻る
-        tiltVelocity += deltaRotation * returnSpeed * Time.deltaTime;
-
-        // 角度を計算
-        float newRotation = currentRotation + tiltVelocity;
-        newRotation = Mathf.Clamp(newRotation, -tiltAmount, tiltAmount);
-
-        // 角度がデッドゾーン内にあるかどうかをチェック
-        if (Mathf.Abs(deltaRotation) < angleSwingZone)
+        if (this.currentState != null)
         {
-            if (!isInDeadZone)
-            {
-                // デッドゾーンを通過したら1回「揺れた」
-                swingCount++;
-                isInDeadZone = true;
-            }
-        }
-        else { isInDeadZone = false; }
-
-        // 3回目の揺れが終わった時
-        if (swingCount >= maxSwimg)
-        {
-            // 回転、速度などをリセット
-            newRotation = 0.0f;
-            tiltVelocity = 0.0f;
-            rb.velocity = Vector2.zero; 
-            rb.angularVelocity = 0.0f;  
-            transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-            swingCount = maxSwimg;
-
-            // 物理演算を無効化
-            if (!rb.isKinematic) { rb.isKinematic = true; }
-
-            // Rigidbodyを完全に停止
-            rb.Sleep();
-
-            return true;   // 動きが止まった
+            // 現在の状態の終了処理を行う
+            this.currentState.Exit();
         }
 
-        // 角度のセット
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, newRotation);
+        // 変更する状態の動作クラスにする
+        switch (this.playerCondition)
+        {
+            case PlayerCondition.Ground:
+                this.currentState = new PlayerStateGround();
+                break;
+            case PlayerCondition.Flying:
+                this.currentState = new PlayerStateFlying();
+                break;
+            case PlayerCondition.Swimming:
+                this.currentState = new PlayerStateSwimming();
+                break;
+            case PlayerCondition.Dead:
+                break;
+            case PlayerCondition.Damaged:
+                break;
+            default:
+                this.currentState = null;
+                break;
+        }
+        Debug.Log(this.playerCondition + "に変更");
 
-        // 段々ふり幅を小さくする
-        tiltVelocity *= (1 - damping);
-
-        return false;   // まだ動いている
+        if (this.currentState != null)
+        {
+            // 変更後の状態の開始処理を行う
+            this.currentState.Enter(this);
+        }
     }
 }
