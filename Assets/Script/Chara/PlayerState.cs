@@ -19,13 +19,13 @@ public abstract class PlayerState
     //          マトリョーシカの揺れ
     //===============================================
 
-    protected float tiltVelocity = 0.0f;              // 傾きの速度
-    protected const float tiltAmount = 45.0f;         // 回転角の最大値
-    protected const float damping = 0.1f;             // 減衰係数(どのくらいずつ回転角度を減らしていくか)
-    protected const int maxSwimg = 3;                 // 何回揺れるか 
-    protected const　int swingCount = 0;              // 揺れの回数をカウント
-    protected const　float angleSwingZone = 1.0f;     // 揺れた判定内かどうか
-    protected bool isInDeadZone = false;              // 揺れのデッドゾーン内にいるかどうか
+    protected float tiltVelocity = 0.0f;                // 傾きの速度
+    protected  float tiltAmount = 45.0f;                // 回転角の最大値
+    protected  float damping = 0.8f;                    // 減衰係数(どのくらいずつ回転角度を減らしていくか)
+    protected  int maxSwimg = 3;                        // 何回揺れるか 
+    protected 　int swingCount = 0;                     // 揺れの回数をカウント
+    protected 　float angleSwingZone = 1.0f;            // 揺れた判定内かどうか
+    protected bool isInDeadZone = false;                // 揺れのデッドゾーン内にいるかどうか
 
     /**
      * @brief 	この状態に入るときに行う関数
