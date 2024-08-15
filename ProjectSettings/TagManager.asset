@@ -9,6 +9,7 @@ TagManager:
   - Button
   - Enemy
   - Wall
+  - water
   layers:
   - Default
   - TransparentFX

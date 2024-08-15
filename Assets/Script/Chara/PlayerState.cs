@@ -15,6 +15,8 @@ using UnityEngine;
 */
 public abstract class PlayerState
 {
+    protected float moveFactor = 1.0f;              // プレイヤーの全体の動きを調整する係数(0.0f～1.0f)、1.0fの時100%力が影響される
+
     //===============================================
     //          マトリョーシカの移動
     //===============================================
@@ -100,10 +102,9 @@ public abstract class PlayerState
         float deltaRotation = targetRotation - currentRotation;
 
         // 反動で揺れてから真っ直ぐに戻る
-        this.tiltVelocity += deltaRotation * returnSpeed * Time.deltaTime;
-
+        this.tiltVelocity += deltaRotation * this.returnSpeed * Time.deltaTime;
         // 角度を計算
-        float newRotation = currentRotation + this.tiltVelocity;
+        float newRotation = currentRotation + this.tiltVelocity * this.moveFactor;
         newRotation = Mathf.Clamp(newRotation, -this.tiltAmount, this.tiltAmount);
 
         // 角度がデッドゾーン内にあるかどうかをチェック
@@ -116,17 +117,17 @@ public abstract class PlayerState
                 this.isInDeadZone = true;
             }
         }
-        else { isInDeadZone = false; }
+        else { this.isInDeadZone = false; }
 
         // 3回目の揺れが終わった時
-        if (swingCount >= maxSwimg)
+        if (this.swingCount >= this.maxSwimg)
         {
             // 回転、速度などをリセット
             newRotation = 0.0f;
             this.tiltVelocity = 0.0f;
             this.rb.angularVelocity = 0.0f;
             this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-            this.swingCount = maxSwimg;
+            this.swingCount = this.maxSwimg;
 
             return true;   // 動きが止まった
         }
@@ -135,7 +136,7 @@ public abstract class PlayerState
         this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, newRotation);
 
         // 段々ふり幅を小さくする
-        this.tiltVelocity *= (1 - damping);
+        this.tiltVelocity *= (1 - this.damping );
 
         return false;   // まだ動いている
     }
