@@ -75,15 +75,15 @@ public class PlayerMove : MonoBehaviour
         this.currentState.Update();
         this.currentState.CollisionEnter(trigger);
 
-        //// …‚É“ü‚Á‚Ä‚¢‚é
-        //if (trigger&&trigger.CompareTag("water"))
-        //{
-        //    ChangePlayerCondition(PlayerCondition.Swimming);
-        //}
-        //else
-        //{
-        //    ChangePlayerCondition(PlayerCondition.Ground);
-        //}
+        // …‚É“ü‚Á‚Ä‚¢‚é
+        if (trigger && trigger.CompareTag("water"))
+        {
+            ChangePlayerCondition(PlayerCondition.Swimming);
+        }
+        else
+        {
+            ChangePlayerCondition(PlayerCondition.Ground);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

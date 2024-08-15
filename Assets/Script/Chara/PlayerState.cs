@@ -140,5 +140,4 @@ public abstract class PlayerState
 
         return false;   // ‚Ü‚¾“®‚¢‚Ä‚¢‚é
     }
-
 }
