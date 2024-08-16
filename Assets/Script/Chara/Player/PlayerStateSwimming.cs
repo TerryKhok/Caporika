@@ -82,7 +82,9 @@ public class PlayerStateSwimming : PlayerState
                 // 反動を消す
                 this.rb.AddForce(new Vector2(-(this.rb.velocity.x * this.moveDamping * this.moveFactor), 0.0f), ForceMode2D.Impulse);
             }
-            this.Stopped();
+
+            // もし揺れも完全に止まったら「止まった」
+            this.isStopped = Stopped();
         }
 
         // 速度を計算
@@ -98,7 +100,5 @@ public class PlayerStateSwimming : PlayerState
      *  @param  Collider2D _collision    当たったオブジェクト
     */
     public override void CollisionEnter(Collider2D _collision)
-    {
-
-    }
+    { }
 }

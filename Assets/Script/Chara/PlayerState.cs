@@ -15,6 +15,20 @@ using UnityEngine;
 */
 public abstract class PlayerState
 {
+    /**
+     *  @brief 	プレイヤー特有の状態の列挙型
+    */
+    public enum PlayerCondition
+    { 
+        Ground,     // 地面にいる
+        Flying,     // 飛んでいる
+        Swimming,   // 水の中にいる
+        Dead,       // 死んでいる
+
+        Normal,     // 通常状態
+        Damaged,    // ダメージを受けている
+    }
+
     protected float moveFactor = 1.0f;              // プレイヤーの全体の動きを調整する係数(0.0f～1.0f)、1.0fの時100%力が影響される
 
     //===============================================
@@ -32,7 +46,7 @@ public abstract class PlayerState
 
     protected  float returnSpeed = 0.5f;                // 回転を元に戻す速度
     protected float tiltVelocity = 0.0f;                // 傾きの速度
-    protected  float tiltAmount = 45.0f;                // 回転角の最大値
+    protected  float tiltAmount = 60.0f;                // 回転角の最大値
     protected  float damping = 0.8f;                    // 減衰係数(どのくらいずつ回転角度を減らしていくか)
 
     protected  int maxSwimg = 3;                        // 何回揺れるか 
@@ -40,6 +54,7 @@ public abstract class PlayerState
     protected 　float angleSwingZone = 1.0f;            // 揺れた判定内かどうか
     protected bool isInDeadZone = false;                // 揺れのデッドゾーン内にいるかどうか
 
+    protected bool isStopped = false;                   // true:止まった
 
     /**
      * @brief 	この状態に入るときに行う関数
@@ -129,7 +144,7 @@ public abstract class PlayerState
             this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
             this.swingCount = this.maxSwimg;
 
-            return true;   // 動きが止まった
+            return true;    // 動きが止まった
         }
 
         // 角度のセット
@@ -138,6 +153,15 @@ public abstract class PlayerState
         // 段々ふり幅を小さくする
         this.tiltVelocity *= (1 - this.damping );
 
-        return false;   // まだ動いている
+        return false;       // まだ動いている
+    }
+
+    /**
+     *  @brief  マトリョーシカが完全に動作を停止したかを返す関数
+     *  @return bool this.isStopped true:動きが完全に止まった
+    */
+    public bool GetObjectStopped()
+    {
+        return this.isStopped;
     }
 }

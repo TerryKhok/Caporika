@@ -87,12 +87,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2318676211049962605}
   - component: {fileID: 6032227985106889402}
-  - component: {fileID: 3094663436188744874}
   - component: {fileID: 5646037507497068011}
   - component: {fileID: 6478496187737887068}
   - component: {fileID: 7043805504592722830}
   - component: {fileID: 2062614197489962857}
-  - component: {fileID: 5021757430765687424}
+  - component: {fileID: 5684788108464164878}
   m_Layer: 6
   m_Name: playerSmall
   m_TagString: Player
@@ -168,26 +167,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3094663436188744874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634217478203858207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20de4b2f2b7b3af45b9f82446480fdc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  slowSpeed: 1
-  tiltAmount: 60
-  returnSpeed: 0.5
-  damping: 0.8
-  inputDeadZone: 0.1
-  maxSwimg: 3
-  centerOfMassOffset: 0.6
 --- !u!70 &5646037507497068011
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -262,8 +241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a97cd904035fc419c10c55e5b0f3d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 0
-  weight: 0
+  size: 1
+  weight: 1
 --- !u!114 &2062614197489962857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,11 +255,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3c045a1cd94d34cba0622f47630f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 3
+  popOutkey: 32
+  nestInsideKey: 304
+  jumpForce: 5
   tagName: TriggerArea
   knockbackAngle: 45
   knockbackpForce: 5
---- !u!114 &5021757430765687424
+--- !u!114 &5684788108464164878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -289,8 +270,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 634217478203858207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8add8807c114817449ba04d79b877a53, type: 3}
+  m_Script: {fileID: 11500000, guid: b5310ba0b8f5afd4383974f3a90d29aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  sizeState: 1
+  centerOfMassOffset: 0.6
+  playerCondition: 0

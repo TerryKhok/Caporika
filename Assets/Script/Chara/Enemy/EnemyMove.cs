@@ -11,7 +11,7 @@ public class EnemyMove : MonoBehaviour
 
     private float direction = 1;    // “G‚ÌˆÚ“®‚·‚éŒü‚«
     Rigidbody2D rb = null;          // “G‚ÌRigidbody2D
-    TenpState enemyState = null;   // “G‚Ìó‘Ô
+    TenpState enemyState = null;    // “G‚Ìó‘Ô
 
     // Start is called before the first frame update
     void Start()
