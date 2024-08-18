@@ -12,12 +12,12 @@ using UnityEngine;
  */
 public class GimmickWater : MonoBehaviour
 {
-    private List<TenpState> objectsInWater = new List<TenpState>();    // 現在水中にいるオブジェクトを管理するためのlist
+    private List<CharaState> objectsInWater = new List<CharaState>();    // 現在水中にいるオブジェクトを管理するためのlist
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        TenpState tempState;
-        // TenpStateを持っているか(マトリョシカか)判定
+        CharaState tempState;
+        // CharaStateを持っているか(マトリョシカか)判定
         if (!collision.gameObject.TryGetComponent(out tempState)) return;
 
         AddToList(tempState);
@@ -25,26 +25,22 @@ public class GimmickWater : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        TenpState tempState;
-        // TenpStateがなかったらreturn
+        CharaState tempState;
+        // CharaStateがなかったらreturn
         if (!collision.gameObject.TryGetComponent(out tempState)) return;
 
-        // TenpStateを持っているか(マトリョシカか)判定
+        // CharaStateを持っているか(マトリョシカか)判定
         if (objectsInWater.Contains(tempState))
         {
             RemoveFromList(tempState);
         }
     }
 
-    void AddToList(TenpState _state)
+    void AddToList(CharaState _state)
     {
         // y方向の速度を減衰させる
         Rigidbody2D rb = _state.GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / 10.0f);
-        if (_state.GetCharaState() != TenpState.State.Dead)    // 死んでないなら
-        {
-            _state.SetCharaState(TenpState.State.Normal);
-        }
 
         int size = _state.GetCharaSize();
         switch (size)
@@ -67,7 +63,7 @@ public class GimmickWater : MonoBehaviour
     /**
      * @brief リストから削除するときの処理
      */
-    void RemoveFromList(TenpState _state)
+    void RemoveFromList(CharaState _state)
     {
         _state.GetComponent<Rigidbody2D>().gravityScale = 1.0f;  // デフォルト値にする
         objectsInWater.Remove(_state);  // リストから削除
