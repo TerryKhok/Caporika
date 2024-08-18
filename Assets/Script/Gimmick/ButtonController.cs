@@ -110,9 +110,9 @@ public class ButtonController : MonoBehaviour
 
         // ƒ{ƒ^ƒ“‚ğ‹·‚ß‚Ä‰Ÿ‚µ‚½Š´‚ğo‚·
         float newScaleY = transform.localScale.y - pressSpeed;
-        if (newScaleY < 0.3f)
+        if (newScaleY < 0.2f)
         {
-            newScaleY = 0.3f;
+            newScaleY = 0.2f;
             isPressedButton = true;
         }
         transform.localScale = new Vector3(transform.localScale.x, newScaleY, transform.localScale.z);

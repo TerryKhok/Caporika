@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee6e6bfd6deb914fbb5469af4e7cad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressSpeed: 0.1
+  pressSpeed: 0.05
   buttonMass: 3
   onPressed:
     m_PersistentCalls:

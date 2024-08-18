@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
     private PlayerState currentState = null;                // プレイヤーの現在の状態の動き
 
     private bool isInWater = false;     // true:水の中にいる
-    private bool isGround = false;
+    private bool isGround = false;      // true:地面と当たっている
 
     void Start()
     {
@@ -46,6 +46,7 @@ public class PlayerMove : MonoBehaviour
                 this.currentState = new PlayerStateDead();
                 break;
             case PlayerState.PlayerCondition.Damaged:
+                this.currentState = new PlayerStateDamaged();
                 break;
             default:
                 this.currentState = null;
@@ -65,25 +66,30 @@ public class PlayerMove : MonoBehaviour
         this.currentState.Update();
         this.currentState.CollisionEnter(trigger);
 
-        // 死んでいなくて
-        if (this.playerCondition != PlayerState.PlayerCondition.Dead)
+        // 死んでいるとき何も行わない
+        if (this.playerCondition == PlayerState.PlayerCondition.Dead)
         {
-            // 水に入っている状態が優先される
-            if(this.isInWater)
-            { 
-                ChangePlayerCondition(PlayerState.PlayerCondition.Swimming); 
-            }
-            else
-            {
-                if(this.isGround)
-                {
-                    ChangePlayerCondition(PlayerState.PlayerCondition.Ground);
-                }
-                else
-                {
-                    ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
-                }
-            }
+            return;
+        }
+
+        // 水に入っているとき「水の中にいる状態」
+        if (this.isInWater)
+        {
+            ChangePlayerCondition(PlayerState.PlayerCondition.Swimming);
+            return;
+        }
+
+        // 地面と当たっているとき「地面に立っている状態」
+        if (this.isGround)
+        {
+            ChangePlayerCondition(PlayerState.PlayerCondition.Ground);
+            return;
+        }
+
+        // 「ダメージを受けている状態」でないときに地面と当たっていないとき「飛んでいる状態」
+        if (this.playerCondition != PlayerState.PlayerCondition.Damaged)
+        {
+            ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
         }
     }
 
@@ -112,7 +118,8 @@ public class PlayerMove : MonoBehaviour
         // 水に入っているときは判定を行わない
         if (!this.isInWater)
         {
-            if (collision.gameObject.CompareTag("ground"))
+            // 地面かボタン
+            if (collision.gameObject.CompareTag("ground")|| collision.gameObject.CompareTag("Button"))
             {
                 this.isGround = true;
             }

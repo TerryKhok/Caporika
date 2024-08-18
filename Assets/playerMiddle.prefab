@@ -180,7 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popOutkey: 32
   nestInsideKey: 304
-  jumpForce: 5
+  jumpForce: 3
   tagName: TriggerArea
   knockbackAngle: 45
   knockbackpForce: 5

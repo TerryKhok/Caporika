@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * @brief 	プレイヤーが「死んでいる状態」の処理を行うクラス
+ * @brief 	プレイヤーが「ダメージを受けている状態」の処理を行うクラス
  * 
  *  @memo   ・PlayerStateを基底クラスに持つ
  *          ・プレイヤーの状態は、後に実装するPlayerMove.cs内で列挙型(CharaCondition、PlayerCondition)を使用して切り替える
  *          
- *          ・止まった時の反動、揺れる処理を行う
+ *          ・この状態の時移動はできない
+ *          ・この時敵に当たっても攻撃判定にはならない
  *          
  *  ========================================================================================================
  *  
@@ -16,8 +17,11 @@ using UnityEngine;
  *          
  *  ========================================================================================================
 */
-public class PlayerStateDead : PlayerState
+public class PlayerStateDamaged : PlayerState
 {
+
+    private const float damageFactor = 0.0f;          // 空中にいる時の動作全体での力の影響度合い(0.0f ～ 1.0f)
+
     /**
      * @brief 	この状態に入るときに行う関数
      * @paraam  PlayerMove _playerMove  
@@ -37,6 +41,9 @@ public class PlayerStateDead : PlayerState
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
             return;
         }
+
+        // プレイヤーの動作の影響度合い
+        this.moveFactor = damageFactor;
     }
 
     /**
@@ -51,15 +58,14 @@ public class PlayerStateDead : PlayerState
     */
     public override void Update()
     {
-        if (this.rb.velocity.normalized.x != 0.0f)
-        {
-            // 反動を消す
-            this.rb.AddForce(new Vector2(-(this.rb.velocity.x * this.moveDamping), 0.0f), ForceMode2D.Impulse);
+        // 左右移動入力
+        float moveInput = Input.GetAxis("Horizontal");
+        // 入力値のデッドゾーンを適用
+        if (Mathf.Abs(moveInput) < this.inputDeadZone) { moveInput = 0.0f; }
 
-        }
-
-        // もし揺れも完全に止まったら「止まった」
-        this.isStopped = Stopped();
+        // 速度を計算
+        float speed = moveInput * moveSpeed * this.moveFactor;
+        this.rb.AddForce(new Vector2(speed, 0.0f), ForceMode2D.Force);
     }
 
     /**
@@ -67,5 +73,7 @@ public class PlayerStateDead : PlayerState
      *  @param  Collider2D _collision    当たったオブジェクト
     */
     public override void CollisionEnter(Collider2D _collision)
-    { }
+    {
+    }
+
 }

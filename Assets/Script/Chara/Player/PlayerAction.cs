@@ -71,21 +71,23 @@ public class PlayerAction : MonoBehaviour
                 // このスクリプトを無効化
                 this.enabled = false;
             }
+            return;
         }
 
         // マトリョーシカに入るアクションを行う----------------------------------------------------
-        else if (Input.GetKeyDown(this.nestInsideKey))
+        if (Input.GetKeyDown(this.nestInsideKey))
         {
             // タグ名が同じで、自分よりも1個大きいマトリョーシカのとき
             if (this.isSametag && this.matryoishkaSize + 1 == this.triggerSize)
             {
                 // 入る処理
-                NestInside(); 
+                NestInside();
             }
+            return;
         }
 
         // 敵と当たっていて、敵が死んでいない
-        if(this.isCollEnemy&&enemyColl.GetComponent<TenpState>().GetCharaState()!= TenpState.State.Dead)
+        if (this.isCollEnemy && enemyColl.GetComponent<TenpState>().GetCharaState() != TenpState.State.Dead)
         {
             // 自身が飛んでいるとき
             if (this.matryoishkaMove.playerCondition == PlayerState.PlayerCondition.Flying)
@@ -232,7 +234,7 @@ public class PlayerAction : MonoBehaviour
         float angle = 0.0f;
 
         // 左向き
-        if (direction > 0.0f) 
+        if (direction < 0.0f) 
         { 
             moveAngle = 180.0f - this.knockbackAngle;
             angle = this.knockbackAngle;
