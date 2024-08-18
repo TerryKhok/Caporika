@@ -3,34 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * @brief 	“G‚ÌŠî–{ˆÚ“®ˆ—
-*/
-public class EnemyMove : MonoBehaviour
+ * @brief   “GƒLƒƒƒ‰‚ÌŠî–{“I‚ÈˆÚ“®
+ * 
+ * @memo    E’n–Ê‚É‚Â‚¢‚Ä‚¢‚é‚Í¶‰EˆÚ“®
+ *          E•Ç‚É“–‚½‚é‚Æ”½“]
+ */
+public class EnemyMoveDefault : CharaMove
 {
     public float moveSpeed;         // “G‚ÌˆÚ“®‘¬“x
 
     private float direction = 1;    // “G‚ÌˆÚ“®‚·‚éŒü‚«
     Rigidbody2D rb = null;          // “G‚ÌRigidbody2D
-    TenpState enemyState = null;    // “G‚Ìó‘Ô
 
     // Start is called before the first frame update
     void Start()
     {
-        rb=GetComponent<Rigidbody2D>();
-        enemyState = GetComponent<TenpState>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
         // ó‘Ô–ˆ‚É“®‚«‚ğ•Ï‚¦‚é
-        switch (enemyState.state)
+        switch (this.GetCharaCondition())
         {
-            case TenpState.State.Normal:
+            case CharaCondition.Ground:
                 // ŠÈ’P‚È¶‰EˆÚ“®
                 rb.velocity = new Vector2(moveSpeed * direction, rb.velocity.y);
                 break;
 
-            case TenpState.State.Dead:
+            case CharaCondition.Dead:
                 // €‚ñ‚¾
                 break;
 
@@ -42,7 +43,7 @@ public class EnemyMove : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // •Ç‚É“–‚½‚Á‚½‚çˆÚ“®‚·‚éŒü‚«‚ğ‹t“]‚·‚é
-        if(collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall"))
         {
             direction *= -1;
         }

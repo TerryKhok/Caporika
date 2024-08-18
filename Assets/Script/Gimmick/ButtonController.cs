@@ -34,7 +34,7 @@ public class ButtonController : MonoBehaviour
     {
         // 触られたとき
         if (isTouched && touchedObjects.Count > 0)
-        { 
+        {
             // 押されていなければ
             if (!isPressed)
             {
@@ -43,10 +43,10 @@ public class ButtonController : MonoBehaviour
             }
             // 押された時
             else
-            {        
+            {
                 // 重さを判定
                 if (!CheckedMass() && touchedObjects.Count > 0)
-                { 
+                {
                     // ボタンのほうが重かったらボタンを押し上げる
                     ReleasedButton();
                 }
@@ -66,11 +66,11 @@ public class ButtonController : MonoBehaviour
         {
             if (ReleasedButton())
             {
-                if(!isTriggerEventRelease)
+                if (!isTriggerEventRelease)
                 {
                     // ボタンが離されたときのイベントを呼び出す
                     onReleased.Invoke();
-                    isTriggerEventRelease=true;
+                    isTriggerEventRelease = true;
                 }
                 isReleased = true;
             }
@@ -95,7 +95,7 @@ public class ButtonController : MonoBehaviour
     {
         // ボタンを触っていたオブジェクトをリストから削除
         touchedObjects.Remove(collision.gameObject);
-        if(touchedObjects.Count <= 0)
+        if (touchedObjects.Count <= 0)
         {
             isTouched = false;
         }
@@ -126,8 +126,8 @@ public class ButtonController : MonoBehaviour
 
         // ボタンを伸ばして元に戻す
         float newScaleY = transform.localScale.y + pressSpeed;
-        if (newScaleY > origineScale.y) 
-        { 
+        if (newScaleY > origineScale.y)
+        {
             newScaleY = origineScale.y;
             isReleasedButton = true;
         }
@@ -145,7 +145,7 @@ public class ButtonController : MonoBehaviour
             CharaState charaState = obj.GetComponent<CharaState>();
             if (charaState != null)
             {
-                totalSize += charaState.GetCharaSize();
+                totalSize += charaState.GetCharaWeight();
             }
         }
 
