@@ -87,7 +87,7 @@ public class PlayerAction : MonoBehaviour
         }
 
         // 敵と当たっていて、敵が死んでいない
-        if (this.isCollEnemy && enemyColl.GetComponent<TenpState>().GetCharaState() != TenpState.State.Dead)
+        if (this.isCollEnemy && enemyColl.GetComponent<CharaMove>().GetCharaCondition() != CharaMove.CharaCondition.Dead)
         {
             // 自身が飛んでいるとき
             if (this.matryoishkaMove.playerCondition == PlayerState.PlayerCondition.Flying)
@@ -296,9 +296,9 @@ public class PlayerAction : MonoBehaviour
     void Attack()
     {
         // 当たったオブジェクトの状態を取得
-        TenpState enemyState = enemyColl.GetComponent<TenpState>();
+        CharaMove enemyState = enemyColl.GetComponent<CharaMove>();
         // 状態を「死んだ」に
-        enemyState.SetCharaState(TenpState.State.Dead);
+        enemyState.SetCharaCondition(CharaMove.CharaCondition.Dead);
 
         Debug.Log("攻撃した");
     }
