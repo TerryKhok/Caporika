@@ -21,15 +21,14 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        //// マトリョーシカの重心を下に設定
-        //this.rb = GetComponent<Rigidbody2D>();
-        //if (this.rb != null)
-        //{
-        //    // 孫の画像情報を取得
-        //    Renderer renderer = this.transform.Find("VisualTrigger").GetComponentInChildren<Renderer>();
-        //    Vector2 size = renderer.bounds.size;
-        //    this.rb.centerOfMass = new Vector2(0.0f, -size.y * (1 - this.centerOfMassOffset));
-        //}
+        // マトリョーシカの重心を下に設定
+        this.rb = GetComponent<Rigidbody2D>();
+        if (this.rb != null)
+        {
+            Renderer renderer = GetComponent<Renderer>();
+            Vector2 size = renderer.bounds.size;
+            this.rb.centerOfMass = new Vector2(0.0f, -size.y * (1 - this.centerOfMassOffset));
+        }
 
         // プレイヤーの状態に合わせて現在の動きを設定
         switch (this.playerCondition)
@@ -163,7 +162,7 @@ public class PlayerMove : MonoBehaviour
                 this.currentState = new PlayerStateDead();
                 break;
             case PlayerState.PlayerCondition.Damaged:
-                this.currentState = new PlayerStateDamaged();
+                this.currentState = new PlayerStateDead();  // 一旦死んだことにする
                 break;
             default:
                 this.currentState = null;
