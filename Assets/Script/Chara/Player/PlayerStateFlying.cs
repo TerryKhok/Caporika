@@ -74,6 +74,5 @@ public class PlayerStateFlying : PlayerState
     */
     public override void CollisionEnter(Collider2D _collision)
     {
-
     }
 }

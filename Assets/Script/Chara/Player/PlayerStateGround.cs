@@ -37,6 +37,13 @@ public class PlayerStateGround : PlayerState
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
             return;
         }
+
+        this.visualTriggerObject= _playerMove.transform.Find("VisualTrigger").gameObject;
+        if(!this.visualTriggerObject)
+        {
+            Debug.LogError("VisualTriggerを取得できませんでした。");
+            return;
+        }
     }
 
     /**
@@ -62,15 +69,14 @@ public class PlayerStateGround : PlayerState
         // 止まった時
         else
         {
+            // もし揺れも完全に止まったら「止まった」
+            this.isStopped = Stopped();
+
             if (this.rb.velocity.normalized.x != 0.0f)
             {
                 // 反動を消す
                 this.rb.AddForce(new Vector2(-(this.rb.velocity.x* this.moveDamping), 0.0f), ForceMode2D.Impulse);
-
             }
-
-            // もし揺れも完全に止まったら「止まった」
-            this.isStopped = Stopped();
         }
 
         // 速度を計算
@@ -83,6 +89,5 @@ public class PlayerStateGround : PlayerState
      *  @param  Collider2D _collision    当たったオブジェクト
     */
     public override void CollisionEnter(Collider2D _collision)
-    {
-    }
+    {}
 }

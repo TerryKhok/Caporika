@@ -22,7 +22,7 @@ public class PlayerStateDead : PlayerState
      * @brief 	この状態に入るときに行う関数
      * @paraam  PlayerMove _playerMove  
      * 
-     * memo    RigidBody2Dやその他コンポーネントを取得するためのみに使用する
+     * @memo    RigidBody2Dやその他コンポーネントを取得するためのみに使用する
     */
     public override void Enter(PlayerMove _playerMove)
     {
@@ -59,7 +59,7 @@ public class PlayerStateDead : PlayerState
         }
 
         // もし揺れも完全に止まったら「止まった」
-        this.isStopped = Stopped();
+        //this.isStopped = Stopped(moveInput);
     }
 
     /**
