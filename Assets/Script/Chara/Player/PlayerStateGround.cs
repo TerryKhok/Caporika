@@ -21,6 +21,8 @@ using UnityEngine;
 */
 public class PlayerStateGround : PlayerState
 {
+    private PreventBounce preventBounce = null;
+
     /**
      * @brief 	この状態に入るときに行う関数
     */
@@ -37,12 +39,26 @@ public class PlayerStateGround : PlayerState
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
             return;
         }
+
+        // 跳ね防止スクリプトを有効に
+        this.preventBounce = _playerMove.GetComponent<PreventBounce>();
+        if (!this.preventBounce)
+        {
+            Debug.LogError("PreventBounceを取得できませんでした。");
+            return;
+        }
+        // 跳ね防止スクリプトを有効に
+        this.preventBounce.enabled = true;
     }
 
     /**
      * @brief 	この状態から出るときに行う関数
     */
-    public override void Exit() { }
+    public override void Exit() 
+    {
+        // 跳ね防止スクリプトを無効に
+        if (this.preventBounce.enabled) { this.preventBounce.enabled = false; }
+    }
 
     /**
      * @brief 	更新処理
@@ -66,7 +82,6 @@ public class PlayerStateGround : PlayerState
             {
                 // 反動を消す
                 this.rb.AddForce(new Vector2(-(this.rb.velocity.x* this.moveDamping), 0.0f), ForceMode2D.Impulse);
-
             }
 
             // もし揺れも完全に止まったら「止まった」
@@ -83,6 +98,5 @@ public class PlayerStateGround : PlayerState
      *  @param  Collider2D _collision    当たったオブジェクト
     */
     public override void CollisionEnter(Collider2D _collision)
-    {
-    }
+    { }
 }

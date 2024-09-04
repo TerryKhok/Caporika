@@ -6,195 +6,147 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 /**
  *  @brief 	プレイヤーの移動(一時的)
  *  
- *  @memo   ・移動方向と反対の向きに傾く
- *          ・止まった時指定回数揺れて止まる
- *          ・飛んでいるときはゆっくり移動できる
- *          
- *          止まっているときはisKinematicを無効にしている
- *          
- *          新しいPlayerMoveが完成したらこのスクリプトは消す
+ *  @memo   試作用
 */
 public class TempMove : MonoBehaviour
 {
-    public float moveSpeed = 5.0f;          // 移動速度
-    public float slowSpeed = 1.0f;          // 飛んでいるときの速度
-    public float tiltAmount = 45.0f;        // 回転角の最大値
-    public float returnSpeed = 2.0f;        // 回転を元に戻す速度
-    public float damping = 0.1f;            // 減衰係数
-    public float inputDeadZone = 0.1f;      // 入力のデッドゾーン
-    public int maxSwimg = 3;                // 何回揺れるか 
-    public float centerOfMassOffset = 0.6f; // 重心の位置の割合
+    protected float moveFactor = 1.0f;              // プレイヤーの全体の動きを調整する係数(0.0f～1.0f)、1.0fの時100%力が影響される
 
-    private Rigidbody2D rb;
-    private float tiltVelocity = 0f;        // 傾きの速度
-    private int swingCount = 0;             // 揺れの回数をカウント
-    private bool isInDeadZone = false;      // デッドゾーン内にいるかどうか
-    private float angleSwingZone = 1.0f;    // 揺れた判定内かどうか
+    public Rigidbody2D rb; 
+    public Rigidbody2D rb2;
+    public GameObject obj;
+    public float centerOfMassOffset = 0.1f;             // 重心の位置の割合
+    protected float inputDeadZone = 0.1f;               // 入力のデッドゾーン
+    protected float moveDamping = 0.8f;                 // 減衰係数(どのくらいずつ反動を減らしていくか)
+    protected const float moveSpeed = 5.0f;             // 移動速度
 
-    TenpState matryoshkaState = null;       // マトリョーシカの状態
 
-    void Start()
+    //===============================================
+    //          マトリョーシカの揺れ
+    //===============================================
+
+    protected float returnSpeed = 2.0f;                // 回転を元に戻す速度
+    protected float tiltVelocity = 0.0f;                // 傾きの速度
+    protected float tiltAmount = 60.0f;                // 回転角の最大値
+    protected float damping = 0.9f;                    // 減衰係数(どのくらいずつ回転角度を減らしていくか)
+
+    protected int maxSwimg = 3;                        // 何回揺れるか 
+    protected int swingCount = 0;                     // 揺れの回数をカウント
+    protected float angleSwingZone = 1.0f;            // 揺れた判定内かどうか
+    protected bool isInDeadZone = false;                // 揺れのデッドゾーン内にいるかどうか
+
+    protected bool isStopped = false;                   // true:止まった
+
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-
-        // 重心を下に設定
-        if (rb != null)
+        if (this.obj != null)
         {
-            Renderer renderer = GetComponent<Renderer>();
-            Vector2 size = renderer.bounds.size;          
-            rb.centerOfMass = new Vector2(0.0f, -size.y * (1 - centerOfMassOffset));
-            rb.isKinematic = false;         // 物理演算を有効化
+            Renderer renderer = obj.GetComponent<Renderer>();
+            rb2= obj.GetComponent<Rigidbody2D>();
+            Vector2 size = renderer.bounds.size;
+            // 重心をオブジェクトの高さのcenterOfMassOffsetの位置に設定
+            this.rb2.centerOfMass = new Vector2(0.0f, -size.y * (0.5f - this.centerOfMassOffset));
         }
-
-        // マトリョーシカの状態を取得
-        matryoshkaState = GetComponent<TenpState>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        // 無効化されていれば有効にする
-        if (rb.isKinematic) { rb.isKinematic = false;  }
         // 左右移動入力
         float moveInput = Input.GetAxis("Horizontal");
         // 入力値のデッドゾーンを適用
-        if (Mathf.Abs(moveInput) < inputDeadZone){ moveInput = 0.0f; }
-        // 移動量
-        float speed = 0.0f;
+        if (Mathf.Abs(moveInput) < this.inputDeadZone) { moveInput = 0.0f; }
 
-        // 飛んでいるとき、ダメージをくけているときは移動速度そのままで飛ばせる処理---------------------------------
-        if (matryoshkaState.state == TenpState.State.Flying|| matryoshkaState.state == TenpState.State.Damaged)
+        // 移動中
+        if (moveInput != 0.0f)
         {
-            // そのままで速度をセット
-            speed = rb.velocity.x;
+            Move(moveInput);
+        }
+        // 止まった時
+        else
+        {
+            if (this.rb.velocity.normalized.x != 0.0f)
+            {
+                // 反動を消す
+                this.rb.AddForce(new Vector2(-(this.rb.velocity.x * this.moveDamping), 0.0f), ForceMode2D.Impulse);
+
+            }
+            // もし揺れも完全に止まったら「止まった」
+            this.isStopped = Stopped();
         }
 
-        // 通常時は移動処理を行う------------------------------------------------------------------------------------
-        else if (matryoshkaState.state == TenpState.State.Normal)
-        {
-            // 移動中
-            if (moveInput != 0.0f)
-            {
-                Move(moveInput);
-            }
-            // 止まった時
-            else
-            {
-                Stopped();
-            }
-
-            // 速度を計算
-            speed = moveInput * moveSpeed;
-        }
-        // 死んでいるときは止まる処理だけ行う------------------------------------------------------------------------
-        else if (matryoshkaState.state == TenpState.State.Dead)
-        {
-            bool isStopped = Stopped();
-            // 速度を計算
-            speed = rb.velocity.x;
-
-            // 止まった時このスクリプトを無効化する
-            if (isStopped)
-            {
-                rb.isKinematic = false; // 物理演算を有効化
-                enabled = false;
-                return;
-            }
-        }
-
-        rb.velocity = new Vector2(speed, rb.velocity.y);
-        Debug.Log(matryoshkaState.state);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // 死んでいるとき以外で
-        if (matryoshkaState.state != TenpState.State.Dead)
-        {
-            // 地面と当たった時
-            if (collision.gameObject.CompareTag("ground"))
-            {
-                // 状態を「通常」に
-                matryoshkaState.SetCharaState(TenpState.State.Normal);
-            }
-        }
+        // 速度を計算
+        float speed = moveInput * moveSpeed;
+        this.rb.AddForce(new Vector2(speed, 0.0f), ForceMode2D.Force);
     }
 
     /**
-     *  @brief  マトリョーシカが移動中の処理
-     *  @param  float _moveInput          移動している向き
-    */
-    private void Move(float _moveInput)
+*  @brief  マトリョーシカが移動中の処理
+*  @param  float _moveInput          移動している向き
+*/
+    protected void Move(float _moveInput)
     {
         // 移動方向と逆に傾ける
-        float tilt = _moveInput * tiltAmount;
-        tilt = Mathf.Clamp(tilt, -tiltAmount, tiltAmount);
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, tilt);
+        float tilt = _moveInput * this.tiltAmount;
+        tilt = Mathf.Clamp(tilt, -this.tiltAmount, this.tiltAmount);
+        this.rb2.transform.rotation = Quaternion.Euler(0.0f, 0.0f, tilt);
 
-        tiltVelocity = 0.0f;    // 傾きの速度をリセット
-        swingCount = 0;         // 揺れの回数をリセット
-        isInDeadZone = false;   // デッドゾーンフラグをリセット
-        if (rb.isKinematic) { rb.isKinematic = false; } // 物理演算を有効化
+        this.tiltVelocity = 0.0f;    // 傾きの速度をリセット
+        this.swingCount = 0;         // 揺れの回数をリセット
+        this.isInDeadZone = false;   // デッドゾーンフラグをリセット
     }
+
 
     /**
      *  @brief  マトリョーシカが止まった時の処理
      *  @return bool true:動きが完全に止まった
     */
-    private bool Stopped()
+    protected bool Stopped()
     {
         // 戻したい角度と現在の角度
         float targetRotation = 0.0f;
-        float currentRotation = this.rb.transform.rotation.eulerAngles.z;
+        float currentRotation = this.rb2.transform.rotation.eulerAngles.z;
 
         // 角度を-180度から180度の範囲に変換して目標角度との差を出す
         if (currentRotation > 180.0f) currentRotation -= 360.0f;
         float deltaRotation = targetRotation - currentRotation;
 
         // 反動で揺れてから真っ直ぐに戻る
-        tiltVelocity += deltaRotation * returnSpeed * Time.deltaTime;
-
+        this.tiltVelocity += deltaRotation * this.returnSpeed * Time.deltaTime;
         // 角度を計算
-        float newRotation = currentRotation + tiltVelocity;
-        newRotation = Mathf.Clamp(newRotation, -tiltAmount, tiltAmount);
+        float newRotation = currentRotation + this.tiltVelocity * this.moveFactor;
+        newRotation = Mathf.Clamp(newRotation, -this.tiltAmount, this.tiltAmount);
 
         // 角度がデッドゾーン内にあるかどうかをチェック
-        if (Mathf.Abs(deltaRotation) < angleSwingZone)
+        if (Mathf.Abs(deltaRotation) < this.angleSwingZone)
         {
-            if (!isInDeadZone)
+            if (!this.isInDeadZone)
             {
                 // デッドゾーンを通過したら1回「揺れた」
-                swingCount++;
-                isInDeadZone = true;
+                this.swingCount++;
+                this.isInDeadZone = true;
             }
         }
-        else { isInDeadZone = false; }
+        else { this.isInDeadZone = false; }
 
         // 3回目の揺れが終わった時
-        if (swingCount >= maxSwimg)
+        if (this.swingCount >= this.maxSwimg)
         {
             // 回転、速度などをリセット
             newRotation = 0.0f;
-            tiltVelocity = 0.0f;
-            rb.velocity = Vector2.zero; 
-            rb.angularVelocity = 0.0f;
-            this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-            swingCount = maxSwimg;
+            this.tiltVelocity = 0.0f;
+            this.rb2.angularVelocity = 0.0f;
+            this.rb2.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+            this.swingCount = this.maxSwimg;
 
-            // 物理演算を無効化
-            if (!rb.isKinematic) { rb.isKinematic = true; }
-
-            // Rigidbodyを完全に停止
-            rb.Sleep();
-
-            return true;   // 動きが止まった
+            return true;    // 動きが止まった
         }
 
         // 角度のセット
-        this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, newRotation);
+        this.rb2.transform.rotation = Quaternion.Euler(0.0f, 0.0f, newRotation);
 
         // 段々ふり幅を小さくする
-        tiltVelocity *= (1 - damping);
+        this.tiltVelocity *= (1 - this.damping);
 
-        return false;   // まだ動いている
+        return false;       // まだ動いている
     }
 }

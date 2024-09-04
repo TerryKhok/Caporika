@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 /**
  * @brief 	プレイヤーの状態毎の処理を行う基底クラス
@@ -35,10 +36,10 @@ public abstract class PlayerState
     //          マトリョーシカの移動
     //===============================================
 
-    protected const float moveSpeed = 5.0f;             // 移動速度
+    protected const float moveSpeed = 8.0f;             // 移動速度
     protected float inputDeadZone = 0.1f;               // 入力のデッドゾーン
     protected float moveDamping = 0.8f;                 // 減衰係数(どのくらいずつ反動を減らしていくか)
-    protected Rigidbody2D rb;
+    protected Rigidbody2D rb = null;
 
     //===============================================
     //          マトリョーシカの揺れ
@@ -118,6 +119,7 @@ public abstract class PlayerState
 
         // 反動で揺れてから真っ直ぐに戻る
         this.tiltVelocity += deltaRotation * this.returnSpeed * Time.deltaTime;
+
         // 角度を計算
         float newRotation = currentRotation + this.tiltVelocity * this.moveFactor;
         newRotation = Mathf.Clamp(newRotation, -this.tiltAmount, this.tiltAmount);

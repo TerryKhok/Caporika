@@ -27,7 +27,8 @@ public class PlayerMove : MonoBehaviour
         {
             Renderer renderer = GetComponent<Renderer>();
             Vector2 size = renderer.bounds.size;
-            this.rb.centerOfMass = new Vector2(0.0f, -size.y * (1 - this.centerOfMassOffset));
+            // 重心をオブジェクトの高さのcenterOfMassOffsetの位置に設定
+            this.rb.centerOfMass = new Vector2(0.0f, -size.y * (0.5f - this.centerOfMassOffset));
         }
 
         // プレイヤーの状態に合わせて現在の動きを設定
@@ -60,6 +61,16 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    void OnDrawGizmos()
+    {
+        if (rb != null)
+        {
+            // 重心の位置を赤い球で表示
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(rb.worldCenterOfMass, 0.1f);
+        }
+    }
+
 
     private void FixedUpdate()
     {
@@ -75,21 +86,20 @@ public class PlayerMove : MonoBehaviour
         // 水に入っているとき「水の中にいる状態」
         if (this.isInWater)
         {
-            ChangePlayerCondition(PlayerState.PlayerCondition.Swimming);
+            this.ChangePlayerCondition(PlayerState.PlayerCondition.Swimming);
             return;
         }
 
         // 地面と当たっているとき「地面に立っている状態」
         if (this.isGround)
         {
-            ChangePlayerCondition(PlayerState.PlayerCondition.Ground);
+            this.ChangePlayerCondition(PlayerState.PlayerCondition.Ground);
             return;
         }
-
-        // 「ダメージを受けている状態」でないときに地面と当たっていないとき「飛んでいる状態」
-        if (this.playerCondition != PlayerState.PlayerCondition.Damaged)
+        else
         {
-            ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
+            this.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
+            return;
         }
     }
 
@@ -103,6 +113,16 @@ public class PlayerMove : MonoBehaviour
         {
             this.isInWater = true;
         }
+
+        // 水に入っているときは判定を行わない
+        if (!this.isInWater)
+        {
+            // 地面かボタン
+            if (collision.gameObject.CompareTag("ground") || collision.gameObject.CompareTag("Button"))
+            {
+                this.isGround = true;
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -111,6 +131,11 @@ public class PlayerMove : MonoBehaviour
         {
             this.isInWater = false;
         }
+        // 地面
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            this.isGround = false;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -118,15 +143,20 @@ public class PlayerMove : MonoBehaviour
         // 水に入っているときは判定を行わない
         if (!this.isInWater)
         {
-            // 地面かボタン
-            if (collision.gameObject.CompareTag("ground")|| collision.gameObject.CompareTag("Button"))
-            {
+            // ボタン
+            if (collision.gameObject.CompareTag("Button"))
+            { 
                 this.isGround = true;
             }
-            else
-            {
-                this.isGround = false;
-            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // ボタン
+        if (collision.gameObject.CompareTag("Button"))
+        {
+            this.isGround = false;
         }
     }
 
@@ -168,7 +198,7 @@ public class PlayerMove : MonoBehaviour
                 this.currentState = null;
                 break;
         }
-        Debug.Log(this.playerCondition + "に変更");
+        //Debug.Log(this.playerCondition + "に変更");
 
         if (this.currentState != null)
         {

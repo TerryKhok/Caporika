@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8927442800232738908}
   - component: {fileID: 5286858917090240452}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: TriggerArea
   m_Icon: {fileID: 0}
@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 7043805504592722830}
   - component: {fileID: 2062614197489962857}
   - component: {fileID: 5684788108464164878}
+  - component: {fileID: 9098768835786075863}
   m_Layer: 6
   m_Name: playerSmall
   m_TagString: Player
@@ -261,6 +262,7 @@ MonoBehaviour:
   tagName: TriggerArea
   knockbackAngle: 45
   knockbackpForce: 5
+  actionTime: 1
 --- !u!114 &5684788108464164878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,5 +275,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5310ba0b8f5afd4383974f3a90d29aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerOfMassOffset: 0.6
+  centerOfMassOffset: 0.1
   playerCondition: 0
+--- !u!114 &9098768835786075863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634217478203858207}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee4ebedc624b4340957e18d696dd792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  desiredForce: 1
+  groundDistance: 0.25

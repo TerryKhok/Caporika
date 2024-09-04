@@ -29,11 +29,15 @@ public class PlayerAction : MonoBehaviour
     public float knockbackAngle;            // 攻撃された時のノックバックする角度
     public float knockbackpForce;           // ノックバックする威力
 
+    public float actionTime;                // 再びジャンプできるまでの時間
+
     private PlayerMove matryoishkaMove = null;              // 自身の状態
     private MatryoshkaManager matryoshkaManager = null;     // マトリョーシカの管理
     private int matryoishkaSize = 0;                       // 自身のサイズ
     private Rigidbody2D matryoshkaRb = null;               // 自身のrigidbody2d
 
+    private bool isJump = false;                           // true:ジャンプできる
+    private float time = 0.0f;                              // カウント用
 
     //===============================================
     //          当たっているオブジェクト
@@ -55,23 +59,41 @@ public class PlayerAction : MonoBehaviour
         this.matryoshkaRb =GetComponent<Rigidbody2D>();
     }
 
+    private void FixedUpdate()
+    {
+        // 一定時間飛べないようにする
+        if (!this.isJump)
+        {
+            this.time += Time.deltaTime;
+        }
+        if(this.time>this.actionTime)
+        {
+            this.isJump = true;
+            this.time = 0.0f;
+        }
+    }
+
     void Update()
     {
-        // 飛び出すアクションを行う----------------------------------------------------
-        if (Input.GetKeyDown(this.popOutkey))
+        if(this.isJump)
         {
-            // 自分が一番小さくない
-            if (this.matryoishkaSize > 1)
+            // 飛び出すアクションを行う----------------------------------------------------
+            if (Input.GetKeyDown(this.popOutkey))
             {
-                // 飛び出す処理
-                PopOut();
-                // このマトリョーシカの状態を「死んだ」に
-                this.matryoishkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
+                // 自分が一番小さくない
+                if (this.matryoishkaSize > 1)
+                {
+                    // 飛び出す処理
+                    PopOut();
+                    this.isJump = false;
+                    // このマトリョーシカの状態を「死んだ」に
+                    this.matryoishkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
 
-                // このスクリプトを無効化
-                this.enabled = false;
+                    // このスクリプトを無効化
+                    this.enabled = false;
+                }
+                return;
             }
-            return;
         }
 
         // マトリョーシカに入るアクションを行う----------------------------------------------------
@@ -112,6 +134,7 @@ public class PlayerAction : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log(other.tag);
         // タグ名が同じとき、当たったオブジェクトを保持
         if (other.CompareTag(tagName))
         {
