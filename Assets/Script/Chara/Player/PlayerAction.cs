@@ -134,7 +134,6 @@ public class PlayerAction : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.tag);
         // タグ名が同じとき、当たったオブジェクトを保持
         if (other.CompareTag(tagName))
         {
