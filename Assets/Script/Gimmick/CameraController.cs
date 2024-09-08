@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * @brief カメラを指定位置まで移動させる処理
+ * @brief   カメラを指定位置まで移動させる処理
  * 
- * @memo ・設定した次の位置まで移動させる処理
- *       ・上の処理のコルーチン
+ *          ・設定方法
+ *              ・cameraTargetsにカメラを移動させたい位置に置いたオブジェクトを順番に入れる
+ * 
+ *              ・GimmickEventTriggerをつけたオブジェクトを配置して
+ *              カメラを参照->MoveToNwxtPosition()を呼び出すように設定する
+ * 
+ * @memo    ・設定した次の位置まで移動させる処理
+ *          ・上の処理のコルーチン
+ *       
  */
 public class CameraController : MonoBehaviour
 {

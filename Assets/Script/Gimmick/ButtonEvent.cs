@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * @brief   おそらくデバッグ用のスクリプト
+ */
 public class ButtonEvent : MonoBehaviour
 {
     public GameObject obj;
