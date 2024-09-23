@@ -22,7 +22,7 @@ public class UIButtonManager : MonoBehaviour
      */
     public void SerectButton() //Serectボタン用関数
     {
-        SceneManager.LoadScene("StageSerect");//引数にステージセレクトシーンを代入
+        SceneManager.LoadScene("StageSelect");//引数にステージセレクトシーンを代入
     }
 
     /**
