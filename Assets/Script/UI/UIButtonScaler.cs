@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UIButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Vector3 originalScale;
 
