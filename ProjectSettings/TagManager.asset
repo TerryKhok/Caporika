@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ground
+  - TriggerArea
+  - Button
+  - Enemy
+  - Wall
+  - water
+  - realGround
   layers:
   - Default
   - TransparentFX
@@ -11,10 +18,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - player
+  - enemy
+  - ground
+  - TriggerArea
   - 
   - 
   - 
