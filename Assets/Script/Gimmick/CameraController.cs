@@ -44,6 +44,7 @@ public class CameraController : MonoBehaviour
         float elapsedTime = 0;
 
         Vector3 startingPosition = this.transform.position;
+        _targetPosition.z = startingPosition.z; // Z‚Í“¯‚¶‚É‚·‚é
 
         // ˆÚ“®
         while (elapsedTime < duration)

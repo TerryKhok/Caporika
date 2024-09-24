@@ -11,7 +11,9 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 public class GimmickEventTrigger : MonoBehaviour
 {
+    public bool triggerOnce = false;        ///< trueだと1回しか発動しない
     public UnityEvent onTriggerEnterEvent;  ///< トリガーに触れたときに実行するイベント
+    private bool triggered = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -19,7 +21,11 @@ public class GimmickEventTrigger : MonoBehaviour
         {
             if (this.onTriggerEnterEvent != null)
             {
-                this.onTriggerEnterEvent.Invoke();  // イベントを実行
+                if (!this.triggered || !this.triggerOnce)    // 1回も発動していないか1回のみと指定されていないなら
+                {
+                    this.onTriggerEnterEvent.Invoke();  // イベントを実行
+                    triggered = true;
+                }
             }
         }
     }
