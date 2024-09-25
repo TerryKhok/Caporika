@@ -16,6 +16,7 @@ public class PlayerMove : MonoBehaviour
     public PlayerState.PlayerCondition playerCondition;     // プレイヤー特有の状態
     private PlayerState currentState = null;                // プレイヤーの現在の状態の動き
 
+    private bool isGoal = false;     // true:ゴールしている
     private bool isInWater = false;     // true:水の中にいる
     private bool isGround = false;      // true:地面と当たっている
 
@@ -45,6 +46,9 @@ public class PlayerMove : MonoBehaviour
                 break;
             case PlayerState.PlayerCondition.Dead:
                 this.currentState = new PlayerStateDead();
+                break;
+            case PlayerState.PlayerCondition.Goal:
+                this.currentState = new PlayerStateGoal();
                 break;
             case PlayerState.PlayerCondition.Damaged:
                 this.currentState = new PlayerStateDamaged();
@@ -77,7 +81,14 @@ public class PlayerMove : MonoBehaviour
         this.currentState.Update();
         this.currentState.CollisionEnter(trigger);
 
-        // 死んでいるとき何も行わない
+        // ゴールしたら何も行わない
+        if (this.isGoal)
+        {
+            this.ChangePlayerCondition(PlayerState.PlayerCondition.Goal);
+            return;
+        }
+
+        // 死んでいるとき「死んでいる状態」
         if (this.playerCondition == PlayerState.PlayerCondition.Dead)
         {
             return;
@@ -96,6 +107,7 @@ public class PlayerMove : MonoBehaviour
             this.ChangePlayerCondition(PlayerState.PlayerCondition.Ground);
             return;
         }
+        // 飛んでいるとき「飛んでいるとき」
         else
         {
             this.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
@@ -105,6 +117,10 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("goal"))
+        {
+            this.isGoal = true;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -189,6 +205,9 @@ public class PlayerMove : MonoBehaviour
                 this.currentState = new PlayerStateSwimming();
                 break;
             case PlayerState.PlayerCondition.Dead:
+                this.currentState = new PlayerStateDead();
+                break;
+            case PlayerState.PlayerCondition.Goal:
                 this.currentState = new PlayerStateDead();
                 break;
             case PlayerState.PlayerCondition.Damaged:
