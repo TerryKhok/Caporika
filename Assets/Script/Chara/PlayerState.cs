@@ -25,6 +25,7 @@ public abstract class PlayerState
         Flying,     // 飛んでいる
         Swimming,   // 水の中にいる
         Dead,       // 死んでいる
+        Goal,       //ゴールしている
 
         Normal,     // 通常状態
         Damaged,    // ダメージを受けている
