@@ -45,7 +45,7 @@ public class PreventBounce : MonoBehaviour
 
         // 自身を無視するレイヤーマスクを設定
         int playerLayer = LayerMask.NameToLayer("player");
-        int triggerArea= LayerMask.NameToLayer("TriggerArea");
+        int triggerArea = LayerMask.NameToLayer("TriggerArea");
         int groundLayer = LayerMask.NameToLayer("ground");
 
         int layerMask = (1 << playerLayer) | (1 << groundLayer) | (1 << triggerArea);
@@ -53,13 +53,13 @@ public class PreventBounce : MonoBehaviour
 
         // マトリョーシカの重心から下方向にRayを発射
         RaycastHit2D hit = Physics2D.Raycast(origine, Vector2.down, 10.0f, layerMask);
-        Debug.Log(hit.collider.tag);
+        //Debug.Log(hit.collider.tag);
         // 当たったオブジェクトが地面の時
         if (hit.collider != null && hit.collider.CompareTag("realGround"))
-        { 
+        {
             // 距離を測る
             distance = hit.distance;
-           // Debug.Log("hit.distance" + hit.distance);
+            // Debug.Log("hit.distance" + hit.distance);
         }
         else { Debug.Log("当たっていない" + hit.distance); }
         // Rayを可視化
@@ -77,12 +77,12 @@ public class PreventBounce : MonoBehaviour
         }
     }
 
-     void OnCollisionStay2D(Collision2D collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
         // 地面に当たっているとき
         if (collision.transform.CompareTag("realGround"))
         {
-            if(this.rb)
+            if (this.rb)
             {
                 // 座標を保持
                 this.prevPos = this.rb.transform.position;
