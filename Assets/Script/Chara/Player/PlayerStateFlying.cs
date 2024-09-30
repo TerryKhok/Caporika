@@ -19,7 +19,8 @@ using UnityEngine;
 public class PlayerStateFlying : PlayerState
 {
 
-    private const float flyingFactor = 0.1f;          // 空中にいる時の動作全体での力の影響度合い(0.0f ～ 1.0f)
+    private const float flyingFactor = 0.1f;            // 空中にいる時の動作全体での力の影響度合い(0.0f ～ 1.0f)
+    private Animator animator = null;                   // プレイヤーのアニメーター
 
     /**
      * @brief 	この状態に入るときに行う関数
@@ -41,8 +42,20 @@ public class PlayerStateFlying : PlayerState
             return;
         }
 
+        // プレイヤーのアニメーター
+        this.animator = _playerMove.GetComponent<Animator>();
+        if (!this.animator)
+        {
+            Debug.LogError("Animatorを取得できませんでした。");
+            return;
+        }
+
         // プレイヤーの動作の影響度合い
         this.moveFactor = flyingFactor;
+
+        // 飛んでいるアニメーション
+        this.animator.SetTrigger("flyingTrigger");
+        Debug.Log("飛んでいるアニメーション");
     }
 
     /**

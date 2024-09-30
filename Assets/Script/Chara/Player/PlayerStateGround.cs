@@ -21,20 +21,31 @@ using UnityEngine;
 */
 public class PlayerStateGround : PlayerState
 {
-    private PreventBounce preventBounce = null;
+    private PreventBounce preventBounce = null;                                     // 跳ね防止スクリプト
+    private Animator animator = null;                                               // プレイヤーのアニメーター
+    //private PlayerState.AttackState attackState = PlayerState.AttackState.None;     // 攻撃を行ったかどうか
+
+    private float blinkTimeCount = 0.0f;    // 瞬きをする間隔時間をカウント
+    private float sleepTimeCount = 0.0f;    // 寝る間隔時間をカウント
+
+    private float blinkCount = 5.0f;        // 瞬きする間隔
+
+    private float sleepCount = 10.0f;       // 眠る間隔
+    private bool isSleep = false;           // true:寝た
+
 
     /**
      * @brief 	この状態に入るときに行う関数
     */
     public override void Enter(PlayerMove _playerMove)
     {
-        if(!_playerMove)
+        if (!_playerMove)
         {
             Debug.LogError("PlayerMoveが存在しません。");
         }
 
         this.rb = _playerMove.GetComponent<Rigidbody2D>();
-        if(!this.rb)
+        if (!this.rb)
         {
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
             return;
@@ -47,8 +58,35 @@ public class PlayerStateGround : PlayerState
             Debug.LogError("PreventBounceを取得できませんでした。");
             return;
         }
+
         // 跳ね防止スクリプトを有効に
         this.preventBounce.enabled = true;
+
+        // プレイヤーのアニメーター
+        this.animator = _playerMove.GetComponent<Animator>();
+        if (!this.animator)
+        {
+            Debug.LogError("Animatorを取得できませんでした。");
+            return;
+        }
+
+        // 攻撃成功アニメーション
+        if (_playerMove.attackState == PlayerState.AttackState.Success)
+        {
+            this.animator.SetTrigger("hitTrigger");
+            Debug.Log("攻撃成功アニメーション");
+        }
+
+        // 攻撃不発時アニメーション
+        else if (_playerMove.attackState == PlayerState.AttackState.Failed)
+        {
+            this.animator.SetTrigger("nonHitTrigger");
+            Debug.Log("攻撃不発時アニメーション");
+        }
+        //else{ Debug.Log("通常アニメーション"); }
+
+        // 攻撃状態リセット
+        _playerMove.SetAttackState(PlayerState.AttackState.None);
     }
 
     /**
@@ -74,13 +112,26 @@ public class PlayerStateGround : PlayerState
         if (moveInput != 0.0f)
         {
             this.Move(moveInput);
+
+            // 通常アニメーションのときカウントリセット
+            if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                Debug.Log("通常アニメーション中");
+
+                this.blinkTimeCount = 0.0f;
+                this.sleepTimeCount = 0.0f;
+                this.isSleep = false;
+            }
         }
         // 止まった時
         else
         {
+            // アニメーション
+            this.PlayerAnimation();
+
+            // 反動を消す
             if (this.rb.velocity.normalized.x != 0.0f)
-            {
-                // 反動を消す
+            {          
                 this.rb.AddForce(new Vector2(-(this.rb.velocity.x* this.moveDamping), 0.0f), ForceMode2D.Impulse);
             }
 
@@ -91,12 +142,46 @@ public class PlayerStateGround : PlayerState
         // 速度を計算
         float speed = moveInput * moveSpeed;
         this.rb.AddForce(new Vector2(speed, 0.0f), ForceMode2D.Force);
+
+        //Debug.Log("this.blinkCount:" + this.blinkCount);
+        //Debug.Log("this.blinkCount:" + this.sleepCount);
     }
 
     /**
      * @brief 	当たった時の処理
      *  @param  Collider2D _collision    当たったオブジェクト
     */
-    public override void CollisionEnter(Collider2D _collision)
-    { }
+    public override void CollisionEnter(Collider2D _collision) { }
+
+    private void PlayerAnimation()
+    {
+        this.sleepTimeCount += Time.deltaTime;
+        this.blinkTimeCount += Time.deltaTime;
+
+        // 眠り優先
+        if (!this.isSleep)
+        {
+            // 眠るアニメーション
+            if (this.sleepTimeCount > this.sleepCount)
+            {
+                this.isSleep = false;
+                this.animator.SetTrigger("sleepTrigger");
+                Debug.Log("眠るアニメーション");
+
+                // アニメーションの間隔をリセット
+                this.sleepTimeCount = 0.0f;
+                this.blinkTimeCount = 0.0f;
+            }
+        }
+
+        // 瞬きアニメーション
+        if (!this.isSleep && this.blinkTimeCount > this.blinkCount)
+        {
+            this.animator.SetTrigger("blinkTrigger");
+            Debug.Log("瞬きアニメーション");
+
+            // アニメーションの間隔をリセット
+            this.blinkTimeCount = 0.0f; 
+        }
+    }
 }

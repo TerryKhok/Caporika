@@ -26,7 +26,7 @@ public class PreventBounce : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Onになった");
+        //Debug.Log("Onになった");
         if (!this.rb) this.rb = this.GetComponent<Rigidbody2D>();
         if (!this.rb)
         {
@@ -53,7 +53,8 @@ public class PreventBounce : MonoBehaviour
 
         // マトリョーシカの重心から下方向にRayを発射
         RaycastHit2D hit = Physics2D.Raycast(origine, Vector2.down, 10.0f, layerMask);
-        Debug.Log(hit.collider.tag);
+        //Debug.Log(hit.collider.tag);
+
         // 当たったオブジェクトが地面の時
         if (hit.collider != null && hit.collider.CompareTag("realGround"))
         { 
@@ -73,7 +74,7 @@ public class PreventBounce : MonoBehaviour
         {
             // 前フレームの座標にする
             this.rb.transform.position = new Vector3(this.rb.transform.position.x, this.prevPos.y - 0.1f, this.rb.transform.position.z);
-            Debug.Log("戻した");
+            //Debug.Log("戻した");
         }
     }
 
@@ -86,7 +87,7 @@ public class PreventBounce : MonoBehaviour
             {
                 // 座標を保持
                 this.prevPos = this.rb.transform.position;
-                Debug.Log("保持した");
+                //Debug.Log("保持した");
             }
         }
     }

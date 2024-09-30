@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 4956801054291345172}
   - component: {fileID: -3038409578602134813}
   - component: {fileID: 3646176553123513107}
+  - component: {fileID: 6495159314532599180}
   m_Layer: 6
   m_Name: playerBig
   m_TagString: Player
@@ -258,6 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popOutkey: 32
   nestInsideKey: 304
+  playerObjname: Player
   jumpForce: 3
   tagName: TriggerArea
   knockbackAngle: 45
@@ -276,6 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerOfMassOffset: 0.6
+  attackState: 0
   playerCondition: 0
 --- !u!114 &3646176553123513107
 MonoBehaviour:
@@ -291,3 +294,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   desiredForce: 1
   groundDistance: 0.35
+--- !u!95 &6495159314532599180
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218610990843375874}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ce821a57840ef4e41b3aac0b8f2be251, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

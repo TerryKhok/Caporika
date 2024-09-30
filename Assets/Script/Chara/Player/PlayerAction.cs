@@ -23,6 +23,11 @@ public class PlayerAction : MonoBehaviour
     //===============================================
     //          マトリョーシカ
     //===============================================
+    public string playerObjname;                    // 生成したマトリョーシカを配置する親プレイヤーオブジェクト名
+    private GameObject playerObject = null;         // 生成したマトリョーシカを配置する親プレイヤーオブジェクト
+    private GameObject newMatryoshka = null;        // 新しいマトリョーシカ
+
+    private Animator animator;              // プレイヤーのアニメーター
 
     public float jumpForce = 10.0f;         // 力の大きさ
     public string tagName;                  // マトリョーシカの親タグ名
@@ -33,11 +38,12 @@ public class PlayerAction : MonoBehaviour
 
     private PlayerMove matryoishkaMove = null;              // 自身の状態
     private MatryoshkaManager matryoshkaManager = null;     // マトリョーシカの管理
-    private int matryoishkaSize = 0;                       // 自身のサイズ
-    private Rigidbody2D matryoshkaRb = null;               // 自身のrigidbody2d
+    private int matryoishkaSize = 0;                        // 自身のサイズ
+    private Rigidbody2D matryoshkaRb = null;                // 自身のrigidbody2d
 
-    private bool isJump = false;                           // true:ジャンプできる
+    private bool isJump = false;                            // true:ジャンプできる
     private float time = 0.0f;                              // カウント用
+
 
     //===============================================
     //          当たっているオブジェクト
@@ -53,10 +59,48 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
-        this.matryoishkaMove = GetComponent<PlayerMove>();                      // このマトリョーシカの動作状態
-        this.matryoishkaSize = GetComponent<CharaState>().GetCharaSize();       // このマトリョーシカの大きさ
-        this.matryoshkaManager = FindAnyObjectByType<MatryoshkaManager>();
-        this.matryoshkaRb =GetComponent<Rigidbody2D>();
+        // このマトリョーシカの動作状態
+        this.matryoishkaMove = GetComponent<PlayerMove>();                      
+        if (!this.matryoishkaMove)
+        {
+            Debug.LogError("PlayerMoveを取得できませんでした。");
+            return;
+        }
+
+        // このマトリョーシカの大きさ
+        this.matryoishkaSize = GetComponent<CharaState>().GetCharaSize();
+
+        // プレイヤーの管理
+        this.matryoshkaManager = FindAnyObjectByType<MatryoshkaManager>();     
+        if (!this.matryoshkaManager)
+        {
+            Debug.LogError("MatryoshkaManagerを取得できませんでした。");
+            return;
+        }
+
+        // プレイヤーのRigidbody2D
+        this.matryoshkaRb =GetComponent<Rigidbody2D>();                        
+        if (!this.matryoshkaRb)
+        {
+            Debug.LogError("Rigidbody2Dを取得できませんでした。");
+            return;
+        }
+
+        // プレイヤーのアニメーター
+        this.animator = GetComponent<Animator>();                               
+        if (!this.animator)
+        {
+            Debug.LogError("Animatorを取得できませんでした。");
+            return;
+        }
+
+        // プレイヤー
+        this.playerObject = GameObject.Find(this.playerObjname);
+        if (!this.playerObject)
+        {
+            Debug.LogError("playerオブジェクトが見つからず、取得できませんでした。");
+            return;
+        }
     }
 
     private void FixedUpdate()
@@ -83,14 +127,17 @@ public class PlayerAction : MonoBehaviour
                 // 自分が一番小さくない
                 if (this.matryoishkaSize > 1)
                 {
+                    // 開くアニメーション
+                    this.animator.SetTrigger("openTrigger");
+                    Debug.Log("開くアニメーション");
+
                     // 飛び出す処理
                     PopOut();
                     this.isJump = false;
                     // このマトリョーシカの状態を「死んだ」に
                     this.matryoishkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
-
-                    // このスクリプトを無効化
-                    this.enabled = false;
+                    // 攻撃不発状態
+                    this.newMatryoshka.GetComponent<PlayerMove>().SetAttackState(PlayerState.AttackState.Failed);
                 }
                 return;
             }
@@ -102,6 +149,8 @@ public class PlayerAction : MonoBehaviour
             // タグ名が同じで、自分よりも1個大きいマトリョーシカのとき
             if (this.isSametag && this.matryoishkaSize + 1 == this.triggerSize)
             {
+                // 入るアニメーション？？
+
                 // 入る処理
                 NestInside();
             }
@@ -116,6 +165,8 @@ public class PlayerAction : MonoBehaviour
             {
                 // 攻撃する
                 Attack();
+                // 攻撃成功状態
+                this.matryoishkaMove.SetAttackState(PlayerState.AttackState.Success); 
             }
             else
             {
@@ -124,10 +175,6 @@ public class PlayerAction : MonoBehaviour
 
                 // 自身の状態を「死んだ」に
                 this.matryoishkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
-                // このスクリプトを無効化
-                this.enabled = false;
-
-                Debug.Log("ダメージを受けた！");
             }
         }
     }
@@ -183,7 +230,6 @@ public class PlayerAction : MonoBehaviour
         // 入るマトリョーシカにアタッチされている行動スクリプトを有効に
         if (triggerAction)
         {
-            triggerAction.enabled = true;
             this.triggerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Ground);
         }
         else { Debug.LogError("入るマトリョーシカにPlayerActionがアタッチされていません"); }
@@ -207,23 +253,25 @@ public class PlayerAction : MonoBehaviour
         Quaternion rotation = this.transform.rotation;
 
         // 自身より一段階小さいマトリョーシカを生成
-        GameObject newMatryoshka = this.matryoshkaManager.InstanceMatryoshka(this.matryoishkaSize - 1);
-        if (!newMatryoshka)
+        this.newMatryoshka = this.matryoshkaManager.InstanceMatryoshka(this.matryoishkaSize - 1);
+        if (!this.newMatryoshka)
         {
             Debug.LogError("マトリョーシカの生成に失敗");
             return;
         }
+        // Playerタブ内に生成したマトリョーシカを配置
+        this.newMatryoshka.transform.parent = this.playerObject.transform;
 
         // 外側のマトリョーシカと同じ回転、座標にセット
-        newMatryoshka.transform.position = position;
-        newMatryoshka.transform.rotation = rotation;
+        this.newMatryoshka.transform.position = position;
+        this.newMatryoshka.transform.rotation = rotation;
 
         // 生成したマトリョーシカのRigidbody2Dを取得
-        Rigidbody2D rb = newMatryoshka.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = this.newMatryoshka.GetComponent<Rigidbody2D>();
         if (!rb)
         {
             Debug.LogError("生成したマトリョーシカにRigidbody2Dが存在しなかったので、追加しました。");
-            rb = newMatryoshka.AddComponent<Rigidbody2D>();
+            rb = this.newMatryoshka.AddComponent<Rigidbody2D>();
         }
 
         // オブジェクトの傾いた方向に飛んでいく
@@ -231,10 +279,10 @@ public class PlayerAction : MonoBehaviour
         rb.AddForce(jumpDirection, ForceMode2D.Impulse);
 
         // 飛び出たマトリョーシカを「飛んだ」状態に
-        PlayerMove newMatoryoshkaMove = newMatryoshka.GetComponent<PlayerMove>();
+        PlayerMove newMatoryoshkaMove = this.newMatryoshka.GetComponent<PlayerMove>();
         if (newMatoryoshkaMove)
         {
-            newMatoryoshkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
+            newMatoryoshkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);   
         }
         else{ Debug.LogError("生成したマトリョーシカのPlayerMoveを取得できませんでした。"); }
     }
@@ -273,27 +321,29 @@ public class PlayerAction : MonoBehaviour
 
         // 自身より一段階小さいマトリョーシカを生成
         if (this.matryoishkaSize <= 0) { return; }
-        GameObject newMatryoshka = this.matryoshkaManager.InstanceMatryoshka(this.matryoishkaSize - 1);
-        if (newMatryoshka == null)
+        this.newMatryoshka = this.matryoshkaManager.InstanceMatryoshka(this.matryoishkaSize - 1);
+        if (this.newMatryoshka == null)
         {
             Debug.LogError("マトリョーシカの生成に失敗");
             return;
         }
+        // Playerタブ内に生成したマトリョーシカを配置
+        this.newMatryoshka.transform.parent = this.playerObject.transform;
 
         // 現在のマトリョーシカの位置、角度を取得
         Vector2 position = this.transform.position;
         Quaternion rotation = this.transform.rotation;
 
         // 生成したマトリョーシカを現在のマトリョーシカと同じ回転、座標にセット
-        newMatryoshka.transform.position = position;
-        newMatryoshka.transform.rotation = rotation;
+        this.newMatryoshka.transform.position = position;
+        this.newMatryoshka.transform.rotation = rotation;
 
         // 生成したマトリョーシカのRigidbody2Dを取得
-        Rigidbody2D rb = newMatryoshka.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = this.newMatryoshka.GetComponent<Rigidbody2D>();
         if (rb == null)
         {
             Debug.LogError("生成したマトリョーシカにRigidbody2Dが存在しなかったので、追加しました。");
-            rb = newMatryoshka.AddComponent<Rigidbody2D>();
+            rb = this.newMatryoshka.AddComponent<Rigidbody2D>();
         }
 
         // 角度をラジアンに変換
@@ -303,11 +353,12 @@ public class PlayerAction : MonoBehaviour
         Vector2 knockbackDirection = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)).normalized * this.knockbackpForce;   
         rb.AddForce(knockbackDirection, ForceMode2D.Impulse);
 
-        // 飛び出たマトリョーシカは「ダメージ」状態に
-        PlayerMove newMatoryoshkaMove = newMatryoshka.GetComponent<PlayerMove>();
+        // 飛び出たマトリョーシカは「飛んだ」状態に!!
+
+        PlayerMove newMatoryoshkaMove = this.newMatryoshka.GetComponent<PlayerMove>();
         if (newMatoryoshkaMove != null)
         {
-            newMatoryoshkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Damaged);
+            newMatoryoshkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
         }
         else { Debug.LogError("生成したマトリョーシカのPlayerMoveを取得できませんでした。"); }
     }

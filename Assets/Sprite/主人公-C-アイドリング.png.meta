@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 500
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +84,7 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 12
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -100,12 +100,12 @@ TextureImporter:
       name: "\u4E3B\u4EBA\u516C-C-\u30A2\u30A4\u30C9\u30EA\u30F3\u30B0_0"
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
-        width: 634
-        height: 1355
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 43
+        y: 42
+        width: 614
+        height: 1275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -121,12 +121,12 @@ TextureImporter:
       name: "\u4E3B\u4EBA\u516C-C-\u30A2\u30A4\u30C9\u30EA\u30F3\u30B0_1"
       rect:
         serializedVersion: 2
-        x: 654
-        y: 0
-        width: 634
-        height: 1355
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 664
+        y: 42
+        width: 624
+        height: 1275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -142,12 +142,12 @@ TextureImporter:
       name: "\u4E3B\u4EBA\u516C-C-\u30A2\u30A4\u30C9\u30EA\u30F3\u30B0_2"
       rect:
         serializedVersion: 2
-        x: 1279
-        y: 0
-        width: 634
-        height: 1355
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1287
+        y: 42
+        width: 625
+        height: 1275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -163,12 +163,12 @@ TextureImporter:
       name: "\u4E3B\u4EBA\u516C-C-\u30A2\u30A4\u30C9\u30EA\u30F3\u30B0_3"
       rect:
         serializedVersion: 2
-        x: 1909
-        y: 0
-        width: 633.8333
-        height: 1355
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1916
+        y: 42
+        width: 629
+        height: 1275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -184,12 +184,12 @@ TextureImporter:
       name: "\u4E3B\u4EBA\u516C-C-\u30A2\u30A4\u30C9\u30EA\u30F3\u30B0_4"
       rect:
         serializedVersion: 2
-        x: 2522
-        y: 0
-        width: 634
-        height: 1355
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 2519
+        y: 42
+        width: 631
+        height: 1275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -206,11 +206,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3152
-        y: 0
-        width: 634
-        height: 1355
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 42
+        width: 627
+        height: 1275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

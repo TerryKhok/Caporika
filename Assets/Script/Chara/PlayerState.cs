@@ -31,6 +31,16 @@ public abstract class PlayerState
         Damaged,    // ダメージを受けている
     }
 
+    /**
+     *  @brief 	プレイヤーが攻撃に成功したかどうか
+    */
+    public enum AttackState
+    {
+        None,           // 何も行っていない
+        Failed,         // 失敗した
+        Success,        // 成功した
+    }
+
     protected float moveFactor = 1.0f;              // プレイヤーの全体の動きを調整する係数(0.0f～1.0f)、1.0fの時100%力が影響される
 
     //===============================================

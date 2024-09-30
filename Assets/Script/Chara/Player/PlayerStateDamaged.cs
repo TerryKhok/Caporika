@@ -20,7 +20,8 @@ using UnityEngine;
 public class PlayerStateDamaged : PlayerState
 {
 
-    private const float damageFactor = 0.0f;          // 空中にいる時の動作全体での力の影響度合い(0.0f ～ 1.0f)
+    private const float damageFactor = 0.0f;            // 空中にいる時の動作全体での力の影響度合い(0.0f ～ 1.0f)
+    private Animator animator = null;                   // プレイヤーのアニメーター
 
     /**
      * @brief 	この状態に入るときに行う関数
@@ -42,8 +43,20 @@ public class PlayerStateDamaged : PlayerState
             return;
         }
 
+        // プレイヤーのアニメーター
+        this.animator = _playerMove.GetComponent<Animator>();
+        if (!this.animator)
+        {
+            Debug.LogError("Animatorを取得できませんでした。");
+            return;
+        }
+
         // プレイヤーの動作の影響度合い
         this.moveFactor = damageFactor;
+
+        // ダメージを受けるアニメーション
+        this.animator.SetTrigger("dmageTrigger");
+        Debug.Log("ダメージを受けるアニメーション");
     }
 
     /**

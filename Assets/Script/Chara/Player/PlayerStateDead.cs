@@ -9,6 +9,7 @@ using UnityEngine;
  *          ・プレイヤーの状態は、後に実装するPlayerMove.cs内で列挙型(CharaCondition、PlayerCondition)を使用して切り替える
  *          
  *          ・止まった時の反動、揺れる処理を行う
+ *          ・アクションスクリプトの無効化、有効化を行う
  *          
  *  ========================================================================================================
  *  
@@ -18,6 +19,9 @@ using UnityEngine;
 */
 public class PlayerStateDead : PlayerState
 {
+    PlayerAction playerAction = null;   // プレイヤーの行動スクリプト
+    Animator animator = null;           // アニメーション
+
     /**
      * @brief 	この状態に入るときに行う関数
      * @paraam  PlayerMove _playerMove  
@@ -36,7 +40,27 @@ public class PlayerStateDead : PlayerState
         {
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
             return;
+        }   
+        
+        this.playerAction = _playerMove.GetComponent<PlayerAction>();
+        if (!this.playerAction)
+        {
+            Debug.LogError("PlayerActionを取得できませんでした。");
+            return;
         }
+        // アクションスクリプトを無効化
+        this.playerAction.enabled = false;
+        Debug.Log("アニメーションスクリプトを無効化");
+
+        // 死んだアニメーションに遷移
+        this.animator = _playerMove.GetComponent<Animator>();
+        if (!this.animator)
+        {
+            Debug.LogError("Animatorを取得できませんでした。");
+            return;
+        }
+        this.animator.SetBool("isDead", true);
+        Debug.Log("死んだアニメーション開始");
     }
 
     /**
@@ -44,6 +68,13 @@ public class PlayerStateDead : PlayerState
     */
     public override void Exit()
     {
+        // アクションスクリプトを有効化
+        this.playerAction.enabled = true;
+        Debug.Log("アニメーションスクリプトを有効化");
+
+        // 死んだアニメーションをやめる
+        this.animator.SetBool("isDead", false);
+        Debug.Log("死んだアニメーション終了");
     }
 
     /**

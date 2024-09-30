@@ -13,10 +13,12 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D trigger;
 
+    public PlayerState.AttackState attackState;             // プレイヤーの攻撃の状態
+
     public PlayerState.PlayerCondition playerCondition;     // プレイヤー特有の状態
     private PlayerState currentState = null;                // プレイヤーの現在の状態の動き
 
-    private bool isGoal = false;     // true:ゴールしている
+    private bool isGoal = false;        // true:ゴールしている
     private bool isInWater = false;     // true:水の中にいる
     private bool isGround = false;      // true:地面と当たっている
 
@@ -107,7 +109,8 @@ public class PlayerMove : MonoBehaviour
             this.ChangePlayerCondition(PlayerState.PlayerCondition.Ground);
             return;
         }
-        // 飛んでいるとき「飛んでいるとき」
+
+        // 飛んでいるとき「飛んでいる状態」
         else
         {
             this.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
@@ -174,6 +177,15 @@ public class PlayerMove : MonoBehaviour
         {
             this.isGround = false;
         }
+    }
+
+    /**
+     *  @brief 	マトリョーシカの攻撃状態を設定する
+     *  @param  PlayerState.AttackState _attackState    変更後のプレイヤーの攻撃状態
+    */
+    public void SetAttackState(PlayerState.AttackState _attackState)
+    {
+        this.attackState = _attackState;
     }
 
     /**
