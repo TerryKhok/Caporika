@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 232680203}
   - component: {fileID: 232680202}
   m_Layer: 5
-  m_Name: Pose
+  m_Name: Pause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -393,9 +393,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pose
-
-'
+  m_text: Pause
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1942,7 +1940,7 @@ GameObject:
   - component: {fileID: 1303203529}
   - component: {fileID: 1303203528}
   m_Layer: 5
-  m_Name: StageSelect
+  m_Name: StageSerect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2224,7 +2222,7 @@ GameObject:
   - component: {fileID: 1323002905}
   - component: {fileID: 1323002904}
   m_Layer: 5
-  m_Name: poseBack
+  m_Name: PauseBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2797,7 +2795,7 @@ GameObject:
   - component: {fileID: 1836209663}
   - component: {fileID: 1836209662}
   m_Layer: 5
-  m_Name: Posedayo
+  m_Name: Pausedayo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
