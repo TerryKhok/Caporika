@@ -18,13 +18,13 @@ public class UIGameButton : MonoBehaviour
 
     public void RestartButton()
     {
-        //SceneManager.LoadScene("今のシーン");//引数にステージセレクトシーンを代入
+        //SceneManager.LoadScene("今のシーン");//引数に現在のシーンを代入
 
     }
 
     public void TitleButton()
     {
-        SceneManager.LoadScene("TitleScene");//引数にステージセレクトシーンを代入
+        SceneManager.LoadScene("TitleScene");//引数にステージタイトルシーンを代入
 
     }
 
