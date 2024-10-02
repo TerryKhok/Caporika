@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class UIGameButton : MonoBehaviour
 {
+    public GameObject OptionCanvas;
+
     public void ContinueButton()
     {
         SystemPose poseCanvas= GameObject.Find ("PoseCanvas").GetComponent<SystemPose>();

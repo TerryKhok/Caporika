@@ -178,4 +178,5 @@ public class SoundManager : MonoBehaviour
             this.volume = Mathf.Clamp01(_volume);
         }
     }
+
 }
