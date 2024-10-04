@@ -66,6 +66,11 @@ public class ParabolicMove : MonoBehaviour
             {
                 this.isMoving = false; // 移動を停止
                 transform.position = this.targetPosition.position; // 最終位置に設定
+                if (this.TryGetComponent(out Rigidbody2D rb))
+                {
+                    // 終了時に変な慣性が残らないようにする
+                    rb.velocity = Vector3.zero; rb.angularVelocity = 0;
+                }
                 if (this.selfRemove) Destroy(this); // 移動終わったら自動削除
             }
         }
