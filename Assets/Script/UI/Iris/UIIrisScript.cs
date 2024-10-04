@@ -9,6 +9,7 @@ public class UIIrisScript : MonoBehaviour
 
     //全部inspectorでオブジェクトを入れる
     public GameObject iris;         //irisを入れる
+    public bool startIrisIn;
     //========================================================================
 
     public string nextScene;    //ボタンから送られてくる文字列を入れる用
@@ -21,7 +22,10 @@ public class UIIrisScript : MonoBehaviour
     {
         irisAnim = iris.GetComponent<Animator>();
         irisCanv = this.GetComponent<Canvas>();
-        //IrisIn();//アイリスインを再生
+        if(startIrisIn == true)
+        {
+            IrisIn();//アイリスインを再生
+        }
     }
 
     /**

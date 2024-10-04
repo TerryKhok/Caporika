@@ -3256,6 +3256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iris: {fileID: 1826098598}
+  startIrisIn: 1
   nextScene: 
 --- !u!1 &2052321041
 GameObject:
