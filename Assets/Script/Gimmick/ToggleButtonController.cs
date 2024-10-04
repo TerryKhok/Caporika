@@ -15,7 +15,6 @@ public class ToggleButtonController : MonoBehaviour
 {
 
     public float buttonMass;        // ボタンの重さ
-    private bool touched = false;   // 触った瞬間であることを示すフラグ
     private bool isOn = false;      // ボタンの状態を表す変数（オンならtrue、オフならfalse）
 
     // UnityEvent型のイベントを管理する変数
@@ -37,17 +36,14 @@ public class ToggleButtonController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (touched)
+        // トグルの状態に応じてイベントを発火
+        if (this.isOn)
         {
-            // トグルの状態に応じてイベントを発火
-            if (this.isOn)
-            {
-                ButtonEnable();
-            }
-            else
-            {
-                ButtonDisable();
-            }
+            ButtonEnable();
+        }
+        else
+        {
+            ButtonDisable();
         }
     }
 
@@ -87,7 +83,6 @@ public class ToggleButtonController : MonoBehaviour
         this.onEvent.Invoke();
 
         // ボタンを狭めて押した感を出す
-        //this.touched = false;   // 処理が終わったらフラグを折る
         float newScaleY = 0.4f;
         this.parentTransform.localScale = new Vector3(this.parentTransform.localScale.x, newScaleY, this.parentTransform.localScale.z);
     }
@@ -98,7 +93,6 @@ public class ToggleButtonController : MonoBehaviour
         this.offEvent.Invoke();
 
         // ボタンを伸ばして元に戻す
-        //this.touched = false;   // 処理が終わったらフラグを折る
         float newScaleY = this.originScale.y;
         this.parentTransform.localScale = new Vector3(this.parentTransform.localScale.x, newScaleY, this.parentTransform.localScale.z);
     }
