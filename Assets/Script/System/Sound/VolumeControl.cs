@@ -8,10 +8,6 @@ public class VolumeControl : MonoBehaviour
     public Slider masterVolumeSlider;  // マスターボリュームのスライダー
     public Slider bgmVolumeSlider;     // BGMボリュームのスライダー
     public Slider seVolumeSlider;      // SEボリュームのスライダー
-
-    private float minVolumeDB = -80f;  // 最小dB（通常は-80dBがミュートに相当）
-    private float maxVolumeDB = 0f;    // 最大dB（0dBは通常の音量）
-
     private float bgmBaseVolume = 0.8f;  // BGMのベース音量（0～1の範囲）
     private float seBaseVolume = 0.8f;   // SEのベース音量（0～1の範囲）
 
