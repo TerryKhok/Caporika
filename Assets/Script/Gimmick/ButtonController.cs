@@ -21,13 +21,16 @@ public class ButtonController : MonoBehaviour
     private bool isReleased = false;                // true:ボタンを離した
 
     private List<GameObject> touchedObjects = new List<GameObject>();   // ボタンを触っているオブジェクトのリスト
+    private Transform parentTransform;  // 押したときの見た目の処理用
     private Vector3 origineScale = Vector3.zero;                        // 元のボタンの大きさ
+
 
     // Start is called before the first frame update
     void Start()
     {
         // 元の大きさを保持
-        origineScale = transform.localScale;
+        parentTransform = this.transform.parent;
+        origineScale = parentTransform.localScale;
     }
 
     private void FixedUpdate()
@@ -84,14 +87,14 @@ public class ButtonController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         // ボタンを触ってきたオブジェクトをリストに追加
         isTouched = true;
         touchedObjects.Add(collision.gameObject);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
         // ボタンを触っていたオブジェクトをリストから削除
         touchedObjects.Remove(collision.gameObject);
@@ -109,13 +112,13 @@ public class ButtonController : MonoBehaviour
         bool isPressedButton = false;
 
         // ボタンを狭めて押した感を出す
-        float newScaleY = transform.localScale.y - pressSpeed;
+        float newScaleY = parentTransform.localScale.y - pressSpeed;
         if (newScaleY < 0.2f)
         {
             newScaleY = 0.2f;
             isPressedButton = true;
         }
-        transform.localScale = new Vector3(transform.localScale.x, newScaleY, transform.localScale.z);
+        parentTransform.localScale = new Vector3(parentTransform.localScale.x, newScaleY, parentTransform.localScale.z);
         return isPressedButton;
     }
 
@@ -125,13 +128,13 @@ public class ButtonController : MonoBehaviour
         bool isReleasedButton = false;
 
         // ボタンを伸ばして元に戻す
-        float newScaleY = transform.localScale.y + pressSpeed;
+        float newScaleY = parentTransform.localScale.y + pressSpeed;
         if (newScaleY > origineScale.y)
         {
             newScaleY = origineScale.y;
             isReleasedButton = true;
         }
-        transform.localScale = new Vector3(transform.localScale.x, newScaleY, transform.localScale.z);
+        parentTransform.localScale = new Vector3(parentTransform.localScale.x, newScaleY, parentTransform.localScale.z);
         return isReleasedButton;
     }
 
