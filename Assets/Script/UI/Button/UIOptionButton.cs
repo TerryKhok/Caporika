@@ -9,10 +9,26 @@ public class UIOptionButton : MonoBehaviour
     private GameObject OptionCanvas;
     private Canvas OptionCanv;
 
+    private GameObject keyBindOptionCanvas;
+    private GameObject SoundOptionCanvas;
+    private GameObject DisplayOptionCanvas;
+
+    private Canvas keyBindCanvas;
+    private Canvas soundCanvas;
+    private Canvas displayCanvas;
+    
+
+    
+
     public void Start()
     {
         irisObject = GameObject.Find("IrisCanv");
         OptionCanvas = GameObject.Find("OptionCanv");
+
+        keyBindOptionCanvas = GameObject.Find("KeyBindCanvas");
+        SoundOptionCanvas = GameObject.Find("SoundCanvas");
+        DisplayOptionCanvas = GameObject.Find("DisplayCanvas");
+
         OptionCanv = OptionCanvas.GetComponent<Canvas>();
     }
 
@@ -32,7 +48,9 @@ public class UIOptionButton : MonoBehaviour
      */
     public void OptionButton()
     {
+        soundCanvas = GameObject.Find("SoundCanvas").GetComponent<Canvas>();
         OptionCanv.enabled = true;  //OptionCanvasを表示
+        soundCanvas.enabled = true;  //SoundCanvasを非表示
     }
 
     /**
@@ -76,14 +94,29 @@ public class UIOptionButton : MonoBehaviour
      * @memo 
      */
     public void OptionReturn()
-    {
+    {   
+        keyBindCanvas = keyBindOptionCanvas.GetComponent<Canvas>();
+        soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();
+        displayCanvas = DisplayOptionCanvas.GetComponent<Canvas>();
+
+        keyBindCanvas.enabled = false;  //keyBindCanvasを非表示
+        soundCanvas.enabled = false;  //SoundCanvasを非表示
+        displayCanvas.enabled = false;  //DisplayCanvasを非表示
         OptionCanv.enabled = false;  //OptionCanvasを非表示
     }
 
     public void PoseFinish()
     {
         SystemPose poseCanvas= GameObject.Find ("PoseCanvas").GetComponent<SystemPose>();
-        poseCanvas.PoseEnd();
+
+        keyBindCanvas = keyBindOptionCanvas.GetComponent<Canvas>();
+        soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();
+        displayCanvas = DisplayOptionCanvas.GetComponent<Canvas>();
+
+        keyBindCanvas.enabled = false;  //keyBindCanvasを非表示
+        soundCanvas.enabled = false;  //SoundCanvasを非表示
+        displayCanvas.enabled = false;  //DisplayCanvasを非表示
         OptionCanv.enabled = false;  //OptionCanvasを非表示
+        poseCanvas.PoseEnd();
     }
 }

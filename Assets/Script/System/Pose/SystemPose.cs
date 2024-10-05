@@ -46,4 +46,5 @@ public class SystemPose : MonoBehaviour
         OptionCanv.enabled = false;  //OptionCanvasを非表示
         Time.timeScale = 1.0f;
     }
+
 }

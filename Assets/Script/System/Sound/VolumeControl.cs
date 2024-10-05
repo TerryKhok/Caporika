@@ -8,13 +8,14 @@ public class VolumeControl : MonoBehaviour
     public Slider masterVolumeSlider;  // マスターボリュームのスライダー
     public Slider bgmVolumeSlider;     // BGMボリュームのスライダー
     public Slider seVolumeSlider;      // SEボリュームのスライダー
-    private float bgmBaseVolume = 0.8f;  // BGMのベース音量（0～1の範囲）
-    private float seBaseVolume = 0.8f;   // SEのベース音量（0～1の範囲）
+
+    private float bgmBaseVolume = 1f;  // BGMのベース音量（0～1の範囲）
+    private float seBaseVolume = 1f;   // SEのベース音量（0～1の範囲）
 
     void Start()
     {
         // 初期値を設定
-        masterVolumeSlider.value = 0.8f;  // 初期マスターボリューム
+        masterVolumeSlider.value = 1.0f;  // 初期マスターボリューム
         bgmVolumeSlider.value = bgmBaseVolume;   // 初期BGMボリューム
         seVolumeSlider.value = seBaseVolume;    // 初期SEボリューム
 
