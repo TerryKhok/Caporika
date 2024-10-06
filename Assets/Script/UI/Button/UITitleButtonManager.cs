@@ -9,7 +9,7 @@ public class UIButtonManager : MonoBehaviour
 
     /**
      * @brief コンテニューボタン用
-     * @memo 引数にセーブされたシーンを入れてください。
+     * @memo インスペクターで引数にセーブされたシーンを入れてください。
      */
     public void ContinueButton(string _str)  //Startボタン用関数
     {
@@ -30,10 +30,10 @@ public class UIButtonManager : MonoBehaviour
      */
     public void GameEndButton() //ゲーム終了
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
-#else
-    Application.Quit();//ゲームプレイ終了
-#endif
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+        #else
+            Application.Quit();//ゲームプレイ終了
+        #endif
     }
 }

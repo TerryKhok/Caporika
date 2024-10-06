@@ -7,10 +7,15 @@ public class SystemPose : MonoBehaviour
     public KeyCode  PoseKey = KeyCode.Escape;          // Poseを行うキー
     bool is_poseNow = false;
     Canvas poseCanvas;
+    private GameObject OptionCanvas;
+    private Canvas OptionCanv;
+    
     void Start()
     {
         poseCanvas = this.GetComponent<Canvas>();
         poseCanvas.enabled = false;
+        OptionCanvas = GameObject.Find("OptionCanv");
+        OptionCanv = OptionCanvas.GetComponent<Canvas>();
     }
 
     void Update()
@@ -38,6 +43,8 @@ public class SystemPose : MonoBehaviour
     {
         poseCanvas.enabled = false;
         is_poseNow = false;
+        OptionCanv.enabled = false;  //OptionCanvasを非表示
         Time.timeScale = 1.0f;
     }
+
 }

@@ -9,9 +9,10 @@ public class GimmicGoal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col) 
     {
+        //プレイヤーを動かなくさせる
         if (col.gameObject.CompareTag("Player"))    //プレイヤーだったら
         {
-            //プレイヤーを動かなくさせる
+            
             //アニメーションを再生
         }
     }
