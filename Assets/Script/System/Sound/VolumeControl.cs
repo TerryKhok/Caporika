@@ -2,6 +2,11 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+
+/**
+* @brief スライダーで音量設定をするスクリプト。
+* @memo 
+*/   
 public class VolumeControl : MonoBehaviour
 {
     public AudioMixer audioMixer;  // AudioMixerをインスペクタで設定
@@ -25,14 +30,16 @@ public class VolumeControl : MonoBehaviour
         seVolumeSlider.onValueChanged.AddListener(SetSEVolume);
     }
 
-    // マスターボリュームを設定する関数
+/**
+* @brief マスターボリュームを設定する関数
+* @memo スライダーのマスターボリュームが変更されたときに音量を変更する関数
+*/
     public void SetMasterVolume(float value)
     {
         float masterVolume = ConvertToDecibel(value);  // 対数変換
         audioMixer.SetFloat("MasterVolume", masterVolume);  // MasterVolumeの公開パラメータに反映
         UpdateBGMVolume();
         UpdateSEVolume();
-        Debug.Log("Master Volume: " + masterVolume + " dB");
     }
 
     // BGMボリュームを設定する関数
@@ -57,7 +64,6 @@ public class VolumeControl : MonoBehaviour
         float bgmVolume = ConvertToDecibel(bgmBaseVolume);
         bgmVolume += masterVolume;  // Masterの音量に基づいて調整
         audioMixer.SetFloat("BGMVolume", bgmVolume);
-        Debug.Log("BGM Volume: " + bgmVolume + " dB");
     }
 
     // SEの音量を更新（Master Volumeに基づいて調整）
@@ -68,7 +74,6 @@ public class VolumeControl : MonoBehaviour
         float seVolume = ConvertToDecibel(seBaseVolume);
         seVolume += masterVolume;  // Masterの音量に基づいて調整
         audioMixer.SetFloat("SEVolume", seVolume);
-        Debug.Log("SE Volume: " + seVolume + " dB");
     }
 
     // スライダーの値を対数変換してデシベルに変換する

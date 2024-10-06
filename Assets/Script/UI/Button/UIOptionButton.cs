@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+/**
+* @brief ゲーム内のオプションで使用されているボタンたちにつけるスクリプト
+* @memo 
+*/   
 public class UIOptionButton : MonoBehaviour
 {
     private GameObject irisObject;
@@ -90,7 +95,7 @@ public class UIOptionButton : MonoBehaviour
     }
 
     /**
-     * @brief ポーズに戻るボタン
+     * @brief 設定からポーズに戻るボタン
      * @memo 
      */
     public void OptionReturn()
@@ -105,6 +110,10 @@ public class UIOptionButton : MonoBehaviour
         OptionCanv.enabled = false;  //OptionCanvasを非表示
     }
 
+/**
+* @brief ポーズ状態で開かれているすべてのタブをを終了する関数
+* @memo Canvas閉じてPoseEnd関数読んでるだけ
+*/   
     public void PoseFinish()
     {
         SystemPose poseCanvas= GameObject.Find ("PoseCanvas").GetComponent<SystemPose>();

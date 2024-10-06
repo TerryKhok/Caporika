@@ -1,6 +1,11 @@
 using UnityEngine;
 using TMPro;  // TextMeshProを使用するためのネームスペース
 
+
+/**
+* @brief ディスプレイ設定を変更する関数
+* @memo プルダウンで選択された値を一時保存し、適応ボタンが押された場合それらを適応する。
+*/
 public class DisplaySettingsTMP : MonoBehaviour
 {
     public TMP_Dropdown displayModeDropdown;  // フルスクリーン/ウィンドウモードのTMP_Dropdown
@@ -36,31 +41,42 @@ public class DisplaySettingsTMP : MonoBehaviour
         applyButton.onClick.AddListener(ApplySettings);
     }
 
-    // ディスプレイモードが選択されたときに一時的に値を保存
+
+/**
+* @brief ディスプレイモードが選択されたときに一時的に値を保存
+* @memo 
+*/   
     public void OnDisplayModeSelected(int modeIndex)
     {
         selectedDisplayModeIndex = modeIndex;
-        Debug.Log("Selected Display Mode: " + displayModeDropdown.options[modeIndex].text);
     }
 
-    // 解像度が選択されたときに一時的に値を保存
+
+/**
+* @brief 解像度が選択されたときに一時的に値を保存
+* @memo 
+*/   
     public void OnResolutionSelected(int resolutionIndex)
     {
         selectedResolutionIndex = resolutionIndex;
-        Debug.Log("Selected Resolution: " + resolutionDropdown.options[resolutionIndex].text);
     }
 
-    // 適応ボタンが押されたときに設定を適用
+/**
+* @brief 適応ボタンが押されたときに設定を適用
+* @memo 適応ボタンが押されたら実際に解像度とディスプレイモードを適応する
+*/   
     public void ApplySettings()
     {
         // 選択された解像度とディスプレイモードを適用
         ApplyDisplayMode(selectedDisplayModeIndex);
         ApplyResolution(selectedResolutionIndex);
-
-        Debug.Log("Settings Applied: Display Mode and Resolution");
     }
 
-    // 選択されたディスプレイモードを適用
+
+/**
+* @brief 選択されたディスプレイモードを適用
+* @memo  適応ボタンが押されたら実際にディスプレイモードを適応する
+*/
     private void ApplyDisplayMode(int modeIndex)
     {
         if (modeIndex == 0)  // フルスクリーン
@@ -71,14 +87,15 @@ public class DisplaySettingsTMP : MonoBehaviour
         {
             Screen.fullScreenMode = FullScreenMode.Windowed;
         }
-        Debug.Log("Applied Display Mode: " + displayModeDropdown.options[modeIndex].text);
     }
 
-    // 選択された解像度を適用
+/**
+* @brief 選択された解像度を適用
+* @memo  適応ボタンが押されたら実際に解像度を適応する
+*/
     private void ApplyResolution(int resolutionIndex)
     {
         Resolution selectedResolution = availableResolutions[resolutionIndex];
         Screen.SetResolution(selectedResolution.width, selectedResolution.height, Screen.fullScreenMode);
-        Debug.Log("Applied Resolution: " + selectedResolution.width + " x " + selectedResolution.height);
     }
 }
