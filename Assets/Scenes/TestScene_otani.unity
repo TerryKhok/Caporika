@@ -10861,6 +10861,7 @@ GameObject:
   - component: {fileID: 2098759838}
   - component: {fileID: 2098759834}
   - component: {fileID: 2098759837}
+  - component: {fileID: 2098759839}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10965,7 +10966,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2098759831}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 3208646524871145459, guid: 61f8e68420d1b524094a43636db935a5, type: 2}
   m_audioClip: {fileID: 8300000, guid: 39c59c749fac9a94598ab43d89017cca, type: 3}
@@ -11070,6 +11071,25 @@ MonoBehaviour:
   masterVolumeSlider: {fileID: 365349350}
   bgmVolumeSlider: {fileID: 2014298648}
   seVolumeSlider: {fileID: 171730265}
+--- !u!114 &2098759839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098759831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a413716bbad61c4eb7afdb2b5b21a95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmGroup: {fileID: 3208646524871145459, guid: 61f8e68420d1b524094a43636db935a5, type: 2}
+  seGroup: {fileID: 685180558326385818, guid: 61f8e68420d1b524094a43636db935a5, type: 2}
+  seSourcePoolSize: 10
+  soundRegistration:
+  - id: BGM01
+    audioClip: {fileID: 8300000, guid: 39c59c749fac9a94598ab43d89017cca, type: 3}
+    volume: 0.1
 --- !u!1 &2121812665
 GameObject:
   m_ObjectHideFlags: 0

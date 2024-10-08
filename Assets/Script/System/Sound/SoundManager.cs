@@ -1,21 +1,30 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 /**
- * @brief 音声の設定や再生を司るクラス
+ * @brief   音声の設定や再生を司るクラス
+ *          これ一つをオブジェクトにアタッチする
  * 
- * @memo ・
+ * @memo    ・SoundManagerの初期化
+ *          ・再生したい音の登録
+ *          ・BGMの再生
+ *          ・SEの再生
+ *          
+ *          ・音データを表すクラス
  */
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; private set; }
 
-    [SerializeField] private AudioSource bgmSource;     ///< BGM再生用のコンポーネント
+    [SerializeField] AudioMixerGroup bgmGroup = null;
+    [SerializeField] AudioMixerGroup seGroup = null;
+
+    private AudioSource bgmSource;     ///< BGM再生用のコンポーネント
     [SerializeField] private int seSourcePoolSize = 10; ///< 同時に再生できるSEの最大数
 
-    private float globalVolume = 1.0f;  ///< 全体音量を設定するとこ
-
-    private Dictionary<int, SoundData> soundDictionary = new Dictionary<int, SoundData>();  ///< 登録されてるSoundDataのリスト
+    [SerializeField] List<SoundRegistration> soundRegistration = new List<SoundRegistration>();
+    private Dictionary<string, SoundData> soundDictionary = new Dictionary<string, SoundData>();  ///< 登録されてるSoundDataのリスト
     private List<AudioSource> seSources;    ///< SE再生用のコンポーネントのリスト
 
     private void Awake()
@@ -33,6 +42,10 @@ public class SoundManager : MonoBehaviour
 
         // 初期化
         InitializeSESources();
+        RegisterSoundRegistrations();
+
+        // 動作確認用
+        //PlayBGM("BGM01");
     }
 
     /**
@@ -40,13 +53,30 @@ public class SoundManager : MonoBehaviour
      */
     private void InitializeSESources()
     {
+        // BGM再生用のAudioSourceを追加
+        this.bgmSource = gameObject.AddComponent<AudioSource>();
+        this.bgmSource.outputAudioMixerGroup = bgmGroup;
+        this.bgmSource.loop = true;
+
         // SEが再生できるようにする数の分だけコンポーネントを追加
         this.seSources = new List<AudioSource>();
 
         for (int i = 0; i < this.seSourcePoolSize; i++)
         {
-            AudioSource seSource = this.gameObject.AddComponent<AudioSource>();
+            AudioSource seSource = gameObject.AddComponent<AudioSource>();
+            seSource.outputAudioMixerGroup = seGroup;
             this.seSources.Add(seSource);
+        }
+    }
+
+    /**
+     * @brief   Inspectorで設定したSoundRegistrationを登録していく
+     */
+    private void RegisterSoundRegistrations()
+    {
+        foreach (var regi in this.soundRegistration)
+        {
+            RegisterSound(regi.id, regi.audioClip, regi.volume);
         }
     }
 
@@ -60,7 +90,7 @@ public class SoundManager : MonoBehaviour
      * @memo ・使い方
      *          SoundManager.Instance.RegisterSound(1, Resources.Load<AudioClip>("Audio/BGM"), 0.7f);
      */
-    public void RegisterSound(int _id, AudioClip _clip, float _volume = 1.0f)
+    public void RegisterSound(string _id, AudioClip _clip, float _volume = 1.0f)
     {
         if (!this.soundDictionary.ContainsKey(_id))
         {
@@ -73,13 +103,15 @@ public class SoundManager : MonoBehaviour
      * 
      * @param _id 登録されているSoundDataのID
      */
-    public void PlayBGM(int _id)
+    public void PlayBGM(string _id)
     {
         if (this.soundDictionary.TryGetValue(_id, out SoundData soundData))  // IDに音が登録されてるなら
         {
+            // 今再生してるやつを止める
+            this.bgmSource.Stop();
             // BGM用のやつで再生
             this.bgmSource.clip = soundData.clip;
-            this.bgmSource.volume = this.globalVolume * soundData.volume;
+            this.bgmSource.volume = soundData.volume;
             this.bgmSource.Play();
         }
     }
@@ -89,7 +121,7 @@ public class SoundManager : MonoBehaviour
      * 
      * @param _id 登録されているSoundDataのID
      */
-    public void PlaySE(int _id)
+    public void PlaySE(string _id)
     {
         if (this.soundDictionary.TryGetValue(_id, out SoundData soundData))  // IDに音が登録されてるなら
         {
@@ -99,7 +131,7 @@ public class SoundManager : MonoBehaviour
             {
                 // SE用のコンポーネントで再生
                 availableSource.clip = soundData.clip;
-                availableSource.volume = this.globalVolume * soundData.volume;
+                availableSource.volume = soundData.volume;
                 availableSource.Play();
             }
         }
@@ -108,7 +140,7 @@ public class SoundManager : MonoBehaviour
     /**
      * @brief 使えるSE用のコンポーネントを探す
      * 
-     * @return 使えるコンポーネントを返します。失敗したらnullを返します
+     * @return 使えるSoundSourceを返します。失敗したらnullを返します
      */
     private AudioSource GetAvailableSESource()
     {
@@ -120,45 +152,6 @@ public class SoundManager : MonoBehaviour
             }
         }
         return null; // 全部使えなかったらnullを返す
-    }
-
-    /**
-     * @brief 全体音量を設定
-     * 
-     * @param 設定したい音量。0~1の値
-     */
-    public void SetGlobalVolume(float _volume)
-    {
-        this.globalVolume = Mathf.Clamp01(_volume);
-        this.bgmSource.volume = this.globalVolume * (this.bgmSource.clip != null ? this.soundDictionary[this.bgmSource.clip.GetInstanceID()].volume : 1.0f);
-
-        foreach (AudioSource source in seSources)
-        {
-            source.volume = this.globalVolume * source.volume;
-        }
-    }
-
-    /**
-     * @brief BGM音量を設定
-     * 
-     * @param 設定したい音量。0~1の値
-     */
-    public void SetBGMVolume(float _volume)
-    {
-        this.bgmSource.volume = this.globalVolume * _volume;
-    }
-
-    /**
-     * @brief SE音量を設定
-     * 
-     * @param 設定したい音量。0~1の値
-     */
-    public void SetSEVolume(float _volume)
-    {
-        foreach (AudioSource source in this.seSources)
-        {
-            source.volume = this.globalVolume * _volume;
-        }
     }
 
     /**
@@ -177,6 +170,17 @@ public class SoundManager : MonoBehaviour
             this.clip = _clip;
             this.volume = Mathf.Clamp01(_volume);
         }
+    }
+
+    /**
+     * @brief   SoundDataをInspectorから登録するための構造体
+     */
+    [System.Serializable]
+    private struct SoundRegistration
+    {
+        public string id;           // 再生時に指定するときのID
+        public AudioClip audioClip; // 再生データ
+        public float volume;        // 0.0f ~ 1.0f
     }
 
 }
