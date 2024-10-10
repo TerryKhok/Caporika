@@ -26,6 +26,10 @@ public class UIIrisScript : MonoBehaviour
         {
             IrisIn();//アイリスインを再生
         }
+        else
+        {
+            irisCanv.enabled = false;
+        }
     }
 
     /**

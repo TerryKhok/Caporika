@@ -16,8 +16,11 @@ using UnityEngine;
  *          
  *  ========================================================================================================
 */
+
 public class PlayerStateGoal : PlayerState
 {
+    PlayerAction playerAction = null;   // プレイヤーの行動スクリプト
+
     /**
      * @brief 	この状態に入るときに行う関数
      * @paraam  PlayerMove _playerMove  
@@ -37,6 +40,17 @@ public class PlayerStateGoal : PlayerState
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
             return;
         }
+        Debug.Log("ゴールアニメーション開始");
+        this.playerAction = _playerMove.GetComponent<PlayerAction>();
+        if (!this.playerAction)
+        {
+            Debug.LogError("PlayerActionを取得できませんでした。");
+            return;
+        }
+        // アクションスクリプトを無効化
+        this.playerAction.enabled = false;
+        this.rb.velocity = Vector3.zero;
+
     }
 
     /**

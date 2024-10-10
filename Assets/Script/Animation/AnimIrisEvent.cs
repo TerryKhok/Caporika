@@ -7,6 +7,7 @@ public class AnimIrisEvent : MonoBehaviour
 {
     public GameObject IrisCanvas;
     private Canvas irisCanv;
+    public bool irisInFinish = false;
     
     public void Start()
     {
@@ -30,5 +31,6 @@ public class AnimIrisEvent : MonoBehaviour
     public void IrisInCanvasEvent()
     {
         irisCanv.enabled = false;
+        irisInFinish = true;
     }
 }
