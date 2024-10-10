@@ -18,13 +18,21 @@ public class AnimResultEvent : MonoBehaviour
         titleButton = titleButtonObj.GetComponent<Button>();
         nextButton = nextButtonObj.GetComponent<Button>();
     }
+
+    /**
+     * @brief リザルトアニメーションの最初に呼び出されるイベント
+     */  
     public void ResultAnimStart()
     {
-        resultCanv.enabled = true;
+        resultCanv.enabled = true;  //リザルトキャンバスを表示
     }
+
+    /**
+     * @brief リザルトアニメーションの最後に呼び出されるイベント
+     */  
     public void ResultAnimFinish()
     {
-        titleButton.interactable = true;
-        nextButton.interactable = true;
+        titleButton.interactable = true;    //ボタンにインタラクトできるようにする
+        nextButton.interactable = true;     //ボタンにインタラクトできるようにする
     }
 }

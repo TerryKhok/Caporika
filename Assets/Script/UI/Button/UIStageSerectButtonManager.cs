@@ -32,6 +32,10 @@ public class UIStageSerectButtonManager : MonoBehaviour
         buttonAnim.Play("LeftbuttonScroll");
     }
 
+    /**
+     * @brief ステージセレクト用関数
+     * @memo インスペクターでシーン名を代入
+     */  
     public void StageSerectButton(string _str)
     {
         UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();

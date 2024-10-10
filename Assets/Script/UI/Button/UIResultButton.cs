@@ -10,10 +10,26 @@ public class UIResultButton : MonoBehaviour
     {
         irisObject = GameObject.Find("IrisCanv");
     }
+
+    /**
+     * @brief タイトルシーンに行く関数
+     * @memo アイリスアウトを呼び出し、引数にタイトルシーンを代入
+     */  
     public void TitleButton()
     {
         UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
         iris.IrisOut("TitleScene"); //次のシーンを代入
+
+    }
+
+    /**
+     * @brief 次のシーンに行く関数
+     * @memo アイリスアウトを呼び出し、引数に次のシーンを代入
+     */  
+        public void NextButton()
+    {
+        UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
+        iris.IrisOut(""); //次のシーンを代入
 
     }
 }

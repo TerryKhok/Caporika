@@ -20,6 +20,9 @@ public class GimmicGoal : MonoBehaviour
         resultAnim = result.GetComponent<Animator>();
     }
 
+    /**
+     * @brief 衝突判定
+     */  
     private void OnTriggerEnter2D(Collider2D col) 
     {
         if(!is_goal)//ゴールしていなかったら
