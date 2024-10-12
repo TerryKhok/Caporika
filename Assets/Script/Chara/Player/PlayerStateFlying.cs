@@ -55,7 +55,7 @@ public class PlayerStateFlying : PlayerState
 
         // 飛んでいるアニメーション
         this.animator.SetTrigger("flyingTrigger");
-        Debug.Log("飛んでいるアニメーション");
+        //Debug.Log("飛んでいるアニメーション");
     }
 
     /**
