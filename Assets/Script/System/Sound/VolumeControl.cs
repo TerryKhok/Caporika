@@ -19,6 +19,27 @@ public class VolumeControl : MonoBehaviour
 
     void Start()
     {
+        masterVolumeSlider =  GameObject.Find("MainVolSlider").GetComponent<Slider>();
+        if (!this.masterVolumeSlider)
+        {
+            Debug.LogError("Sliderが見つからず、取得できませんでした。");
+            return;
+        }
+
+        bgmVolumeSlider =  GameObject.Find("BGMVolSlider").GetComponent<Slider>();
+        if (!this.masterVolumeSlider)
+        {
+            Debug.LogError("Sliderが見つからず、取得できませんでした。");
+            return;
+        }
+
+        seVolumeSlider =  GameObject.Find("SEVolSlider").GetComponent<Slider>();
+        if (!this.masterVolumeSlider)
+        {
+            Debug.LogError("Sliderが見つからず、取得できませんでした。");
+            return;
+        }
+        
         // 初期値を設定
         masterVolumeSlider.value = 1.0f;  // 初期マスターボリューム
         bgmVolumeSlider.value = bgmBaseVolume;   // 初期BGMボリューム

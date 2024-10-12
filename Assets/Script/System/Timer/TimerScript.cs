@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;  // Text UIを使用するために必要
 
@@ -15,8 +16,8 @@ public class TimerScript : MonoBehaviour
     private TextMeshProUGUI timerText;     // 時間を表示するText UI
     public float elapsedTime; // 経過時間
     private bool isRunning;    // ストップウォッチが動作しているかどうか
-    [SerializeField] private GameObject iris;  //irisをインスペクターで入れる
-    AnimIrisEvent animIrisEvent;
+    private GameObject iris;  //irisをインスペクターで入れる
+    private AnimIrisEvent animIrisEvent;
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class TimerScript : MonoBehaviour
             return;
         }
 
-        animIrisEvent =  iris.GetComponent<AnimIrisEvent>();
+        animIrisEvent =  GameObject.Find("iris").GetComponent<AnimIrisEvent>();
         if (!this.animIrisEvent)
         {
             Debug.LogError("AnimIrisEventoが見つからず、取得できませんでした。");

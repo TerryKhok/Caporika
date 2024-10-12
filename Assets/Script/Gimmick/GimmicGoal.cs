@@ -17,7 +17,18 @@ public class GimmicGoal : MonoBehaviour
     public void Start()
     {
         TimerDispay = GameObject.Find("TimerDispay");  
+        if (!this.TimerDispay)
+        {
+            Debug.LogError("GameObjectが見つからず、取得できませんでした。");
+            return;
+        }
+        
         timerScript = TimerDispay.GetComponent<TimerScript>();
+        if (!this.timerScript)
+        {
+            Debug.LogError("TimerScriptが見つからず、取得できませんでした。");
+            return;
+        }
     }
 
     /**
