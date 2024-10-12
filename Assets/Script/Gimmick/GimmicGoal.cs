@@ -7,17 +7,17 @@ public class GimmicGoal : MonoBehaviour
 {
     
     bool is_goal = false;//ゴールしたかフラグ
-    public GameObject result;       //ResultImageを入れる
-    private Animator resultAnim;    //リザルトアニメーション用
-
-    private GameObject TimerDispay;
+    private GameObject TimerDispay; //タイマーストップ用
     private TimerScript timerScript;
+
+    public List<GameObject> dummyPlayer;    //アニメーション用の王レイヤーダミーを三種類入れる
+    private Animator goalAnim;  
+    CharaState charaState;
     
     public void Start()
     {
         TimerDispay = GameObject.Find("TimerDispay");  
         timerScript = TimerDispay.GetComponent<TimerScript>();
-        resultAnim = result.GetComponent<Animator>();
     }
 
     /**
@@ -31,8 +31,36 @@ public class GimmicGoal : MonoBehaviour
             {
                 is_goal = true;
                 timerScript.StopTimer();//タイマーを停止
-                resultAnim.Play("ResultAnim");//アニメーションを再生
+                //resultAnim.Play("ResultAnim");//アニメーションを再生
+                
+                charaState = col.GetComponent<CharaState>();
+                goalAnim = dummyPlayer[charaState.GetCharaSize() - 1].GetComponent<Animator>();
+                StartCoroutine("CameraMoveTimer");
             }
+        }
+    }
+
+     IEnumerator CameraMoveTimer()
+    {
+        yield return new WaitForSeconds(1);//一秒停止
+        PlayGoalAnimation(charaState.GetCharaSize());
+    }
+
+    private void PlayGoalAnimation(int _playerSize)
+    {
+        dummyPlayer[charaState.GetCharaSize() - 1].gameObject.SetActive(true);
+        // プレイヤーのサイズに応じて、異なるアニメーションクリップを再生
+        switch (_playerSize)
+        {
+            case 1:
+                goalAnim.Play("GoalAnim_Small");  // 小さいプレイヤー用アニメーション
+                break;
+            case 2:
+                goalAnim.Play("GoalAnim_Medium");  // 中サイズのプレイヤー用アニメーション
+                break;
+            case 3:
+                goalAnim.Play("GoalAnim_Big");  // 大きいプレイヤー用アニメーション
+                break;
         }
     }
 }
