@@ -9,6 +9,11 @@ public class UIResultButton : MonoBehaviour
     public void Start()
     {
         irisObject = GameObject.Find("IrisCanv");
+        if (!this.irisObject)
+        {
+            Debug.LogError("IrisCanvが見つからず、取得できませんでした。");
+            return;
+        }
     }
 
     /**

@@ -13,7 +13,18 @@ public class UIButtonManager : MonoBehaviour
      */
     public void ContinueButton(string _str)  //Startボタン用関数
     {
+        irisObject = GameObject.Find("IrisCanv");
+        if (!this.irisObject)
+        {
+            Debug.LogError("IrisCanvが見つからず、取得できませんでした。");
+            return;
+        }
         UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
+        if (!iris)
+        {
+            Debug.LogError("UIIrisScriptが見つからず、取得できませんでした。");
+            return;
+        }
         iris.IrisOut(_str); //次のシーンを代入
     }
 
