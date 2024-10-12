@@ -43,7 +43,7 @@ public class UIOptionButton : MonoBehaviour
      */
     public void ContinueButton()
     {
-        SystemPose poseCanvas= GameObject.Find ("PoseCanvas").GetComponent<SystemPose>();
+        SystemPose poseCanvas= GameObject.Find ("PauseCanvas").GetComponent<SystemPose>();
         poseCanvas.PoseEnd();
     }
 
@@ -64,7 +64,7 @@ public class UIOptionButton : MonoBehaviour
      */
     public void RestartButton()
     {
-        PoseFinish();
+        PauseFinish();
         string currentSceneName = SceneManager.GetActiveScene().name;//現在アクティブなシーンの名前を取得
         UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
         iris.IrisOut(currentSceneName); //次のシーンを代入
@@ -77,7 +77,7 @@ public class UIOptionButton : MonoBehaviour
      */
     public void TitleButton()
     {
-        PoseFinish();
+        PauseFinish();
         UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
         iris.IrisOut("TitleScene"); //次のシーンを代入
 
@@ -89,7 +89,7 @@ public class UIOptionButton : MonoBehaviour
      */
     public void StageSelectButton()
     {
-        PoseFinish();
+        PauseFinish();
         UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
         iris.IrisOut("StageSelect"); //次のシーンを代入
     }
@@ -112,11 +112,11 @@ public class UIOptionButton : MonoBehaviour
 
 /**
 * @brief ポーズ状態で開かれているすべてのタブをを終了する関数
-* @memo Canvas閉じてPoseEnd関数読んでるだけ
+* @memo Canvas閉じてPauseEnd関数読んでるだけ
 */   
-    public void PoseFinish()
+    public void PauseFinish()
     {
-        SystemPose poseCanvas= GameObject.Find ("PoseCanvas").GetComponent<SystemPose>();
+        SystemPose poseCanvas= GameObject.Find ("PauseCanvas").GetComponent<SystemPose>();
 
         keyBindCanvas = keyBindOptionCanvas.GetComponent<Canvas>();
         soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();

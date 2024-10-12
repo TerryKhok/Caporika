@@ -81,7 +81,7 @@ public class PlayerStateGround : PlayerState
         else if (_playerMove.attackState == PlayerState.AttackState.Failed)
         {
             this.animator.SetTrigger("nonHitTrigger");
-            Debug.Log("攻撃不発時アニメーション");
+            //Debug.Log("攻撃不発時アニメーション");
         }
         //else{ Debug.Log("通常アニメーション"); }
 
