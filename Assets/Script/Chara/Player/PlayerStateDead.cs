@@ -72,9 +72,9 @@ public class PlayerStateDead : PlayerState
         this.playerAction.enabled = true;
         Debug.Log("アニメーションスクリプトを有効化");
 
-        // 死んだアニメーションをやめる
+        // 死んだアニメーションをやめて、閉まるアニメーションを再生
         this.animator.SetBool("isDead", false);
-        Debug.Log("死んだアニメーション終了");
+        Debug.Log("死んだアニメーション終了、閉まるアニメーション");
     }
 
     /**

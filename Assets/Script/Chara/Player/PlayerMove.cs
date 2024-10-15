@@ -81,7 +81,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         this.currentState.Update();
-        this.currentState.CollisionEnter(trigger);
+        this.currentState.CollisionEnter(this.trigger);
 
         // ƒS[ƒ‹‚µ‚½‚ç‰½‚às‚í‚È‚¢
         if (this.isGoal)
