@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 /**
  *  @brief 	キャラの行動をまとめた
@@ -44,6 +45,7 @@ public class PlayerAction : MonoBehaviour
     private bool isJump = false;                            // true:ジャンプできる
     private float time = 0.0f;                              // カウント用
 
+    private bool isNestIn = false;      // 子マトリョーシカが中に入った
 
     //===============================================
     //          当たっているオブジェクト
@@ -233,7 +235,6 @@ public class PlayerAction : MonoBehaviour
             this.triggerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Ground);
         }
         else { Debug.LogError("入るマトリョーシカにPlayerActionがアタッチされていません"); }
-
 
         // このオブジェクトを消す
         Destroy(this.gameObject);
