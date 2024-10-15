@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class UIStageSerectButtonManager : MonoBehaviour
 {
-    [SerializeField] private GameObject stageButton;
-    
+    private GameObject stageButton;
+    private GameObject irisObject;
     private Animator buttonAnim;
 
     
     void Start()
     {
-        buttonAnim = stageButton.GetComponent<Animator>();  
+        stageButton = GameObject.Find("StageButton");  
+        buttonAnim = stageButton.GetComponent<Animator>();
+        irisObject = GameObject.Find("IrisCanv");
     }
 
     /**
@@ -28,5 +30,15 @@ public class UIStageSerectButtonManager : MonoBehaviour
     public void LeftButtonFunction()
     {
         buttonAnim.Play("LeftbuttonScroll");
+    }
+
+    /**
+     * @brief ステージセレクト用関数
+     * @memo インスペクターでシーン名を代入
+     */  
+    public void StageSerectButton(string _str)
+    {
+        UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
+        iris.IrisOut(_str); //次のシーンを代入
     }
 }

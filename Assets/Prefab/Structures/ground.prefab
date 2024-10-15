@@ -15,7 +15,7 @@ GameObject:
   m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7491804983671488226
 Transform:
@@ -89,11 +89,11 @@ GameObject:
   - component: {fileID: 7977343312421675097}
   - component: {fileID: 5429202617264725739}
   m_Layer: 0
-  m_Name: ground
+  m_Name: Ground
   m_TagString: realGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7167365987514203000
 Transform:

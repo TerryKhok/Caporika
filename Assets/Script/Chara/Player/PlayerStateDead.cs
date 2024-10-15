@@ -50,7 +50,7 @@ public class PlayerStateDead : PlayerState
         }
         // アクションスクリプトを無効化
         this.playerAction.enabled = false;
-        Debug.Log("アニメーションスクリプトを無効化");
+        //Debug.Log("アニメーションスクリプトを無効化");
 
         // 死んだアニメーションに遷移
         this.animator = _playerMove.GetComponent<Animator>();
