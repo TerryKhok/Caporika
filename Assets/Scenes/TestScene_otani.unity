@@ -827,7 +827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 574789040660758613, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 762815447295610500, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -843,7 +843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 859450461375564674, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1587125504853030904, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_Name
@@ -940,6 +940,10 @@ PrefabInstance:
     - target: {fileID: 3781890168709360267, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_Name
       value: MainVolText
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150961909782504768, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -304
       objectReference: {fileID: 0}
     - target: {fileID: 4169473830843484792, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_IsActive
@@ -1053,9 +1057,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGMVolSlider
       objectReference: {fileID: 0}
+    - target: {fileID: 6506211308018107884, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -153
+      objectReference: {fileID: 0}
     - target: {fileID: 6696997351773985865, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -1831.6997
       objectReference: {fileID: 0}
     - target: {fileID: 6928990485730553494, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1092,6 +1100,10 @@ PrefabInstance:
     - target: {fileID: 7267262218697110499, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_Name
       value: MainVolSlider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677975930437111986, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8698060780962126936, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_AnchorMax.x

@@ -13,7 +13,6 @@ public class VolumeControl : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("hoge");
         masterVolumeSlider = GameObject.Find("MainVolSlider").GetComponent<CustomSlider>();
         if (!this.masterVolumeSlider)
         {

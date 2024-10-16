@@ -100,11 +100,9 @@ public class UIOptionButton : MonoBehaviour
      */
     public void OptionReturn()
     {   
-        keyBindCanvas = keyBindOptionCanvas.GetComponent<Canvas>();
         soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();
         displayCanvas = DisplayOptionCanvas.GetComponent<Canvas>();
 
-        keyBindCanvas.enabled = false;  //keyBindCanvasを非表示
         soundCanvas.enabled = false;  //SoundCanvasを非表示
         displayCanvas.enabled = false;  //DisplayCanvasを非表示
         OptionCanv.enabled = false;  //OptionCanvasを非表示
@@ -118,11 +116,9 @@ public class UIOptionButton : MonoBehaviour
     {
         SystemPose poseCanvas= GameObject.Find ("PauseCanvas").GetComponent<SystemPose>();
 
-        keyBindCanvas = keyBindOptionCanvas.GetComponent<Canvas>();
         soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();
         displayCanvas = DisplayOptionCanvas.GetComponent<Canvas>();
 
-        keyBindCanvas.enabled = false;  //keyBindCanvasを非表示
         soundCanvas.enabled = false;  //SoundCanvasを非表示
         displayCanvas.enabled = false;  //DisplayCanvasを非表示
         OptionCanv.enabled = false;  //OptionCanvasを非表示
