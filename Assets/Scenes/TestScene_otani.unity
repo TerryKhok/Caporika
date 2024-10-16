@@ -849,6 +849,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGMVolText
       objectReference: {fileID: 0}
+    - target: {fileID: 2591264495215575375, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591264495215575375, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2098759838}
+    - target: {fileID: 2591264495215575375, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetBGMVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591264495215575375, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VolumeControl, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591264495215575375, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2790297594603614329, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -869,6 +889,34 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3234768217569177523, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234768217569177523, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234768217569177523, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2098759838}
+    - target: {fileID: 3234768217569177523, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234768217569177523, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetMasterVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234768217569177523, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VolumeControl, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234768217569177523, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3317892151485187108, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -887,7 +935,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3614144452213196890, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_Name
-      value: MainVolSlider
+      value: MainVo
       objectReference: {fileID: 0}
     - target: {fileID: 3781890168709360267, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_Name
@@ -1020,6 +1068,30 @@ PrefabInstance:
     - target: {fileID: 6928990485730553494, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980676690543305742, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980676690543305742, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2098759838}
+    - target: {fileID: 6980676690543305742, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSEVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980676690543305742, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VolumeControl, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6980676690543305742, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267262218697110499, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: m_Name
+      value: MainVolSlider
       objectReference: {fileID: 0}
     - target: {fileID: 8698060780962126936, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2692,7 +2764,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2098759831}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca480ac51ef81fe449dab568a57395f7, type: 3}
   m_Name: 
