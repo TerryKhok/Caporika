@@ -116,7 +116,7 @@ public class PlayerStateGround : PlayerState
             // 通常アニメーションのときカウントリセット
             if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
-                Debug.Log("通常アニメーション中");
+               // Debug.Log("通常アニメーション中");
 
                 this.blinkTimeCount = 0.0f;
                 this.sleepTimeCount = 0.0f;
@@ -143,8 +143,6 @@ public class PlayerStateGround : PlayerState
         float speed = moveInput * moveSpeed;
         this.rb.AddForce(new Vector2(speed, 0.0f), ForceMode2D.Force);
 
-        //Debug.Log("this.blinkCount:" + this.blinkCount);
-        //Debug.Log("this.blinkCount:" + this.sleepCount);
     }
 
     /**
@@ -166,7 +164,7 @@ public class PlayerStateGround : PlayerState
             {
                 this.isSleep = false;
                 this.animator.SetTrigger("sleepTrigger");
-                Debug.Log("眠るアニメーション");
+               // Debug.Log("眠るアニメーション");
 
                 // アニメーションの間隔をリセット
                 this.sleepTimeCount = 0.0f;
@@ -178,7 +176,7 @@ public class PlayerStateGround : PlayerState
         if (!this.isSleep && this.blinkTimeCount > this.blinkCount)
         {
             this.animator.SetTrigger("blinkTrigger");
-            Debug.Log("瞬きアニメーション");
+            //Debug.Log("瞬きアニメーション");
 
             // アニメーションの間隔をリセット
             this.blinkTimeCount = 0.0f; 
