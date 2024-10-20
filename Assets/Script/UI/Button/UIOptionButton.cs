@@ -14,11 +14,9 @@ public class UIOptionButton : MonoBehaviour
     private GameObject OptionCanvas;
     private Canvas OptionCanv;
 
-    private GameObject keyBindOptionCanvas;
     private GameObject SoundOptionCanvas;
     private GameObject DisplayOptionCanvas;
 
-    private Canvas keyBindCanvas;
     private Canvas soundCanvas;
     private Canvas displayCanvas;
     
@@ -30,7 +28,6 @@ public class UIOptionButton : MonoBehaviour
         irisObject = GameObject.Find("IrisCanv");
         OptionCanvas = GameObject.Find("OptionCanv");
 
-        keyBindOptionCanvas = GameObject.Find("KeyBindCanvas");
         SoundOptionCanvas = GameObject.Find("SoundCanvas");
         DisplayOptionCanvas = GameObject.Find("DisplayCanvas");
 

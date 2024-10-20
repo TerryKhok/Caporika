@@ -15,7 +15,7 @@ public class UIButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private bool isFocus;   // カーソルがあっているか
 
     // ボタンの大きさを調整する倍率
-    public float scaleMultiplier = 1.2f;
+    public float scaleMultiplier = 1.1f;
 
     // 中心から離れている距離に応じた小さくなりやすさ。
     // 数値が大きくなるとより小さくなりやすい
@@ -44,7 +44,7 @@ public class UIButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         // カーソルがあってたら距離関係なくデカくなる
         if (isFocus)
         {
-            scale = originalScale * scaleMultiplier;
+            scale = scale * scaleMultiplier;
             //scale *= scaleMultiplier; // 比率で変えたいだけならこっちにして
         }
 

@@ -5,7 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class UIButtonManager : MonoBehaviour
 {
-     [SerializeField] private GameObject irisObject;
+    private GameObject irisObject;
+
+    private GameObject OptionCanvas;
+    private GameObject SoundOptionCanvas;
+    private GameObject DisplayOptionCanvas;
+
+    private Canvas OptionCanv;
+    private Canvas soundCanvas;
+    private Canvas displayCanvas;
+
+    void Start()
+    {
+        OptionCanvas = GameObject.Find("OptionCanv");
+        SoundOptionCanvas = GameObject.Find("SoundCanvas");
+
+        OptionCanv = OptionCanvas.GetComponent<Canvas>();
+        soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();
+    }
 
     /**
      * @brief コンテニューボタン用
@@ -34,6 +51,15 @@ public class UIButtonManager : MonoBehaviour
     public void SerectButton() //Serectボタン用関数
     {
         SceneManager.LoadScene("StageSelect");//引数にステージセレクトシーンを代入
+    }
+
+    /**
+     * @brief オプションボタン用
+     */
+    public void OptionButton()
+    {
+        OptionCanv.enabled = true;  //OptionCanvasを表示
+        soundCanvas.enabled = true;
     }
 
     /**

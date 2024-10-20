@@ -15,7 +15,6 @@ public class UISettingButtonManager : MonoBehaviour
     [SerializeField] private GameObject SoundCanvObj;    //SoundButtonをインスペクターで入れる
     [SerializeField] private GameObject DisplayCanvObj;  //DisplayButtonをインスペクターで入れる
 
-    private Canvas KeyBindCanvas;
     private Canvas SoundCanvas;
     private Canvas DisplayCanvas;
 

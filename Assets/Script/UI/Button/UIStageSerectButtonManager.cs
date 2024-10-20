@@ -1,44 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
+//UIStageSerectButtonManager
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public class UIStageSerectButtonManager : MonoBehaviour
 {
-    private GameObject stageButton;
-    private GameObject irisObject;
-    private Animator buttonAnim;
+    public GameObject buttonContainer;  // ボタンを含む親オブジェクト
+    public Button leftArrowButton;
+    public Button rightArrowButton;
+    public float slideDuration = 0.5f;  // スライドにかかる時間
+    public float buttonWidth = 100f;    // 各ボタンの幅
+    public int visibleButtonCount = 5;  // 画面上に表示されるボタンの数
+    public int currentIndex = 0;       // 現在の左端のボタンのインデックス
+    private int totalButtons;           // 全ボタンの数
+    private bool isSliding = false;
 
-    
     void Start()
     {
-        stageButton = GameObject.Find("StageButton");  
-        buttonAnim = stageButton.GetComponent<Animator>();
-        irisObject = GameObject.Find("IrisCanv");
+        totalButtons = buttonContainer.transform.childCount;
+        UpdateArrowButtons();
+        // 初期位置を設定
+        buttonContainer.transform.localPosition = Vector3.zero;
     }
 
-    /**
-     * @brief 右→スクロール用ボタンを押されたときにアニメーションを再生する
-     */
-    public void RightButtonFunction()
+    public void OnRightArrowClick()
     {
-        buttonAnim.Play("RightbuttonScroll"); 
+        // 右にスライド可能かチェック
+        if (currentIndex + 1 < totalButtons && !isSliding)
+        {
+            StartCoroutine(SlideButtons(-buttonWidth));  // 右へ移動
+            currentIndex++;
+        }
     }
 
-    /**
-     * @brief 左←スクロール用ボタンを押されたときにアニメーションを再生する
-     */    
-    public void LeftButtonFunction()
+    public void OnLeftArrowClick()
     {
-        buttonAnim.Play("LeftbuttonScroll");
+        // 左にスライド可能かチェック
+        if (currentIndex > 0 && !isSliding)
+        {
+            StartCoroutine(SlideButtons(buttonWidth));  // 左へ移動
+            currentIndex--;
+        }
     }
 
-    /**
-     * @brief ステージセレクト用関数
-     * @memo インスペクターでシーン名を代入
-     */  
-    public void StageSerectButton(string _str)
+    private IEnumerator SlideButtons(float distance)
     {
-        UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
-        iris.IrisOut(_str); //次のシーンを代入
+        isSliding = true;
+        float elapsed = 0f;
+        Vector3 startPosition = buttonContainer.transform.localPosition;
+        Vector3 targetPosition = startPosition + new Vector3(distance, 0, 0);
+
+        while (elapsed < slideDuration)
+        {
+            buttonContainer.transform.localPosition = Vector3.Lerp(startPosition, targetPosition, elapsed / slideDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        buttonContainer.transform.localPosition = targetPosition;
+        isSliding = false;
+        UpdateArrowButtons();
+    }
+
+    private void UpdateArrowButtons()
+    {
+        // 左右の矢印ボタンの有効/無効を更新
+        leftArrowButton.interactable = currentIndex > 0;
+        rightArrowButton.interactable = (currentIndex + 1 < totalButtons);
     }
 }
+
