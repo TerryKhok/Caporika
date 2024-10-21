@@ -113,7 +113,7 @@ public abstract class PlayerState
         this.swingCount = 0;         // 揺れの回数をリセット
         this.isInDeadZone = false;   // デッドゾーンフラグをリセット
     }
-
+    
     /**
      *  @brief  マトリョーシカが止まった時の処理
      *  @return bool true:動きが完全に止まった
@@ -124,8 +124,9 @@ public abstract class PlayerState
         float targetRotation = 0.0f;
         float currentRotation = this.rb.transform.rotation.eulerAngles.z;
 
-        // 角度を-180度から180度の範囲に変換して目標角度との差を出す
-        if (currentRotation > 180.0f) currentRotation -= 360.0f;
+        // 角度を-90度から90度の範囲に変換して目標角度との差を出す
+        if (currentRotation > 90.0f) currentRotation -= 360.0f;
+
         float deltaRotation = targetRotation - currentRotation;
 
         // 反動で揺れてから真っ直ぐに戻る
@@ -133,7 +134,7 @@ public abstract class PlayerState
 
         // 角度を計算
         float newRotation = currentRotation + this.tiltVelocity * this.moveFactor;
-        newRotation = Mathf.Clamp(newRotation, -this.tiltAmount, this.tiltAmount);
+        newRotation = Mathf.Clamp(newRotation, -90.0f, 90.0f);
 
         // 角度がデッドゾーン内にあるかどうかをチェック
         if (Mathf.Abs(deltaRotation) < this.angleSwingZone)

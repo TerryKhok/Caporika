@@ -23,7 +23,6 @@ public class PlayerStateGround : PlayerState
 {
     private PreventBounce preventBounce = null;                                     // 跳ね防止スクリプト
     private Animator animator = null;                                               // プレイヤーのアニメーター
-    //private PlayerState.AttackState attackState = PlayerState.AttackState.None;     // 攻撃を行ったかどうか
 
     private float blinkTimeCount = 0.0f;    // 瞬きをする間隔時間をカウント
     private float sleepTimeCount = 0.0f;    // 寝る間隔時間をカウント
