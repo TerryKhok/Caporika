@@ -74,16 +74,13 @@ public class PlayerStateGround : PlayerState
         if (_playerMove.attackState == PlayerState.AttackState.Success)
         {
             this.animator.SetTrigger("hitTrigger");
-            //Debug.Log("攻撃成功アニメーション");
         }
 
         // 攻撃不発時アニメーション
         else if (_playerMove.attackState == PlayerState.AttackState.Failed)
         {
             this.animator.SetTrigger("nonHitTrigger");
-            //Debug.Log("攻撃不発時アニメーション");
         }
-        //else{ Debug.Log("通常アニメーション"); }
 
         // 攻撃状態リセット
         _playerMove.SetAttackState(PlayerState.AttackState.None);
@@ -143,7 +140,6 @@ public class PlayerStateGround : PlayerState
         // 速度を計算
         float speed = moveInput * moveSpeed;
         this.rb.AddForce(new Vector2(speed, 0.0f), ForceMode2D.Force);
-
     }
 
     /**
@@ -165,7 +161,6 @@ public class PlayerStateGround : PlayerState
             {
                 this.isSleep = false;
                 this.animator.SetTrigger("sleepTrigger");
-               // Debug.Log("眠るアニメーション");
 
                 // アニメーションの間隔をリセット
                 this.sleepTimeCount = 0.0f;
@@ -177,7 +172,6 @@ public class PlayerStateGround : PlayerState
         if (!this.isSleep && this.blinkTimeCount > this.blinkCount)
         {
             this.animator.SetTrigger("blinkTrigger");
-            //Debug.Log("瞬きアニメーション");
 
             // アニメーションの間隔をリセット
             this.blinkTimeCount = 0.0f; 

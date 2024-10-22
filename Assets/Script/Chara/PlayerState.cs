@@ -134,7 +134,7 @@ public abstract class PlayerState
 
         // 角度を計算
         float newRotation = currentRotation + this.tiltVelocity * this.moveFactor;
-        newRotation = Mathf.Clamp(newRotation, -90.0f, 90.0f);
+        newRotation = Mathf.Clamp(newRotation, -80.0f, 80.0f);
 
         // 角度がデッドゾーン内にあるかどうかをチェック
         if (Mathf.Abs(deltaRotation) < this.angleSwingZone)

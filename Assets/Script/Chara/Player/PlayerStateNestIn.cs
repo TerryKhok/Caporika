@@ -57,25 +57,6 @@ public class PlayerStateNestIn : PlayerState
         // 残機を増やす
         this.matryoshkaManager.AddLife();
 
-        //this.rb = _playerMove.GetComponent<Rigidbody2D>();
-        //if (!this.rb)
-        //{
-        //    Debug.LogError("Rigidbody2Dを取得できませんでした。");
-        //    return;
-        //}
-
-        //// プレイヤーのアニメーター
-        //this.animator = _playerMove.GetComponent<Animator>();
-        //if (!this.animator)
-        //{
-        //    Debug.LogError("Animatorを取得できませんでした。");
-        //    return;
-        //}
-
-        //// 
-        //startPosition = _playerMove.transform.position;
-        //jumpTime = 0f;
-        //isJumping = true;
     }
 
     /**

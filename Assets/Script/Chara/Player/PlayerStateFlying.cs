@@ -62,9 +62,7 @@ public class PlayerStateFlying : PlayerState
      * @brief 	この状態から出るときに行う関数
     */
     public override void Exit()
-    {
-
-    }
+    {}
 
     /**
      * @brief 	更新処理

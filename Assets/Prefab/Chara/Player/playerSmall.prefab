@@ -265,6 +265,8 @@ MonoBehaviour:
   knockbackAngle: 45
   knockbackpForce: 5
   actionTime: 1
+  outerAngle: 0
+  innerAngle: 0
 --- !u!114 &5684788108464164878
 MonoBehaviour:
   m_ObjectHideFlags: 0

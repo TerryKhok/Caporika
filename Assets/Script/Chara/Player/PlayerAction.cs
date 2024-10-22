@@ -295,7 +295,7 @@ private bool isSametag = false;                     // 同じTag名
         //Debug.Log("かくど:" + this.transform.eulerAngles);
 
         // 回転、座標をセット
-        this.newMatryoshka.transform.position = position;
+        this.newMatryoshka.transform.position = position + new Vector2(0.0f, 0.3f);
         this.newMatryoshka.transform.rotation = rotation;
 
         // 生成したマトリョーシカのRigidbody2Dを取得
