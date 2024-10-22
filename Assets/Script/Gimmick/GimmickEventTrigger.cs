@@ -12,12 +12,14 @@ using UnityEngine.Events;
 public class GimmickEventTrigger : MonoBehaviour
 {
     public bool triggerOnce = false;        ///< trueだと1回しか発動しない
+    [Header("メインカメラを代入し、MoveToNextPosition")]
     public UnityEvent onTriggerEnterEvent;  ///< トリガーに触れたときに実行するイベント
     public UnityEvent onTriggerExitEvent;   ///< トリガーから離れたときに実行するイベント
     private Collider2D triggeredCollider;   ///< トリガーされたコライダー
     private bool triggeredEnter = false;    ///< すでにトリガーされたか
     private bool triggeredExit = false;
     private bool enemyCanTriggered = false; ///< 敵でもトリガー出来るか
+
 
     private void OnTriggerEnter2D(Collider2D _other)
     {
@@ -28,6 +30,7 @@ public class GimmickEventTrigger : MonoBehaviour
                 if (!this.triggeredEnter || !this.triggerOnce)    // 1回も発動していないか1回のみと指定されていないなら
                 {
                     triggeredCollider = _other;
+                    
                     this.onTriggerEnterEvent.Invoke();  // イベントを実行
                     triggeredEnter = true;
                 }

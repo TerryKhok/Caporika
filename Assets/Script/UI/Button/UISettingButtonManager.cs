@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 
 
@@ -10,22 +12,38 @@ using UnityEngine.UI;
 * @brief 設定変更画面で使うスクリプト
 * @memo 設定のジャンルをボタンを押して変更するときに使う
 */   
-public class UISettingButtonManager : MonoBehaviour
+public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private GameObject SoundCanvObj;    //SoundButtonをインスペクターで入れる
     [SerializeField] private GameObject DisplayCanvObj;  //DisplayButtonをインスペクターで入れる
 
+    public GameObject ButtonFlame;
+    public RectTransform flameTransform;    // ボタン枠
+    public RectTransform buttonTransform;             //ボタン
+
     private Canvas SoundCanvas;
     private Canvas DisplayCanvas;
 
-/**
-* @brief 
-* @memo 
-*/   
+    public Vector2 selectedPositionOffset = new Vector2(-11, 11); // 選択時の位置オフセット
+    private Vector2 originalButtonPosition;  // ボタン枠の元の位置
+    private Vector2 originalFramePosition;  // ボタン枠の元の位置
+
+
+    /**
+    * @brief 初期化
+    * @memo 
+*/
     public void Start()
     {
         SoundCanvas = SoundCanvObj.GetComponent<Canvas>();
         DisplayCanvas = DisplayCanvObj.GetComponent<Canvas>();
+
+        flameTransform = ButtonFlame.GetComponent<RectTransform>();
+        buttonTransform = this.GetComponent<RectTransform>();
+
+        // ボタンとボタン枠の元の位置を記録
+        originalFramePosition = flameTransform.anchoredPosition;
+        originalButtonPosition = buttonTransform.anchoredPosition;
     }
 
 /**
@@ -46,5 +64,28 @@ public class UISettingButtonManager : MonoBehaviour
     {
         SoundCanvas.enabled = false;
         DisplayCanvas.enabled = true;
+    }
+
+
+    /**
+     * @brief カーソルがボタンに入った時白縁を表示する
+     * @memo 
+     */
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ButtonFlame.SetActive(true);
+        flameTransform.anchoredPosition = originalFramePosition + selectedPositionOffset;   // ボタン枠の位置を調整
+        buttonTransform.anchoredPosition = originalButtonPosition + selectedPositionOffset;   // ボタン枠の位置を調整
+    }
+
+    /**
+    * @brief カーソルがボタンから離れた時白縁を非表示にする
+    * @memo 
+    */
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ButtonFlame.SetActive(false);
+        flameTransform.anchoredPosition = originalFramePosition;   // ボタン枠の位置を元に戻す
+        buttonTransform.anchoredPosition = originalFramePosition;   // ボタン枠の位置を元に戻す
     }
 }
