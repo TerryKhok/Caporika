@@ -20,7 +20,7 @@ public abstract class PlayerState
      *  @brief 	プレイヤー特有の状態の列挙型
     */
     public enum PlayerCondition
-    { 
+    {
         Ground,     // 地面にいる
         Flying,     // 飛んでいる
         Swimming,   // 水の中にいる
@@ -56,14 +56,14 @@ public abstract class PlayerState
     //          マトリョーシカの揺れ
     //===============================================
 
-    protected  float returnSpeed = 0.5f;                // 回転を元に戻す速度
+    protected float returnSpeed = 0.5f;                // 回転を元に戻す速度
     protected float tiltVelocity = 0.0f;                // 傾きの速度
-    protected  float tiltAmount = 60.0f;                // 回転角の最大値
-    protected  float damping = 0.8f;                    // 減衰係数(どのくらいずつ回転角度を減らしていくか)
+    protected float tiltAmount = 60.0f;                // 回転角の最大値
+    protected float damping = 0.8f;                    // 減衰係数(どのくらいずつ回転角度を減らしていくか)
 
-    protected  int maxSwimg = 3;                        // 何回揺れるか 
-    protected 　int swingCount = 0;                     // 揺れの回数をカウント
-    protected 　float angleSwingZone = 1.0f;            // 揺れた判定内かどうか
+    protected int maxSwimg = 3;                        // 何回揺れるか 
+    protected int swingCount = 0;                     // 揺れの回数をカウント
+    protected float angleSwingZone = 1.0f;            // 揺れた判定内かどうか
     protected bool isInDeadZone = false;                // 揺れのデッドゾーン内にいるかどうか
 
     protected bool isStopped = false;                   // true:止まった
@@ -113,7 +113,7 @@ public abstract class PlayerState
         this.swingCount = 0;         // 揺れの回数をリセット
         this.isInDeadZone = false;   // デッドゾーンフラグをリセット
     }
-    
+
     /**
      *  @brief  マトリョーシカが止まった時の処理
      *  @return bool true:動きが完全に止まった
@@ -125,7 +125,8 @@ public abstract class PlayerState
         float currentRotation = this.rb.transform.rotation.eulerAngles.z;
 
         // 角度を-90度から90度の範囲に変換して目標角度との差を出す
-        if (currentRotation > 90.0f) currentRotation -= 360.0f;
+        if (currentRotation > 180.0f) currentRotation -= 360.0f;
+        currentRotation = Mathf.Clamp(currentRotation, -90.0f, 90.0f);
 
         float deltaRotation = targetRotation - currentRotation;
 
@@ -165,7 +166,7 @@ public abstract class PlayerState
         this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, newRotation);
 
         // 段々ふり幅を小さくする
-        this.tiltVelocity *= (1 - this.damping );
+        this.tiltVelocity *= (1 - this.damping);
 
         return false;       // まだ動いている
     }

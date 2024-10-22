@@ -10,7 +10,7 @@ public class PreventBounce : MonoBehaviour
 {
     private Vector3 prevPos = Vector3.zero;                         // 前フレームの座標
     public float desiredForce = 1.0f;                               // 相殺する力の度合い
-    public float groundDistance = 0.35f;                            // 地面との距離
+    float groundDistance = 0.5f;                            // 地面との距離
     private Rigidbody2D rb = null;
 
     // Start is called before the first frame update
@@ -45,7 +45,7 @@ public class PreventBounce : MonoBehaviour
 
         // 自身を無視するレイヤーマスクを設定
         int playerLayer = LayerMask.NameToLayer("player");
-        int triggerArea= LayerMask.NameToLayer("TriggerArea");
+        int triggerArea = LayerMask.NameToLayer("TriggerArea");
         int groundLayer = LayerMask.NameToLayer("ground");
 
         int layerMask = (1 << playerLayer) | (1 << groundLayer) | (1 << triggerArea);
@@ -57,10 +57,10 @@ public class PreventBounce : MonoBehaviour
 
         // 当たったオブジェクトが地面の時
         if (hit.collider != null && hit.collider.CompareTag("realGround"))
-        { 
+        {
             // 距離を測る
             distance = hit.distance;
-           // Debug.Log("hit.distance" + hit.distance);
+            // Debug.Log("hit.distance" + hit.distance);
         }
         else { Debug.Log("当たっていない" + hit.distance); }
         // Rayを可視化
@@ -69,26 +69,27 @@ public class PreventBounce : MonoBehaviour
         // y軸のベクトルを相殺する
         this.rb.AddForce(-Vector2.up * this.desiredForce, ForceMode2D.Force);
 
-        // 地面との距離が一定以上離れたとき
-        if (distance > this.groundDistance)
+        // 地面との距離が一定以上離れたとき（X方向のスケールに応じて離れたと判定する距離を変化させる）
+        if (distance > this.groundDistance * this.transform.localScale.x / 2)
         {
             // 前フレームの座標にする
-            this.rb.transform.position = new Vector3(this.rb.transform.position.x, this.prevPos.y - 0.1f, this.rb.transform.position.z);
-            //Debug.Log("戻した");
+            //this.rb.transform.position = new Vector3(this.rb.transform.position.x, this.prevPos.y - 0.1f, this.rb.transform.position.z);
+            this.rb.transform.position = new Vector3(this.rb.transform.position.x, this.rb.transform.position.y - 0.1f, this.rb.transform.position.z);
+            Debug.Log("前フレームの座標にする");
         }
     }
 
-     void OnCollisionStay2D(Collision2D collision)
-    {
-        // 地面に当たっているとき
-        if (collision.transform.CompareTag("realGround"))
-        {
-            if(this.rb)
-            {
-                // 座標を保持
-                this.prevPos = this.rb.transform.position;
-                //Debug.Log("保持した");
-            }
-        }
-    }
+    //void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    // 地面に当たっているとき
+    //    if (collision.transform.CompareTag("realGround"))
+    //    {
+    //        if (this.rb)
+    //        {
+    //            // 座標を保持
+    //            this.prevPos = this.rb.transform.position;
+    //            //Debug.Log("保持した");
+    //        }
+    //    }
+    //}
 }

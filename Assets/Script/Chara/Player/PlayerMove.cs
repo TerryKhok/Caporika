@@ -29,9 +29,13 @@ public class PlayerMove : MonoBehaviour
         if (this.rb != null)
         {
             Renderer renderer = GetComponent<Renderer>();
-            Vector2 size = renderer.bounds.size;
+            Vector2 boundsSize = renderer.localBounds.size;
+            Vector3 scale = this.transform.localScale;
             // 重心をオブジェクトの高さのcenterOfMassOffsetの位置に設定
-            this.rb.centerOfMass = new Vector2(0.0f, -size.y * (0.5f - this.centerOfMassOffset));
+            // 一番下を基準として、centerOfMassOffsetの割合の位置に重心を置く
+            var centerOfMass = new Vector2(0.0f, scale.y * ((-boundsSize.y * 0.5f) + (boundsSize.y * this.centerOfMassOffset)));
+            this.rb.centerOfMass = centerOfMass;
+            Debug.Log("CenterOfMass" + centerOfMass);
         }
 
         // プレイヤーの状態に合わせて現在の動きを設定
@@ -164,7 +168,7 @@ public class PlayerMove : MonoBehaviour
         {
             // ボタン
             if (collision.gameObject.CompareTag("Button"))
-            { 
+            {
                 this.isGround = true;
             }
         }
@@ -192,10 +196,10 @@ public class PlayerMove : MonoBehaviour
      *  @brief 	プレイヤーの状態遷移を行う処理
      *  @param  PlayerState.PlayerCondition _changeCondition    変更後のプレイヤーの状態
     */
-    public void    ChangePlayerCondition(PlayerState.PlayerCondition _changeCondition)
+    public void ChangePlayerCondition(PlayerState.PlayerCondition _changeCondition)
     {
         // 状態が同じなら処理を行わない
-        if(this.playerCondition == _changeCondition) { return; }
+        if (this.playerCondition == _changeCondition) { return; }
         this.playerCondition = _changeCondition;
 
         if (this.currentState != null)
