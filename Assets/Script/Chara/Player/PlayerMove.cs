@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour
             // 一番下を基準として、centerOfMassOffsetの割合の位置に重心を置く
             var centerOfMass = new Vector2(0.0f, scale.y * ((-boundsSize.y * 0.5f) + (boundsSize.y * this.centerOfMassOffset)));
             this.rb.centerOfMass = centerOfMass;
-            Debug.Log("CenterOfMass" + centerOfMass);
+            //Debug.Log("CenterOfMass" + centerOfMass);
         }
 
         // プレイヤーの状態に合わせて現在の動きを設定

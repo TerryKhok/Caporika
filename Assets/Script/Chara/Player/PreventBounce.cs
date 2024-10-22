@@ -4,13 +4,12 @@ using UnityEngine;
 
 /**
  *  @brief  マトリョーシカが跳ねるのを防ぐ関数
- *  @memo   地面と距離が一定以上離れたら前の座標にする
+ *  @memo   地面と距離が一定以上離れたら現在座標の少し下にする   2024/10/22更新
 */
 public class PreventBounce : MonoBehaviour
 {
-    private Vector3 prevPos = Vector3.zero;                         // 前フレームの座標
-    public float desiredForce = 1.0f;                               // 相殺する力の度合い
-    float groundDistance = 0.5f;                            // 地面との距離
+    public float desiredForce = 1.0f;           // 相殺する力の度合い
+    float groundDistance = 0.5f;                // 地面との距離
     private Rigidbody2D rb = null;
 
     // Start is called before the first frame update
@@ -33,8 +32,6 @@ public class PreventBounce : MonoBehaviour
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
             return;
         }
-        // 座標を保持
-        this.prevPos = this.rb.transform.position;
     }
 
     // Update is called once per frame
@@ -72,24 +69,8 @@ public class PreventBounce : MonoBehaviour
         // 地面との距離が一定以上離れたとき（X方向のスケールに応じて離れたと判定する距離を変化させる）
         if (distance > this.groundDistance * this.transform.localScale.x / 2)
         {
-            // 前フレームの座標にする
-            //this.rb.transform.position = new Vector3(this.rb.transform.position.x, this.prevPos.y - 0.1f, this.rb.transform.position.z);
             this.rb.transform.position = new Vector3(this.rb.transform.position.x, this.rb.transform.position.y - 0.1f, this.rb.transform.position.z);
-            Debug.Log("前フレームの座標にする");
+            //Debug.Log("前フレームの座標にする");
         }
     }
-
-    //void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    // 地面に当たっているとき
-    //    if (collision.transform.CompareTag("realGround"))
-    //    {
-    //        if (this.rb)
-    //        {
-    //            // 座標を保持
-    //            this.prevPos = this.rb.transform.position;
-    //            //Debug.Log("保持した");
-    //        }
-    //    }
-    //}
 }
