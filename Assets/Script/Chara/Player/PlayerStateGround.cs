@@ -60,6 +60,7 @@ public class PlayerStateGround : PlayerState
 
         // 跳ね防止スクリプトを有効に
         this.preventBounce.enabled = true;
+        Debug.Log("跳ね防止有効");
 
         // プレイヤーのアニメーター
         this.animator = _playerMove.GetComponent<Animator>();
@@ -73,7 +74,7 @@ public class PlayerStateGround : PlayerState
         if (_playerMove.attackState == PlayerState.AttackState.Success)
         {
             this.animator.SetTrigger("hitTrigger");
-            Debug.Log("攻撃成功アニメーション");
+            //Debug.Log("攻撃成功アニメーション");
         }
 
         // 攻撃不発時アニメーション
@@ -95,6 +96,7 @@ public class PlayerStateGround : PlayerState
     {
         // 跳ね防止スクリプトを無効に
         if (this.preventBounce.enabled) { this.preventBounce.enabled = false; }
+        Debug.Log("跳ね防止無効");
     }
 
     /**

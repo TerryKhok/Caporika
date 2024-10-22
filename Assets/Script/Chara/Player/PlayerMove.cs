@@ -137,7 +137,7 @@ public class PlayerMove : MonoBehaviour
         if (!this.isInWater)
         {
             // 地面かボタン
-            if (collision.gameObject.CompareTag("ground") || collision.gameObject.CompareTag("Button"))
+            if (collision.gameObject.CompareTag("realGround") || collision.gameObject.CompareTag("Button"))
             {
                 this.isGround = true;
             }
@@ -151,7 +151,7 @@ public class PlayerMove : MonoBehaviour
             this.isInWater = false;
         }
         // 地面
-        if (collision.gameObject.CompareTag("ground"))
+        if (collision.gameObject.CompareTag("realGround"))
         {
             this.isGround = false;
         }

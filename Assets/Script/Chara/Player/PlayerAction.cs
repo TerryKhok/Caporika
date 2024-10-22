@@ -269,27 +269,27 @@ private bool isSametag = false;                     // 同じTag名
         if ((angle.z >= 0.0f && angle.z < 15.0f)|| (angle.z >= 345.0f && angle.z < 360.0f)) 
         { 
             rotation = Quaternion.Euler(angle.x, angle.y, 0.0f);
-            Debug.Log("真上");
+            //Debug.Log("真上");
         }
         else if (angle.z >= 15.0f && angle.z < 52.5f)
         {
             rotation = Quaternion.Euler(angle.x, angle.y, (15.0f + this.outerAngle));
-            Debug.Log("左内側");
+            //Debug.Log("左内側");
         }
         else if (angle.z >= 52.5f && angle.z < 90.0f) 
         { 
             rotation = Quaternion.Euler(angle.x, angle.y, (52.5f + this.innerAngle));
-            Debug.Log("左外側");
+            //Debug.Log("左外側");
         }
         else if (angle.z >= 270.0f && angle.z < 307.5) 
         { 
             rotation = Quaternion.Euler(angle.x, angle.y, (270.0f + this.outerAngle));
-            Debug.Log("右外側");
+            //Debug.Log("右外側");
         }
         else if (angle.z >= 307.5 && angle.z < 345.0f) 
         {
             rotation = Quaternion.Euler(angle.x, angle.y, (307.5f+this.innerAngle));
-            Debug.Log("右内側");
+            //Debug.Log("右内側");
         }
 
         //Debug.Log("かくど:" + this.transform.eulerAngles);
