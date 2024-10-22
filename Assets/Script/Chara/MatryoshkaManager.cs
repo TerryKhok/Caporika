@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 /**
@@ -9,6 +10,9 @@ using UnityEngine.UIElements;
  *  @memo   ・残機の管理
  *          ・生成するマトリョーシカ
  *          ・死ぬときの処理
+ *          ・スタート時にマトリョシカをチェックポイントに生成
+ *          
+ *          ※チェックポイントの0番はスタート地点です。
 */
 public class MatryoshkaManager : MonoBehaviour
 {
@@ -17,18 +21,24 @@ public class MatryoshkaManager : MonoBehaviour
 
     private int currentLife = 0;            // 現在の残機
 
+    [SerializeField] private GameObject[] checkpoints;  // チェックポイント
+
     // Start is called before the first frame update
     void Start()
     {
         // 残機をセット
         currentLife = maxLife;
+
+        // マトリョシカを生成してチェックポイントに移動
+        var firstMatryoshka = InstanceMatryoshka(currentLife);
+        firstMatryoshka.gameObject.transform.position = checkpoints[GimmickCheckpointParam.GetCheckpointNum()].transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         // 残機が0の時
-        if(currentLife<=0)
+        if (currentLife <= 0)
         {
             // ゲームオーバー
             GameOver();
@@ -41,7 +51,7 @@ public class MatryoshkaManager : MonoBehaviour
     */
     public void AddLife()
     {
-        if(currentLife<= maxLife)
+        if (currentLife <= maxLife)
         {
             currentLife++;
         }
@@ -53,7 +63,7 @@ public class MatryoshkaManager : MonoBehaviour
     */
     public int LoseLife()
     {
-        if (currentLife >0)
+        if (currentLife > 0)
         {
             currentLife--;
         }
@@ -68,7 +78,7 @@ public class MatryoshkaManager : MonoBehaviour
     public GameObject InstanceMatryoshka(int _index)
     {
         GameObject createPrefab = null;
-        if(_index >0)
+        if (_index > 0)
         {
             createPrefab = Instantiate(matryoshkaPrefabes[_index - 1]);
         }
@@ -81,5 +91,6 @@ public class MatryoshkaManager : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("GameOver");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
