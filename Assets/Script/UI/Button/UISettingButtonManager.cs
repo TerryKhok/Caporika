@@ -12,7 +12,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 * @brief 設定変更画面で使うスクリプト
 * @memo 設定のジャンルをボタンを押して変更するときに使う
 */   
-public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private GameObject SoundCanvObj;    //SoundButtonをインスペクターで入れる
     [SerializeField] private GameObject DisplayCanvObj;  //DisplayButtonをインスペクターで入れる
@@ -24,9 +24,11 @@ public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPoin
     private Canvas SoundCanvas;
     private Canvas DisplayCanvas;
 
-    public Vector2 selectedPositionOffset = new Vector2(-11, 11); // 選択時の位置オフセット
+    public Vector2 selectedPositionOffset = new Vector2(11, -11); // 選択時の位置オフセット
+    public Vector2 pressOffset = new Vector2(11, -11);  //押されたときの位置
     private Vector2 originalButtonPosition;  // ボタン枠の元の位置
     private Vector2 originalFramePosition;  // ボタン枠の元の位置
+
 
 
     /**
@@ -75,7 +77,23 @@ public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         ButtonFlame.SetActive(true);
         flameTransform.anchoredPosition = originalFramePosition + selectedPositionOffset;   // ボタン枠の位置を調整
-        buttonTransform.anchoredPosition = originalButtonPosition + selectedPositionOffset;   // ボタン枠の位置を調整
+        buttonTransform.anchoredPosition = originalButtonPosition + selectedPositionOffset;   // ボタンの位置を調整
+    }
+
+    // ボタンが押されたとき
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        // ボタンをさらに下げ、影と重なるようにする
+        flameTransform.localPosition = originalFramePosition + pressOffset;
+        buttonTransform.localPosition = originalButtonPosition + pressOffset;
+    }
+
+    // ボタンが押されなくなったとき
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        // ボタンをさらに下げ、影と重なるようにする
+        flameTransform.localPosition = originalFramePosition + selectedPositionOffset;
+        buttonTransform.localPosition = originalButtonPosition + selectedPositionOffset;
     }
 
     /**
@@ -86,6 +104,7 @@ public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         ButtonFlame.SetActive(false);
         flameTransform.anchoredPosition = originalFramePosition;   // ボタン枠の位置を元に戻す
-        buttonTransform.anchoredPosition = originalFramePosition;   // ボタン枠の位置を元に戻す
+        buttonTransform.anchoredPosition = originalButtonPosition;   // ボタン枠の位置を元に戻す
     }
+
 }

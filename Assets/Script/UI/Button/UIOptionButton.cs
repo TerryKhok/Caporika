@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 
 /**
@@ -13,25 +16,33 @@ public class UIOptionButton : MonoBehaviour
     private GameObject irisObject;
     private GameObject OptionCanvas;
     private Canvas OptionCanv;
+    CanvasGroup optionCanvasGroup;
 
-    private GameObject SoundOptionCanvas;
-    private GameObject DisplayOptionCanvas;
+    private GameObject soundOptionCanvas;
+    private GameObject displayOptionCanvas;
 
     private Canvas soundCanvas;
     private Canvas displayCanvas;
-    
 
-    
+
 
     public void Start()
     {
         irisObject = GameObject.Find("IrisCanv");
         OptionCanvas = GameObject.Find("OptionCanv");
 
-        SoundOptionCanvas = GameObject.Find("SoundCanvas");
-        DisplayOptionCanvas = GameObject.Find("DisplayCanvas");
+        soundOptionCanvas = GameObject.Find("SoundCanvas");
+        soundCanvas = soundOptionCanvas.GetComponent<Canvas>();
+        displayOptionCanvas = GameObject.Find("DisplayCanvas");
+        displayCanvas = displayOptionCanvas.GetComponent<Canvas>();
 
         OptionCanv = OptionCanvas.GetComponent<Canvas>();
+
+        //OptionCanvas.SetActive(false);  //OptionCanvasを表示
+        OptionCanv.enabled = false;
+        optionCanvasGroup = OptionCanv.GetComponent<CanvasGroup>();
+        optionCanvasGroup.interactable = false;  // 操作不能にする
+        optionCanvasGroup.blocksRaycasts = false; // クリックなどのイベントを受け付けなくする
     }
 
     /**
@@ -50,9 +61,13 @@ public class UIOptionButton : MonoBehaviour
      */
     public void OptionButton()
     {
-        soundCanvas = GameObject.Find("SoundCanvas").GetComponent<Canvas>();
-        OptionCanv.enabled = true;  //OptionCanvasを表示
-        soundCanvas.enabled = true;  //SoundCanvasを非表示
+        OptionCanv.enabled = true;
+      
+        soundCanvas.enabled = true;  //SoundCanvasを表示
+        displayCanvas.enabled = false;  //SoundCanvasを表示
+
+        optionCanvasGroup.interactable = true;  // 操作可能にする
+        optionCanvasGroup.blocksRaycasts = true; // クリックなどのイベントを受け付ける
     }
 
     /**
@@ -96,29 +111,32 @@ public class UIOptionButton : MonoBehaviour
      * @memo 
      */
     public void OptionReturn()
-    {   
-        soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();
-        displayCanvas = DisplayOptionCanvas.GetComponent<Canvas>();
+    {
+        optionCanvasGroup.interactable = false;  // 操作不能にする
+        optionCanvasGroup.blocksRaycasts = false; // クリックなどのイベントを受け付けなくする
 
         soundCanvas.enabled = false;  //SoundCanvasを非表示
         displayCanvas.enabled = false;  //DisplayCanvasを非表示
-        OptionCanv.enabled = false;  //OptionCanvasを非表示
+        OptionCanv.enabled = false;
     }
 
-/**
-* @brief ポーズ状態で開かれているすべてのタブをを終了する関数
-* @memo Canvas閉じてPauseEnd関数読んでるだけ
-*/   
+    /**
+    * @brief ポーズ状態で開かれているすべてのタブをを終了する関数
+    * @memo Canvas閉じてPauseEnd関数読んでるだけ
+*/
     public void PauseFinish()
     {
         SystemPose poseCanvas= GameObject.Find ("PauseCanvas").GetComponent<SystemPose>();
 
-        soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();
-        displayCanvas = DisplayOptionCanvas.GetComponent<Canvas>();
+        soundCanvas = soundOptionCanvas.GetComponent<Canvas>();
+        displayCanvas = displayOptionCanvas.GetComponent<Canvas>();
 
         soundCanvas.enabled = false;  //SoundCanvasを非表示
         displayCanvas.enabled = false;  //DisplayCanvasを非表示
         OptionCanv.enabled = false;  //OptionCanvasを非表示
         poseCanvas.PoseEnd();
     }
+
+
+
 }
