@@ -284,6 +284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5045622098123752574, guid: 8666d236513f1814dadcdc3c256fc0b2, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 2098759832}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -335,6 +339,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OptionCanv
       objectReference: {fileID: 0}
+    - target: {fileID: 859450461375564674, guid: 89631bca32d725846830664da4750a1a, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 2098759832}
     - target: {fileID: 4262366972731320139, guid: 89631bca32d725846830664da4750a1a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -428,6 +436,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1044894523398817239, guid: 36450605b590c0a4ab32b3367cbc2750, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 2098759832}
     - target: {fileID: 2102953632875845691, guid: 36450605b590c0a4ab32b3367cbc2750, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2635,9 +2647,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 746552585572439375, guid: a46fc96aa71835b45bc06ab5a867e02f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 2098759832}
     - target: {fileID: 894342013956775780, guid: a46fc96aa71835b45bc06ab5a867e02f, type: 3}
       propertyPath: m_Name
       value: ResultCanvas
@@ -2692,15 +2704,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1051799374243910803, guid: a46fc96aa71835b45bc06ab5a867e02f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1051799374243910803, guid: a46fc96aa71835b45bc06ab5a867e02f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1051799374243910803, guid: a46fc96aa71835b45bc06ab5a867e02f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1051799374243910803, guid: a46fc96aa71835b45bc06ab5a867e02f, type: 3}
       propertyPath: m_AnchoredPosition.x

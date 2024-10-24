@@ -9,7 +9,7 @@ public class AnimGoalEvent : MonoBehaviour
     Animator resultAnim;
     public void Start()
     {
-        resultObj = GameObject.Find("Result");
+        resultObj = GameObject.Find("ResultBase");
         resultAnim = resultObj.GetComponent<Animator>();
     }
 
