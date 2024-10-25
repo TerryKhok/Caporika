@@ -120,6 +120,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // ƒS[ƒ‹’n“_‚É‚Â‚¢‚½‚Æ‚«
         if (collision.gameObject.CompareTag("goal"))
         {
             this.isGoal = true;

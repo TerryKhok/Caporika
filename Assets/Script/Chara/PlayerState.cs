@@ -99,9 +99,9 @@ public abstract class PlayerState
     //public abstract void CollisionExit(Collision _collision);
 
     /**
- *  @brief  マトリョーシカが移動中の処理
- *  @param  float _moveInput          移動している向き
-*/
+     *  @brief  マトリョーシカが移動中の処理
+     *  @param  float _moveInput          移動している向き
+    */
     protected void Move(float _moveInput)
     {
         // 移動方向と逆に傾ける

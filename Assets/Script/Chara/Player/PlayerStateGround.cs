@@ -143,8 +143,6 @@ public class PlayerStateGround : PlayerState
         float speed = moveInput * moveSpeed;
         this.rb.AddForce(new Vector2(speed, 0.0f), ForceMode2D.Force);
 
-        //Debug.Log("this.blinkCount:" + this.blinkCount);
-        //Debug.Log("this.blinkCount:" + this.sleepCount);
     }
 
     /**

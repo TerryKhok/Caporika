@@ -25,7 +25,7 @@ public class PlayerStateDamaged : PlayerState
 
     /**
      * @brief 	この状態に入るときに行う関数
-     * @paraam  PlayerMove _playerMove  
+     * @param  PlayerMove _playerMove  
      * 
      * memo    RigidBody2Dやその他コンポーネントを取得するためのみに使用する
     */
