@@ -4,174 +4,174 @@ using UnityEngine;
 using static UnityEngine.UI.Image;
 
 /**
- * @brief 	ƒvƒŒƒCƒ„[‚Ìó‘Ô–ˆ‚Ìˆ—‚ğs‚¤Šî’êƒNƒ‰ƒX
+ * @brief 	ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹æ¯ã®å‡¦ç†ã‚’è¡Œã†åŸºåº•ã‚¯ãƒ©ã‚¹
  * 
- *  @memo   EƒvƒŒƒCƒ„[‚Ìó‘Ô‚ÍAŒã‚ÉÀ‘•‚·‚éPlayerMove.cs“à‚Å—ñ‹“Œ^(CharaConditionAPlayerCondition)‚ğg—p‚µ‚ÄØ‚è‘Ö‚¦‚é
+ *  @memo   ãƒ»ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹ã¯ã€å¾Œã«å®Ÿè£…ã™ã‚‹PlayerMove.cså†…ã§åˆ—æŒ™å‹(CharaConditionã€PlayerCondition)ã‚’ä½¿ç”¨ã—ã¦åˆ‡ã‚Šæ›¿ãˆã‚‹
  *  
  *  ========================================================================================================
  *  
- *          MonoBehaviour‚ğŒp³‚µ‚È‚¢‚½‚ßƒpƒ‰ƒ[ƒ^‚Í’¼Ú‚¢‚¶‚Á‚Ä‚­‚¾‚³‚¢IIIIIIIII
+ *          MonoBehaviourã‚’ç¶™æ‰¿ã—ãªã„ãŸã‚ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã¯ç›´æ¥ã„ã˜ã£ã¦ãã ã•ã„ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼
  *          
  *  ========================================================================================================       
 */
 public abstract class PlayerState
 {
     /**
-     *  @brief 	ƒvƒŒƒCƒ„[“Á—L‚Ìó‘Ô‚Ì—ñ‹“Œ^
+     *  @brief 	ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç‰¹æœ‰ã®çŠ¶æ…‹ã®åˆ—æŒ™å‹
     */
     public enum PlayerCondition
     { 
-        Ground,     // ’n–Ê‚É‚¢‚é
-        Flying,     // ”ò‚ñ‚Å‚¢‚é
-        Swimming,   // …‚Ì’†‚É‚¢‚é
-        Dead,       // €‚ñ‚Å‚¢‚é
-        Goal,       //ƒS[ƒ‹‚µ‚Ä‚¢‚é
+        Ground,     // åœ°é¢ã«ã„ã‚‹
+        Flying,     // é£›ã‚“ã§ã„ã‚‹
+        Swimming,   // æ°´ã®ä¸­ã«ã„ã‚‹
+        Dead,       // æ­»ã‚“ã§ã„ã‚‹
+        Goal,       //ã‚´ãƒ¼ãƒ«ã—ã¦ã„ã‚‹
 
-        Normal,     // ’Êíó‘Ô
-        Damaged,    // ƒ_ƒ[ƒW‚ğó‚¯‚Ä‚¢‚é
+        Normal,     // é€šå¸¸çŠ¶æ…‹
+        Damaged,    // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã¦ã„ã‚‹
     }
 
     /**
-     *  @brief 	ƒvƒŒƒCƒ„[‚ªUŒ‚‚É¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
+     *  @brief 	ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ”»æ’ƒã«æˆåŠŸã—ãŸã‹ã©ã†ã‹
     */
     public enum AttackState
     {
-        None,           // ‰½‚às‚Á‚Ä‚¢‚È‚¢
-        Failed,         // ¸”s‚µ‚½
-        Success,        // ¬Œ÷‚µ‚½
+        None,           // ä½•ã‚‚è¡Œã£ã¦ã„ãªã„
+        Failed,         // å¤±æ•—ã—ãŸ
+        Success,        // æˆåŠŸã—ãŸ
     }
 
-    protected float moveFactor = 1.0f;              // ƒvƒŒƒCƒ„[‚Ì‘S‘Ì‚Ì“®‚«‚ğ’²®‚·‚éŒW”(0.0f`1.0f)A1.0f‚Ì100%—Í‚ª‰e‹¿‚³‚ê‚é
+    protected float moveFactor = 1.0f;              // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å…¨ä½“ã®å‹•ãã‚’èª¿æ•´ã™ã‚‹ä¿‚æ•°(0.0fï½1.0f)ã€1.0fã®æ™‚100%åŠ›ãŒå½±éŸ¿ã•ã‚Œã‚‹
 
     //===============================================
-    //          ƒ}ƒgƒŠƒ‡[ƒVƒJ‚ÌˆÚ“®
+    //          ãƒãƒˆãƒªãƒ§ãƒ¼ã‚·ã‚«ã®ç§»å‹•
     //===============================================
 
-    protected const float moveSpeed = 8.0f;             // ˆÚ“®‘¬“x
-    protected float inputDeadZone = 0.1f;               // “ü—Í‚Ìƒfƒbƒhƒ][ƒ“
-    protected float moveDamping = 0.8f;                 // Œ¸ŠŒW”(‚Ç‚Ì‚­‚ç‚¢‚¸‚Â”½“®‚ğŒ¸‚ç‚µ‚Ä‚¢‚­‚©)
+    protected const float moveSpeed = 8.0f;             // ç§»å‹•é€Ÿåº¦
+    protected float inputDeadZone = 0.1f;               // å…¥åŠ›ã®ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³
+    protected float moveDamping = 0.8f;                 // æ¸›è¡°ä¿‚æ•°(ã©ã®ãã‚‰ã„ãšã¤åå‹•ã‚’æ¸›ã‚‰ã—ã¦ã„ãã‹)
     protected Rigidbody2D rb = null;
 
     //===============================================
-    //          ƒ}ƒgƒŠƒ‡[ƒVƒJ‚Ì—h‚ê
+    //          ãƒãƒˆãƒªãƒ§ãƒ¼ã‚·ã‚«ã®æºã‚Œ
     //===============================================
 
-    protected  float returnSpeed = 0.5f;                // ‰ñ“]‚ğŒ³‚É–ß‚·‘¬“x
-    protected float tiltVelocity = 0.0f;                // ŒX‚«‚Ì‘¬“x
-    protected  float tiltAmount = 60.0f;                // ‰ñ“]Šp‚ÌÅ‘å’l
-    protected  float damping = 0.8f;                    // Œ¸ŠŒW”(‚Ç‚Ì‚­‚ç‚¢‚¸‚Â‰ñ“]Šp“x‚ğŒ¸‚ç‚µ‚Ä‚¢‚­‚©)
+    protected  float returnSpeed = 0.5f;                // å›è»¢ã‚’å…ƒã«æˆ»ã™é€Ÿåº¦
+    protected float tiltVelocity = 0.0f;                // å‚¾ãã®é€Ÿåº¦
+    protected  float tiltAmount = 60.0f;                // å›è»¢è§’ã®æœ€å¤§å€¤
+    protected  float damping = 0.8f;                    // æ¸›è¡°ä¿‚æ•°(ã©ã®ãã‚‰ã„ãšã¤å›è»¢è§’åº¦ã‚’æ¸›ã‚‰ã—ã¦ã„ãã‹)
 
-    protected  int maxSwimg = 3;                        // ‰½‰ñ—h‚ê‚é‚© 
-    protected @int swingCount = 0;                     // —h‚ê‚Ì‰ñ”‚ğƒJƒEƒ“ƒg
-    protected @float angleSwingZone = 1.0f;            // —h‚ê‚½”»’è“à‚©‚Ç‚¤‚©
-    protected bool isInDeadZone = false;                // —h‚ê‚Ìƒfƒbƒhƒ][ƒ““à‚É‚¢‚é‚©‚Ç‚¤‚©
+    protected  int maxSwimg = 3;                        // ä½•å›æºã‚Œã‚‹ã‹ 
+    protected ã€€int swingCount = 0;                     // æºã‚Œã®å›æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆ
+    protected ã€€float angleSwingZone = 1.0f;            // æºã‚ŒãŸåˆ¤å®šå†…ã‹ã©ã†ã‹
+    protected bool isInDeadZone = false;                // æºã‚Œã®ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å†…ã«ã„ã‚‹ã‹ã©ã†ã‹
 
-    protected bool isStopped = false;                   // true:~‚Ü‚Á‚½
+    protected bool isStopped = false;                   // true:æ­¢ã¾ã£ãŸ
 
     /**
-     * @brief 	‚±‚Ìó‘Ô‚É“ü‚é‚Æ‚«‚És‚¤ŠÖ”
+     * @brief 	ã“ã®çŠ¶æ…‹ã«å…¥ã‚‹ã¨ãã«è¡Œã†é–¢æ•°
      * @paraam  PlayerMove _playerMove  
      * 
-     * memo    RigidBody2D‚â‚»‚Ì‘¼ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚·‚é‚½‚ß‚Ì‚İ‚Ég—p‚·‚é
+     * memo    RigidBody2Dã‚„ãã®ä»–ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã¿ã«ä½¿ç”¨ã™ã‚‹
     */
     public abstract void Enter(PlayerMove _playerMove);
 
     /**
-     * @brief 	‚±‚Ìó‘Ô‚©‚ço‚é‚Æ‚«‚És‚¤ŠÖ”
+     * @brief 	ã“ã®çŠ¶æ…‹ã‹ã‚‰å‡ºã‚‹ã¨ãã«è¡Œã†é–¢æ•°
     */
     public abstract void Exit();
 
     /**
-     * @brief 	XVˆ—t
+     * @brief 	æ›´æ–°å‡¦ç†t
     */
     public abstract void Update();
 
     /**
-     * @brief 	“–‚½‚Á‚½‚Ìˆ—
-     *  @param  Collider2D _collision    “–‚½‚Á‚½ƒIƒuƒWƒFƒNƒg
+     * @brief 	å½“ãŸã£ãŸæ™‚ã®å‡¦ç†
+     *  @param  Collider2D _collision    å½“ãŸã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     */
     public abstract void CollisionEnter(Collider2D _collision);
 
     ///**
-    // * @brief 	“–‚½‚ç‚È‚­‚È‚Á‚½‚Ìˆ—
-    // *  @param  Collision _collision    “–‚½‚Á‚½ƒIƒuƒWƒFƒNƒg
+    // * @brief 	å½“ãŸã‚‰ãªããªã£ãŸæ™‚ã®å‡¦ç†
+    // *  @param  Collision _collision    å½“ãŸã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     //*/
     //public abstract void CollisionExit(Collision _collision);
 
     /**
- *  @brief  ƒ}ƒgƒŠƒ‡[ƒVƒJ‚ªˆÚ“®’†‚Ìˆ—
- *  @param  float _moveInput          ˆÚ“®‚µ‚Ä‚¢‚éŒü‚«
+ *  @brief  ãƒãƒˆãƒªãƒ§ãƒ¼ã‚·ã‚«ãŒç§»å‹•ä¸­ã®å‡¦ç†
+ *  @param  float _moveInput          ç§»å‹•ã—ã¦ã„ã‚‹å‘ã
 */
     protected void Move(float _moveInput)
     {
-        // ˆÚ“®•ûŒü‚Æ‹t‚ÉŒX‚¯‚é
+        // ç§»å‹•æ–¹å‘ã¨é€†ã«å‚¾ã‘ã‚‹
         float tilt = _moveInput * this.tiltAmount;
         tilt = Mathf.Clamp(tilt, -this.tiltAmount, this.tiltAmount);
         this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, tilt);
 
-        this.tiltVelocity = 0.0f;    // ŒX‚«‚Ì‘¬“x‚ğƒŠƒZƒbƒg
-        this.swingCount = 0;         // —h‚ê‚Ì‰ñ”‚ğƒŠƒZƒbƒg
-        this.isInDeadZone = false;   // ƒfƒbƒhƒ][ƒ“ƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+        this.tiltVelocity = 0.0f;    // å‚¾ãã®é€Ÿåº¦ã‚’ãƒªã‚»ãƒƒãƒˆ
+        this.swingCount = 0;         // æºã‚Œã®å›æ•°ã‚’ãƒªã‚»ãƒƒãƒˆ
+        this.isInDeadZone = false;   // ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
     }
 
     /**
-     *  @brief  ƒ}ƒgƒŠƒ‡[ƒVƒJ‚ª~‚Ü‚Á‚½‚Ìˆ—
-     *  @return bool true:“®‚«‚ªŠ®‘S‚É~‚Ü‚Á‚½
+     *  @brief  ãƒãƒˆãƒªãƒ§ãƒ¼ã‚·ã‚«ãŒæ­¢ã¾ã£ãŸæ™‚ã®å‡¦ç†
+     *  @return bool true:å‹•ããŒå®Œå…¨ã«æ­¢ã¾ã£ãŸ
     */
     protected bool Stopped()
     {
-        // –ß‚µ‚½‚¢Šp“x‚ÆŒ»İ‚ÌŠp“x
+        // æˆ»ã—ãŸã„è§’åº¦ã¨ç¾åœ¨ã®è§’åº¦
         float targetRotation = 0.0f;
         float currentRotation = this.rb.transform.rotation.eulerAngles.z;
 
-        // Šp“x‚ğ-180“x‚©‚ç180“x‚Ì”ÍˆÍ‚É•ÏŠ·‚µ‚Ä–Ú•WŠp“x‚Æ‚Ì·‚ğo‚·
+        // è§’åº¦ã‚’-180åº¦ã‹ã‚‰180åº¦ã®ç¯„å›²ã«å¤‰æ›ã—ã¦ç›®æ¨™è§’åº¦ã¨ã®å·®ã‚’å‡ºã™
         if (currentRotation > 180.0f) currentRotation -= 360.0f;
         float deltaRotation = targetRotation - currentRotation;
 
-        // ”½“®‚Å—h‚ê‚Ä‚©‚ç^‚Á’¼‚®‚É–ß‚é
+        // åå‹•ã§æºã‚Œã¦ã‹ã‚‰çœŸã£ç›´ãã«æˆ»ã‚‹
         this.tiltVelocity += deltaRotation * this.returnSpeed * Time.deltaTime;
 
-        // Šp“x‚ğŒvZ
+        // è§’åº¦ã‚’è¨ˆç®—
         float newRotation = currentRotation + this.tiltVelocity * this.moveFactor;
         newRotation = Mathf.Clamp(newRotation, -this.tiltAmount, this.tiltAmount);
 
-        // Šp“x‚ªƒfƒbƒhƒ][ƒ““à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN
+        // è§’åº¦ãŒãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å†…ã«ã‚ã‚‹ã‹ã©ã†ã‹ã‚’ãƒã‚§ãƒƒã‚¯
         if (Mathf.Abs(deltaRotation) < this.angleSwingZone)
         {
             if (!this.isInDeadZone)
             {
-                // ƒfƒbƒhƒ][ƒ“‚ğ’Ê‰ß‚µ‚½‚ç1‰ñu—h‚ê‚½v
+                // ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã‚’é€šéã—ãŸã‚‰1å›ã€Œæºã‚ŒãŸã€
                 this.swingCount++;
                 this.isInDeadZone = true;
             }
         }
         else { this.isInDeadZone = false; }
 
-        // 3‰ñ–Ú‚Ì—h‚ê‚ªI‚í‚Á‚½
+        // 3å›ç›®ã®æºã‚ŒãŒçµ‚ã‚ã£ãŸæ™‚
         if (this.swingCount >= this.maxSwimg)
         {
-            // ‰ñ“]A‘¬“x‚È‚Ç‚ğƒŠƒZƒbƒg
+            // å›è»¢ã€é€Ÿåº¦ãªã©ã‚’ãƒªã‚»ãƒƒãƒˆ
             newRotation = 0.0f;
             this.tiltVelocity = 0.0f;
             this.rb.angularVelocity = 0.0f;
             this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
             this.swingCount = this.maxSwimg;
 
-            return true;    // “®‚«‚ª~‚Ü‚Á‚½
+            return true;    // å‹•ããŒæ­¢ã¾ã£ãŸ
         }
 
-        // Šp“x‚ÌƒZƒbƒg
+        // è§’åº¦ã®ã‚»ãƒƒãƒˆ
         this.rb.transform.rotation = Quaternion.Euler(0.0f, 0.0f, newRotation);
 
-        // ’iX‚Ó‚è•‚ğ¬‚³‚­‚·‚é
+        // æ®µã€…ãµã‚Šå¹…ã‚’å°ã•ãã™ã‚‹
         this.tiltVelocity *= (1 - this.damping );
 
-        return false;       // ‚Ü‚¾“®‚¢‚Ä‚¢‚é
+        return false;       // ã¾ã å‹•ã„ã¦ã„ã‚‹
     }
 
     /**
-     *  @brief  ƒ}ƒgƒŠƒ‡[ƒVƒJ‚ªŠ®‘S‚É“®ì‚ğ’â~‚µ‚½‚©‚ğ•Ô‚·ŠÖ”
-     *  @return bool this.isStopped true:“®‚«‚ªŠ®‘S‚É~‚Ü‚Á‚½
+     *  @brief  ãƒãƒˆãƒªãƒ§ãƒ¼ã‚·ã‚«ãŒå®Œå…¨ã«å‹•ä½œã‚’åœæ­¢ã—ãŸã‹ã‚’è¿”ã™é–¢æ•°
+     *  @return bool this.isStopped true:å‹•ããŒå®Œå…¨ã«æ­¢ã¾ã£ãŸ
     */
     public bool GetObjectStopped()
     {
