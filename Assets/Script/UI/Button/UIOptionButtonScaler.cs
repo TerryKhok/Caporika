@@ -1,54 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonSelectionEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class UIOptionButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
-    public RectTransform frame;    // ボタン枠
+
     private RectTransform button;//ボタン
-
-    public Vector2 selectedPositionOffset = new Vector2(-5, 5); // 選択時の位置オフセット
-    public Vector2 pressOffset = new Vector2(5, -5); // 選択時の位置オフセット
-
-    private Vector2 originalFramePosition;  // ボタン枠の元の位置
+    public GameObject shadowImage;
+    public Vector2 selectedPositionOffset = new Vector2(-11, 11); // 選択時の位置オフセット
     private Vector2 originalButtonPosition;  // ボタン枠の元の位置
-
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         button = this.GetComponent<RectTransform>();
-        // ボタンとボタン枠の元の位置を記録
-        originalFramePosition = frame.anchoredPosition;
+        // ボタンの元の位置を記録
         originalButtonPosition = button.anchoredPosition;
+        shadowImage.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         // ポインターがボタンに重なったときの処理
-        frame.anchoredPosition = originalFramePosition + selectedPositionOffset;   // ボタン枠の位置を調整
         button.anchoredPosition = originalButtonPosition + selectedPositionOffset;   // ボタンの位置を調整
+        shadowImage.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         // ポインターがボタンから離れたときの処理
-        frame.anchoredPosition = originalFramePosition;   // ボタン枠の位置を元に戻す
         button.anchoredPosition = originalButtonPosition;   // ボタンの位置を元に戻す
+        shadowImage.SetActive(false);
     }
 
     // ボタンが押されたとき
     public void OnPointerDown(PointerEventData eventData)
     {
         // ボタンをさらに下げ、影と重なるようにする
-        frame.localPosition = originalFramePosition + pressOffset;
-        button.localPosition = originalButtonPosition + pressOffset;
+        button.localPosition = originalButtonPosition;
     }
 
     // ボタンが押されなくなったとき
     public void OnPointerUp(PointerEventData eventData)
     {
         // ボタンをさらに下げ、影と重なるようにする
-        frame.localPosition = originalFramePosition + selectedPositionOffset;
         button.localPosition = originalButtonPosition + selectedPositionOffset;
     }
-
-
 }

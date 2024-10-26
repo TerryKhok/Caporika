@@ -11,7 +11,8 @@ public class SystemPose : MonoBehaviour
 {
     public KeyCode  PoseKey = KeyCode.Escape;          // Poseを行うキー
     bool is_poseNow = false;
-    Canvas poseCanvas;
+    private Canvas poseCanvas;
+    private CanvasGroup optionCanvasGroup;
     private GameObject OptionCanvas;
     private Canvas OptionCanv;
     
@@ -21,6 +22,8 @@ public class SystemPose : MonoBehaviour
         poseCanvas.enabled = false;
         OptionCanvas = GameObject.Find("OptionCanv");
         OptionCanv = OptionCanvas.GetComponent<Canvas>();
+        optionCanvasGroup = OptionCanv.GetComponent<CanvasGroup>();
+
     }
 
     /**
@@ -60,8 +63,10 @@ public class SystemPose : MonoBehaviour
     {
         poseCanvas.enabled = false;
         is_poseNow = false; //ポーズフラグをfalseに
-        OptionCanv.enabled = false;  //OptionCanvasを非表示
+        OptionCanv.enabled = false;
         Time.timeScale = 1.0f;  //時間を進める
+        optionCanvasGroup.interactable = false;  // 操作不能にする
+        optionCanvasGroup.blocksRaycasts = false; // クリックなどのイベントを受け付けなくする
     }
 
 }
