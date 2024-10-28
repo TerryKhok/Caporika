@@ -45,13 +45,15 @@ public class PlayerAction : MonoBehaviour
     private bool isJump = false;                            // true:ジャンプできる
     private float time = 0.0f;                              // カウント用
 
-    private bool isNestIn = false;      // 子マトリョーシカが中に入った
+    [Header("ジャンプさせる角度(各々0.0~37.5で設定して)")]
+    public float outerAngle;    // 外側の角度
+    public float innerAngle;    // 内側の角度
 
-    //===============================================
-    //          当たっているオブジェクト
-    //===============================================
+//===============================================
+//          当たっているオブジェクト
+//===============================================
 
-    private bool isSametag = false;                     // 同じTag名
+private bool isSametag = false;                     // 同じTag名
     private Collider2D currentTrigger = null;           // 今当たっているオブジェクト
     private PlayerMove triggerMove = null;              // 当たっているオブジェクトの状態
     private int triggerSize = 0;                        // 今当たっているオブジェクトのサイズ
@@ -131,7 +133,6 @@ public class PlayerAction : MonoBehaviour
                 {
                     // 開くアニメーション
                     this.animator.SetTrigger("openTrigger");
-                    Debug.Log("開くアニメーション");
 
                     // 飛び出す処理
                     PopOut();
@@ -263,8 +264,38 @@ public class PlayerAction : MonoBehaviour
         // Playerタブ内に生成したマトリョーシカを配置
         this.newMatryoshka.transform.parent = this.playerObject.transform;
 
-        // 外側のマトリョーシカと同じ回転、座標にセット
-        this.newMatryoshka.transform.position = position;
+       // 飛び出す範囲によって生成したマトリョーシカの飛び出す角度を決める
+        Vector3  angle = this.transform.eulerAngles;
+        if ((angle.z >= 0.0f && angle.z < 15.0f)|| (angle.z >= 345.0f && angle.z < 360.0f)) 
+        { 
+            rotation = Quaternion.Euler(angle.x, angle.y, 0.0f);
+            //Debug.Log("真上");
+        }
+        else if (angle.z >= 15.0f && angle.z < 52.5f)
+        {
+            rotation = Quaternion.Euler(angle.x, angle.y, (15.0f + this.outerAngle));
+            //Debug.Log("左内側");
+        }
+        else if (angle.z >= 52.5f && angle.z < 90.0f) 
+        { 
+            rotation = Quaternion.Euler(angle.x, angle.y, (52.5f + this.innerAngle));
+            //Debug.Log("左外側");
+        }
+        else if (angle.z >= 270.0f && angle.z < 307.5) 
+        { 
+            rotation = Quaternion.Euler(angle.x, angle.y, (270.0f + this.outerAngle));
+            //Debug.Log("右外側");
+        }
+        else if (angle.z >= 307.5 && angle.z < 345.0f) 
+        {
+            rotation = Quaternion.Euler(angle.x, angle.y, (307.5f+this.innerAngle));
+            //Debug.Log("右内側");
+        }
+
+        //Debug.Log("かくど:" + this.transform.eulerAngles);
+
+        // 回転、座標をセット
+        this.newMatryoshka.transform.position = position + new Vector2(0.0f, 0.3f);
         this.newMatryoshka.transform.rotation = rotation;
 
         // 生成したマトリョーシカのRigidbody2Dを取得
@@ -275,8 +306,8 @@ public class PlayerAction : MonoBehaviour
             rb = this.newMatryoshka.AddComponent<Rigidbody2D>();
         }
 
-        // オブジェクトの傾いた方向に飛んでいく
-        Vector2 jumpDirection = this.transform.up * jumpForce;
+        // マトリョーシカの傾いている方向に飛んでいく
+        Vector2 jumpDirection = this.newMatryoshka.transform.up * jumpForce;
         rb.AddForce(jumpDirection, ForceMode2D.Impulse);
 
         // 飛び出たマトリョーシカを「飛んだ」状態に

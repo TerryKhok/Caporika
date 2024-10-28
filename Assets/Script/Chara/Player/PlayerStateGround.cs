@@ -23,7 +23,6 @@ public class PlayerStateGround : PlayerState
 {
     private PreventBounce preventBounce = null;                                     // 跳ね防止スクリプト
     private Animator animator = null;                                               // プレイヤーのアニメーター
-    //private PlayerState.AttackState attackState = PlayerState.AttackState.None;     // 攻撃を行ったかどうか
 
     private float blinkTimeCount = 0.0f;    // 瞬きをする間隔時間をカウント
     private float sleepTimeCount = 0.0f;    // 寝る間隔時間をカウント
@@ -61,6 +60,7 @@ public class PlayerStateGround : PlayerState
 
         // 跳ね防止スクリプトを有効に
         this.preventBounce.enabled = true;
+        Debug.Log("跳ね防止有効");
 
         // プレイヤーのアニメーター
         this.animator = _playerMove.GetComponent<Animator>();
@@ -74,16 +74,13 @@ public class PlayerStateGround : PlayerState
         if (_playerMove.attackState == PlayerState.AttackState.Success)
         {
             this.animator.SetTrigger("hitTrigger");
-            Debug.Log("攻撃成功アニメーション");
         }
 
         // 攻撃不発時アニメーション
         else if (_playerMove.attackState == PlayerState.AttackState.Failed)
         {
             this.animator.SetTrigger("nonHitTrigger");
-            //Debug.Log("攻撃不発時アニメーション");
         }
-        //else{ Debug.Log("通常アニメーション"); }
 
         // 攻撃状態リセット
         _playerMove.SetAttackState(PlayerState.AttackState.None);
@@ -96,6 +93,7 @@ public class PlayerStateGround : PlayerState
     {
         // 跳ね防止スクリプトを無効に
         if (this.preventBounce.enabled) { this.preventBounce.enabled = false; }
+        Debug.Log("跳ね防止無効");
     }
 
     /**
@@ -116,7 +114,7 @@ public class PlayerStateGround : PlayerState
             // 通常アニメーションのときカウントリセット
             if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
-                Debug.Log("通常アニメーション中");
+               // Debug.Log("通常アニメーション中");
 
                 this.blinkTimeCount = 0.0f;
                 this.sleepTimeCount = 0.0f;
@@ -142,9 +140,6 @@ public class PlayerStateGround : PlayerState
         // 速度を計算
         float speed = moveInput * moveSpeed;
         this.rb.AddForce(new Vector2(speed, 0.0f), ForceMode2D.Force);
-
-        //Debug.Log("this.blinkCount:" + this.blinkCount);
-        //Debug.Log("this.blinkCount:" + this.sleepCount);
     }
 
     /**
@@ -166,7 +161,6 @@ public class PlayerStateGround : PlayerState
             {
                 this.isSleep = false;
                 this.animator.SetTrigger("sleepTrigger");
-                Debug.Log("眠るアニメーション");
 
                 // アニメーションの間隔をリセット
                 this.sleepTimeCount = 0.0f;
@@ -178,7 +172,6 @@ public class PlayerStateGround : PlayerState
         if (!this.isSleep && this.blinkTimeCount > this.blinkCount)
         {
             this.animator.SetTrigger("blinkTrigger");
-            Debug.Log("瞬きアニメーション");
 
             // アニメーションの間隔をリセット
             this.blinkTimeCount = 0.0f; 

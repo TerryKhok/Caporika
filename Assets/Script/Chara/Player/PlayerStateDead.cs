@@ -60,7 +60,7 @@ public class PlayerStateDead : PlayerState
             return;
         }
         this.animator.SetBool("isDead", true);
-        Debug.Log("死んだアニメーション開始");
+        //Debug.Log("死んだアニメーション開始");
     }
 
     /**
@@ -70,11 +70,11 @@ public class PlayerStateDead : PlayerState
     {
         // アクションスクリプトを有効化
         this.playerAction.enabled = true;
-        Debug.Log("アニメーションスクリプトを有効化");
+        //Debug.Log("アニメーションスクリプトを有効化");
 
         // 死んだアニメーションをやめて、閉まるアニメーションを再生
         this.animator.SetBool("isDead", false);
-        Debug.Log("死んだアニメーション終了、閉まるアニメーション");
+        //Debug.Log("死んだアニメーション終了、閉まるアニメーション");
     }
 
     /**
@@ -86,7 +86,6 @@ public class PlayerStateDead : PlayerState
         {
             // 反動を消す
             this.rb.AddForce(new Vector2(-(this.rb.velocity.x * this.moveDamping), 0.0f), ForceMode2D.Impulse);
-
         }
 
         // もし揺れも完全に止まったら「止まった」

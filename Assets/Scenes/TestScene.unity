@@ -1053,6 +1053,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4956801054291345172, guid: bc9e17b2db22ecf4b8d62c24ca54464e, type: 3}
+      propertyPath: innerAngle
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956801054291345172, guid: bc9e17b2db22ecf4b8d62c24ca54464e, type: 3}
+      propertyPath: outerAngle
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956801054291345172, guid: bc9e17b2db22ecf4b8d62c24ca54464e, type: 3}
       propertyPath: knockbackAngle
       value: 30
       objectReference: {fileID: 0}
@@ -1062,11 +1070,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6059183308750904713, guid: bc9e17b2db22ecf4b8d62c24ca54464e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.08
+      value: 2.27
       objectReference: {fileID: 0}
     - target: {fileID: 6059183308750904713, guid: bc9e17b2db22ecf4b8d62c24ca54464e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.51
+      value: -0.11
       objectReference: {fileID: 0}
     - target: {fileID: 6059183308750904713, guid: bc9e17b2db22ecf4b8d62c24ca54464e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1380,6 +1388,7 @@ MonoBehaviour:
   bgmGroup: {fileID: 3208646524871145459, guid: 61f8e68420d1b524094a43636db935a5, type: 2}
   seGroup: {fileID: 685180558326385818, guid: 61f8e68420d1b524094a43636db935a5, type: 2}
   seSourcePoolSize: 10
+  soundRegistration: []
 --- !u!4 &1726611173
 Transform:
   m_ObjectHideFlags: 0
