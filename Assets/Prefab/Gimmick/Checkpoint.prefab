@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47522f31c214b9b45a8bc1af4b0f3a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: "\u3053\u306E\u30B9\u30AF\u30EA\u30D7\u30C8\u306F\u2026\uFF08\u8AAC\u660E\u6587\uFF09"
+  hiddenField: 
   checkpointIndex: 3
   cameraSceneIndex: 3
 --- !u!58 &1491332890701223279
@@ -127,6 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47522f31c214b9b45a8bc1af4b0f3a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: 'aiueo
+
+'
+  hiddenField: 
   checkpointIndex: 0
   cameraSceneIndex: 0
 --- !u!58 &875042381308034097
@@ -209,6 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47522f31c214b9b45a8bc1af4b0f3a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: "\u3053\u306E\u30B9\u30AF\u30EA\u30D7\u30C8\u306F\u2026\uFF08\u8AAC\u660E\u6587\uFF09"
+  hiddenField: 
   checkpointIndex: 1
   cameraSceneIndex: 1
 --- !u!58 &85533887851315219
@@ -291,6 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47522f31c214b9b45a8bc1af4b0f3a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: "\u3053\u306E\u30B9\u30AF\u30EA\u30D7\u30C8\u306F\u2026\uFF08\u8AAC\u660E\u6587\uFF09"
+  hiddenField: 
   checkpointIndex: 2
   cameraSceneIndex: 2
 --- !u!58 &1198469379988136172
