@@ -21,6 +21,7 @@ public class PlayerStateDead : PlayerState
 {
     PlayerAction playerAction = null;   // プレイヤーの行動スクリプト
     Animator animator = null;           // アニメーション
+    PlayerMove playerMove = null;   
 
     /**
      * @brief 	この状態に入るときに行う関数
@@ -30,6 +31,9 @@ public class PlayerStateDead : PlayerState
     */
     public override void Enter(PlayerMove _playerMove)
     {
+        this.playerMove= _playerMove;
+
+        //Debug.Log("死んでいる状態" + _playerMove.gameObject.name);
         if (!_playerMove)
         {
             Debug.LogError("PlayerMoveが存在しません。");
@@ -50,7 +54,7 @@ public class PlayerStateDead : PlayerState
         }
         // アクションスクリプトを無効化
         this.playerAction.enabled = false;
-        //Debug.Log("アニメーションスクリプトを無効化");
+        Debug.Log("アクションスクリプトを無効化" + _playerMove.gameObject.name);
 
         // 死んだアニメーションに遷移
         this.animator = _playerMove.GetComponent<Animator>();
@@ -70,7 +74,7 @@ public class PlayerStateDead : PlayerState
     {
         // アクションスクリプトを有効化
         this.playerAction.enabled = true;
-        //Debug.Log("アニメーションスクリプトを有効化");
+        Debug.Log("アクションスクリプトを無効化" + this.playerMove.gameObject.name);
 
         // 死んだアニメーションをやめて、閉まるアニメーションを再生
         this.animator.SetBool("isDead", false);

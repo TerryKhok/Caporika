@@ -95,7 +95,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: eeeed74cea3cecf4ab35541d6189712b, type: 2}
+  m_Motion: {fileID: 7400000, guid: de448b3f27f3df9478454cbc9ddbeda0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -220,7 +220,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: eeeed74cea3cecf4ab35541d6189712b, type: 2}
+  m_Motion: {fileID: 7400000, guid: 39232e61d4aadc64ea8f85bb72c87e04, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -455,7 +455,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: eeeed74cea3cecf4ab35541d6189712b, type: 2}
+  m_Motion: {fileID: 7400000, guid: ce48fc90d9736cd4f8e3a8530edb163c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -690,7 +690,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7515aa14fc4588f4988550a560cfbdbb, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3b36124583717e542a3be689a9de2bf8, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -781,16 +781,16 @@ AnimatorStateMachine:
     m_Position: {x: 90, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -145679147213629714}
-    m_Position: {x: 274.76254, y: -104.77052, z: 0}
+    m_Position: {x: -50, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4075035836792849537}
-    m_Position: {x: 280, y: -170, z: 0}
+    m_Position: {x: -50, y: -280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1376764683529277472}
-    m_Position: {x: 280, y: -220, z: 0}
+    m_Position: {x: 170, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7915962059642022504}
-    m_Position: {x: 280, y: -280, z: 0}
+    m_Position: {x: 170, y: -280, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
