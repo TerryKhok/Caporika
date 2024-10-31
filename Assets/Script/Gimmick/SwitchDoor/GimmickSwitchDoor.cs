@@ -94,11 +94,11 @@ public class GimmickSwitchDoor : MonoBehaviour
 
     public void Open()
     {
-        this.animator.Play("Open");
+        this.animator.SetBool("Open", true);
     }
 
     public void Close()
     {
-        this.animator.Play("Close");
+        this.animator.SetBool("Open", false);
     }
 }
