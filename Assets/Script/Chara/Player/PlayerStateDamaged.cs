@@ -22,6 +22,7 @@ public class PlayerStateDamaged : PlayerState
 
     private const float damageFactor = 0.0f;            // 空中にいる時の動作全体での力の影響度合い(0.0f ～ 1.0f)
     private Animator animator = null;                   // プレイヤーのアニメーター
+    PlayerAction playerAction = null;                   // プレイヤーの行動スクリプト
 
     /**
      * @brief 	この状態に入るときに行う関数
@@ -31,6 +32,7 @@ public class PlayerStateDamaged : PlayerState
     */
     public override void Enter(PlayerMove _playerMove)
     {
+        //Debug.Log("ダメージ状態" + _playerMove.gameObject.name);
         if (!_playerMove)
         {
             Debug.LogError("PlayerMoveが存在しません。");
@@ -42,6 +44,7 @@ public class PlayerStateDamaged : PlayerState
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
             return;
         }
+        this.playerAction = _playerMove.GetComponent<PlayerAction>();
 
         // プレイヤーのアニメーター
         this.animator = _playerMove.GetComponent<Animator>();
@@ -56,15 +59,12 @@ public class PlayerStateDamaged : PlayerState
 
         // ダメージを受けるアニメーション
         this.animator.SetTrigger("dmageTrigger");
-        Debug.Log("ダメージを受けるアニメーション");
     }
 
     /**
      * @brief 	この状態から出るときに行う関数
     */
-    public override void Exit()
-    {
-    }
+    public override void Exit(){}
 
     /**
      * @brief 	更新処理
@@ -85,8 +85,5 @@ public class PlayerStateDamaged : PlayerState
      * @brief 	当たった時の処理
      *  @param  Collider2D _collision    当たったオブジェクト
     */
-    public override void CollisionEnter(Collider2D _collision)
-    {
-    }
-
+    public override void CollisionEnter(Collider2D _collision){}
 }

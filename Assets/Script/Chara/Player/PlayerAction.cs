@@ -46,6 +46,7 @@ public class PlayerAction : MonoBehaviour
     private float time = 0.0f;                              // カウント用
 
     [Header("ジャンプさせる角度(各々0.0~37.5で設定して)")]
+    [Tooltip("これは変数の説明文です。")]
     public float outerAngle;    // 外側の角度
     public float innerAngle;    // 内側の角度
 
@@ -53,7 +54,7 @@ public class PlayerAction : MonoBehaviour
 //          当たっているオブジェクト
 //===============================================
 
-private bool isSametag = false;                     // 同じTag名
+    private bool isSametag = false;                     // 同じTag名
     private Collider2D currentTrigger = null;           // 今当たっているオブジェクト
     private PlayerMove triggerMove = null;              // 当たっているオブジェクトの状態
     private int triggerSize = 0;                        // 今当たっているオブジェクトのサイズ
@@ -173,6 +174,9 @@ private bool isSametag = false;                     // 同じTag名
             }
             else
             {
+                // 開くアニメーション
+                this.animator.SetTrigger("openTrigger");
+
                 // ダメージを受ける
                 Damage();
 
@@ -366,8 +370,8 @@ private bool isSametag = false;                     // 同じTag名
         Vector2 position = this.transform.position;
         Quaternion rotation = this.transform.rotation;
 
-        // 生成したマトリョーシカを現在のマトリョーシカと同じ回転、座標にセット
-        this.newMatryoshka.transform.position = position;
+        // 回転、座標をセット
+        this.newMatryoshka.transform.position = position + new Vector2(0.0f, 0.3f);
         this.newMatryoshka.transform.rotation = rotation;
 
         // 生成したマトリョーシカのRigidbody2Dを取得
@@ -386,11 +390,10 @@ private bool isSametag = false;                     // 同じTag名
         rb.AddForce(knockbackDirection, ForceMode2D.Impulse);
 
         // 飛び出たマトリョーシカは「飛んだ」状態に!!
-
         PlayerMove newMatoryoshkaMove = this.newMatryoshka.GetComponent<PlayerMove>();
         if (newMatoryoshkaMove != null)
         {
-            newMatoryoshkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
+            newMatoryoshkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Damaged);
         }
         else { Debug.LogError("生成したマトリョーシカのPlayerMoveを取得できませんでした。"); }
     }
@@ -405,6 +408,6 @@ private bool isSametag = false;                     // 同じTag名
         // 状態を「死んだ」に
         enemyState.SetCharaCondition(CharaMove.CharaCondition.Dead);
 
-        Debug.Log("攻撃した");
+        //Debug.Log("攻撃した");
     }
 }

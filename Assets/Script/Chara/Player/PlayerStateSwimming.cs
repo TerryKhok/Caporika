@@ -30,6 +30,7 @@ public class PlayerStateSwimming : PlayerState
     */
     public override void Enter(PlayerMove _playerMove)
     {
+        //Debug.Log("‰j‚¢‚Å‚¢‚éó‘Ô" + _playerMove.gameObject.name);
         if (!_playerMove)
         {
             Debug.LogError("PlayerMove‚ª‘¶İ‚µ‚Ü‚¹‚ñB");

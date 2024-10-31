@@ -227,7 +227,7 @@ public class PlayerMove : MonoBehaviour
                 this.currentState = new PlayerStateGoal();
                 break;
             case PlayerState.PlayerCondition.Damaged:
-                this.currentState = new PlayerStateDead();  // ˆê’UŽ€‚ñ‚¾‚±‚Æ‚É‚·‚é
+                this.currentState = new PlayerStateDamaged();  
                 break;
             default:
                 this.currentState = null;

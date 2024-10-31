@@ -38,6 +38,7 @@ public class PlayerStateGround : PlayerState
     */
     public override void Enter(PlayerMove _playerMove)
     {
+        //Debug.Log("通常状態" + _playerMove.gameObject.name);
         if (!_playerMove)
         {
             Debug.LogError("PlayerMoveが存在しません。");
@@ -60,7 +61,7 @@ public class PlayerStateGround : PlayerState
 
         // 跳ね防止スクリプトを有効に
         this.preventBounce.enabled = true;
-        Debug.Log("跳ね防止有効");
+        //Debug.Log("跳ね防止有効");
 
         // プレイヤーのアニメーター
         this.animator = _playerMove.GetComponent<Animator>();
@@ -93,7 +94,7 @@ public class PlayerStateGround : PlayerState
     {
         // 跳ね防止スクリプトを無効に
         if (this.preventBounce.enabled) { this.preventBounce.enabled = false; }
-        Debug.Log("跳ね防止無効");
+        //Debug.Log("跳ね防止無効");
     }
 
     /**
