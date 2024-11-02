@@ -45,6 +45,13 @@ public class MatryoshkaManager : MonoBehaviour
         }
     }
 
+    /**
+     *  @brief 	残機数を取得する
+    */
+    public int GetCurrentLife()
+    {
+        return currentLife;
+    }
 
     /**
      *  @brief 	残機を増やす
@@ -88,7 +95,7 @@ public class MatryoshkaManager : MonoBehaviour
     /**
      *  @brief  死んだときの処理
     */
-    private void GameOver()
+    public void GameOver()
     {
         Debug.Log("GameOver");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

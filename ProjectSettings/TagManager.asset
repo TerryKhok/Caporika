@@ -12,6 +12,8 @@ TagManager:
   - water
   - realGround
   - goal
+  - enemyAttack
+  - chaseEnemy
   layers:
   - Default
   - TransparentFX
