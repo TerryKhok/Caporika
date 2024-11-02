@@ -260,13 +260,13 @@ MonoBehaviour:
   popOutkey: 32
   nestInsideKey: 304
   playerObjname: Player
-  jumpForce: 3
+  jumpForce: 5
   tagName: TriggerArea
   knockbackAngle: 45
   knockbackpForce: 5
   actionTime: 1
   outerAngle: 0
-  innerAngle: 0
+  innerAngle: 10
 --- !u!114 &-3038409578602134813
 MonoBehaviour:
   m_ObjectHideFlags: 0
