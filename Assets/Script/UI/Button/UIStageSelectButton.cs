@@ -5,17 +5,27 @@ using UnityEngine;
 public class UIStageSelectButton : MonoBehaviour
 {
     [SerializeField] private string sceneName;  // ボタンクリック時に遷移するシーン名
-
-    // Start is called before the first frame update
+    private GameObject irisObject;
+    private UIIrisScript iris;
+    
+    /**
+    * @brief 初期化
+    * @memo 
+    */
     void Start()
     {
-
+        irisObject = GameObject.Find("IrisCanv");
+        iris = irisObject.GetComponent<UIIrisScript>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
+    /**
+    * @brief ステージセレクトボタン用
+    * @memo 引数にシーン名を代入
+    */
+    public void StageSerectButton(string _str)
+    {
+        iris.IrisOut(_str); //次のシーンを代入
     }
 
 

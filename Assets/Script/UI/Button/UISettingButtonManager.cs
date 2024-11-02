@@ -19,7 +19,7 @@ public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public GameObject ButtonFlame;
     public RectTransform flameTransform;    // ボタン枠
-    public RectTransform buttonTransform;             //ボタン
+public RectTransform buttonTransform;       //ボタン
 
     private Canvas SoundCanvas;
     private Canvas DisplayCanvas;

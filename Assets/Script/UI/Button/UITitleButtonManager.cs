@@ -15,6 +15,8 @@ public class UIButtonManager : MonoBehaviour
     private Canvas soundCanvas;
     private Canvas displayCanvas;
 
+    private CanvasGroup optionCanvasGroup;
+
     void Start()
     {
         OptionCanvas = GameObject.Find("OptionCanv");
@@ -22,6 +24,10 @@ public class UIButtonManager : MonoBehaviour
 
         OptionCanv = OptionCanvas.GetComponent<Canvas>();
         soundCanvas = SoundOptionCanvas.GetComponent<Canvas>();
+
+        optionCanvasGroup = OptionCanv.GetComponent<CanvasGroup>();
+        optionCanvasGroup.interactable = false;  // 操作不能にする
+        optionCanvasGroup.blocksRaycasts = false; // クリックなどのイベントを受け付けなくする
     }
 
     /**
@@ -60,6 +66,9 @@ public class UIButtonManager : MonoBehaviour
     {
         OptionCanv.enabled = true;  //OptionCanvasを表示
         soundCanvas.enabled = true;
+
+        optionCanvasGroup.interactable = true;  // 操作可能にする
+        optionCanvasGroup.blocksRaycasts = true; // クリックなどのイベントを受け付ける
     }
 
     /**
