@@ -20,6 +20,18 @@ public class CameraController : MonoBehaviour
     public Transform[] cameraTargets;    ///< カメラの移動位置指定に使用するGameObjectのリスト
     private int currentTargetIndex = 0;  ///< 現在のターゲット位置インデックス
 
+    void Start()
+    {
+        // カメラの何番目を移すかを取ってくる
+        currentTargetIndex = GimmickCheckpointParam.GetCameraNum();
+
+        // 取ってきた情報をもとにカメラを移動させる
+        var targetPosition = this.cameraTargets[this.currentTargetIndex].transform.position;
+        targetPosition.z = this.transform.position.z;
+        this.transform.position = targetPosition;
+
+    }
+
     /**
      * @brief 次の位置に移動する
      * 

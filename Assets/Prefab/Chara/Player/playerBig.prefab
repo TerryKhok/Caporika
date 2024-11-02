@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5310ba0b8f5afd4383974f3a90d29aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerOfMassOffset: 0.6
+  centerOfMassOffset: 0.1
   attackState: 0
   playerCondition: 0
 --- !u!114 &3646176553123513107
