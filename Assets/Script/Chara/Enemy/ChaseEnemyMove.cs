@@ -80,7 +80,29 @@ public class ChaseEnemyMove : MonoBehaviour
                 // 「攻撃を行う」
                 this.isAttacking = true;
                 Debug.Log("あああああああああああああ");
+
+                // プレイヤーをゲームオーバーにする
+                MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
+                if (!playerManager)
+                {
+                    Debug.LogError("MatryoshkaManagerを取得できませんでした。");
+                    return;
+                }
+                int currentLife = playerManager.GetCurrentLife();
+                playerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
+                playerManager.GameOver();
             }
         }
+    }
+
+    /**
+     * @brief 	攻撃をしたか取得する関数
+     * @return  bool   this.isAttacking
+     * 
+     * memo    プレイヤー側で攻撃されたかに使う
+    */
+    public bool GetIsAttacking()
+    {
+        return this.isAttacking;
     }
 }

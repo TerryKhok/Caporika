@@ -198,15 +198,6 @@ public class PlayerAction : MonoBehaviour
             this.isCollEnemy = true;
             this.enemyColl = other;
         }
-
-        // 後ろから追いかけてくる敵の攻撃範囲に入った時
-        if (other.gameObject.CompareTag("enemyAttack"))
-        {
-            // そのままゲームオーバー
-            int currentLife = this.matryoshkaManager.GetCurrentLife();
-            this.matryoishkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
-            this.matryoshkaManager.GameOver();
-        }
     }
 
     void OnTriggerExit2D(Collider2D other)
