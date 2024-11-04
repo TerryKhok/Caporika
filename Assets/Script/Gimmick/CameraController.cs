@@ -41,9 +41,9 @@ public class CameraController : MonoBehaviour
     {
         if (this.currentTargetIndex < this.cameraTargets.Length)
         {
+            this.currentTargetIndex++;
             Transform targetPosition = this.cameraTargets[this.currentTargetIndex];
             StartCoroutine(this.MoveCamera(targetPosition.position));
-            this.currentTargetIndex++;
         }
     }
 
