@@ -46,6 +46,14 @@ public class EnemyMoveDefault : CharaMove
         if (collision.gameObject.CompareTag("Wall"))
         {
             direction *= -1;
+            FlipObjectX();
         }
+    }
+
+    void FlipObjectX()
+    {
+        Vector3 scale = transform.localScale;
+        scale.x *= -1; // xŽ²‚ð”½“]
+        transform.localScale = scale;
     }
 }
