@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 2
-  weight: 2
+  weight: 3
 --- !u!114 &5327696539898522974
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 1
-  weight: 1
+  weight: 3
 --- !u!114 &2062614197489962857
 MonoBehaviour:
   m_ObjectHideFlags: 0
