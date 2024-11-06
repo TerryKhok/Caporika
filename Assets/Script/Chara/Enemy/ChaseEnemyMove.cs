@@ -68,8 +68,9 @@ public class ChaseEnemyMove : MonoBehaviour
      * 
      * memo    ChildTriggerNotifier.cs に親にトリガー判定を渡す処理を記載
     */
-    public void OnChildTriggerEnter2D(Collider2D _other)
+    public void OnChildTriggerStay2D(Collider2D _other)
     {
+        Debug.Log("unti");
         // マトリョーシカの後ろに来たとき
         if (_other.CompareTag("Player"))
         {
@@ -79,7 +80,6 @@ public class ChaseEnemyMove : MonoBehaviour
             {
                 // 「攻撃を行う」
                 this.isAttacking = true;
-                Debug.Log("あああああああああああああ");
 
                 // プレイヤーをゲームオーバーにする
                 MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
