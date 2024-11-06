@@ -58,6 +58,7 @@ public class UIButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     */
     public void OnPointerEnter(PointerEventData eventData)
     {
+        SoundManager.Instance.PlaySE("MENU_MOVE");
         // ボタンを大きくする
         isFocus = true;
         //transform.localScale = originalScale * scaleMultiplier;

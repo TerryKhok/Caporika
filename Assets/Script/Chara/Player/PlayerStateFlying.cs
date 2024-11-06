@@ -63,7 +63,7 @@ public class PlayerStateFlying : PlayerState
      * @brief 	この状態から出るときに行う関数
     */
     public override void Exit()
-    {}
+    { }
 
     /**
      * @brief 	更新処理
@@ -86,6 +86,9 @@ public class PlayerStateFlying : PlayerState
     */
     public override void CollisionEnter(Collider2D _collision)
     {
-
+        if (!_collision.CompareTag("Enemy"))
+        {
+            SoundManager.Instance.PlaySE("PLAYER_COLLIDE");
+        }
     }
 }

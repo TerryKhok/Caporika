@@ -18,6 +18,8 @@ public class ChaseEnemyMove : MonoBehaviour
     private bool isAttacking = false;                   // true:攻撃する
     private bool isEndMoveAnimation = false;            // true:動作アニメーションを終了した
 
+    private int stepSoundTimer = 0;     // 足音を鳴らすためのタイマー
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +62,20 @@ public class ChaseEnemyMove : MonoBehaviour
             this.isEndMoveAnimation = true;
             Debug.Log("動作アニメーションレイヤーを終了");
         }
+
+        stepSoundTimer++;
+        if (stepSoundTimer > 20)
+        {
+            stepSoundTimer = 0;
+            List<string> soundList = new List<string>
+            {
+                "ENEMY_STEP_1","ENEMY_STEP_2",
+                "ENEMY_STEP_3","ENEMY_STEP_4",
+                "ENEMY_STEP_5","ENEMY_STEP_6",
+                "ENEMY_STEP_7","ENEMY_STEP_8",
+            };
+            SoundManager.Instance.PlayRandomSE(soundList);
+        }
     }
 
     /**
@@ -79,6 +95,9 @@ public class ChaseEnemyMove : MonoBehaviour
             {
                 // 「攻撃を行う」
                 this.isAttacking = true;
+
+                List<string> soundList = new List<string> { "ENEMY_ROAR_1", "ENEMY_ROAR_2" };
+                SoundManager.Instance.PlayRandomSE(soundList);
 
                 // プレイヤーをゲームオーバーにする
                 MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();

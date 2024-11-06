@@ -48,6 +48,18 @@ public class CameraController : MonoBehaviour
     }
 
     /**
+     * @brief   指定したインデックスのカメラまで移動する
+     * @param   _index  CameraPosのインデックス
+     * @memo    EventTriggerでトリガーさせる
+     */
+    public void MoveToSpecifiedPosition(int _index)
+    {
+        this.currentTargetIndex = _index;
+        Transform targetPosition = this.cameraTargets[this.currentTargetIndex];
+        StartCoroutine(this.MoveCamera(targetPosition.position));
+    }
+
+    /**
      * @brief 一定時間かけて指定の位置までLerpする
      */
     private IEnumerator MoveCamera(Vector3 _targetPosition)

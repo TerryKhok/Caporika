@@ -9,13 +9,15 @@ using UnityEngine;
 */
 public class SystemPose : MonoBehaviour
 {
-    public KeyCode  PoseKey = KeyCode.Escape;          // Poseを行うキー
+    public KeyCode PoseKey = KeyCode.Escape;          // Poseを行うキー
     bool is_poseNow = false;
     private Canvas poseCanvas;
     private CanvasGroup optionCanvasGroup;
     private GameObject OptionCanvas;
     private Canvas OptionCanv;
-    
+
+    private string prevBgm = "";
+
     void Start()
     {
         poseCanvas = this.GetComponent<Canvas>();
@@ -45,20 +47,20 @@ public class SystemPose : MonoBehaviour
         }
     }
 
-/**
-* @brief ポーズスタート関数
-* @memo ポーズ用キャンバスの表示と時間の停止をしている。
-*/   
+    /**
+    * @brief ポーズスタート関数
+    * @memo ポーズ用キャンバスの表示と時間の停止をしている。
+*/
     public void PoseStart()
     {
-        poseCanvas.enabled = true;  
+        poseCanvas.enabled = true;
         is_poseNow = true;  //ポーズフラグをtrueに
         Time.timeScale = 0.0f;  //時間を止める
     }
-/**
-* @brief ポーズ終了関数
-* @memo ポーズ用キャンバスの非表示化と時間の停止を解除している。
-*/   
+    /**
+    * @brief ポーズ終了関数
+    * @memo ポーズ用キャンバスの非表示化と時間の停止を解除している。
+*/
     public void PoseEnd()
     {
         poseCanvas.enabled = false;

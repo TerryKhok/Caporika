@@ -17,7 +17,7 @@ public class PlayerAction : MonoBehaviour
     //===============================================
     //                  キー
     //===============================================
-    public KeyCode  popOutkey = KeyCode.Space;          // 飛び出すアクションを行う
+    public KeyCode popOutkey = KeyCode.Space;          // 飛び出すアクションを行う
     public KeyCode nestInsideKey = KeyCode.LeftShift;   // マトリョーシカに入るアクションを行う
 
 
@@ -50,9 +50,9 @@ public class PlayerAction : MonoBehaviour
     public float outerAngle;    // 外側の角度
     public float innerAngle;    // 内側の角度
 
-//===============================================
-//          当たっているオブジェクト
-//===============================================
+    //===============================================
+    //          当たっているオブジェクト
+    //===============================================
 
     private bool isSametag = false;                     // 同じTag名
     private Collider2D currentTrigger = null;           // 今当たっているオブジェクト
@@ -60,12 +60,12 @@ public class PlayerAction : MonoBehaviour
     private int triggerSize = 0;                        // 今当たっているオブジェクトのサイズ
 
     private bool isCollEnemy = false;                   // 敵とぶつかった
-    private Collider2D enemyColl=null;                  // 敵の当たり判定
+    private Collider2D enemyColl = null;                  // 敵の当たり判定
 
     private void Start()
     {
         // このマトリョーシカの動作状態
-        this.matryoishkaMove = GetComponent<PlayerMove>();                      
+        this.matryoishkaMove = GetComponent<PlayerMove>();
         if (!this.matryoishkaMove)
         {
             Debug.LogError("PlayerMoveを取得できませんでした。");
@@ -76,7 +76,7 @@ public class PlayerAction : MonoBehaviour
         this.matryoishkaSize = GetComponent<CharaState>().GetCharaSize();
 
         // プレイヤーの管理
-        this.matryoshkaManager = FindAnyObjectByType<MatryoshkaManager>();     
+        this.matryoshkaManager = FindAnyObjectByType<MatryoshkaManager>();
         if (!this.matryoshkaManager)
         {
             Debug.LogError("MatryoshkaManagerを取得できませんでした。");
@@ -84,7 +84,7 @@ public class PlayerAction : MonoBehaviour
         }
 
         // プレイヤーのRigidbody2D
-        this.matryoshkaRb =GetComponent<Rigidbody2D>();                        
+        this.matryoshkaRb = GetComponent<Rigidbody2D>();
         if (!this.matryoshkaRb)
         {
             Debug.LogError("Rigidbody2Dを取得できませんでした。");
@@ -92,7 +92,7 @@ public class PlayerAction : MonoBehaviour
         }
 
         // プレイヤーのアニメーター
-        this.animator = GetComponent<Animator>();                               
+        this.animator = GetComponent<Animator>();
         if (!this.animator)
         {
             Debug.LogError("Animatorを取得できませんでした。");
@@ -115,7 +115,7 @@ public class PlayerAction : MonoBehaviour
         {
             this.time += Time.deltaTime;
         }
-        if(this.time>this.actionTime)
+        if (this.time > this.actionTime)
         {
             this.isJump = true;
             this.time = 0.0f;
@@ -124,7 +124,7 @@ public class PlayerAction : MonoBehaviour
 
     void Update()
     {
-        if(this.isJump)
+        if (this.isJump)
         {
             // 飛び出すアクションを行う----------------------------------------------------
             if (Input.GetKeyDown(this.popOutkey))
@@ -170,7 +170,7 @@ public class PlayerAction : MonoBehaviour
                 // 攻撃する
                 Attack();
                 // 攻撃成功状態
-                this.matryoishkaMove.SetAttackState(PlayerState.AttackState.Success); 
+                this.matryoishkaMove.SetAttackState(PlayerState.AttackState.Success);
             }
             else
             {
@@ -213,10 +213,10 @@ public class PlayerAction : MonoBehaviour
             this.isSametag = false;
             this.currentTrigger = null;
             this.triggerMove = null;
-        }        
+        }
 
         // 敵と離れたらリセット
-        if(other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             this.isCollEnemy = false;
             this.enemyColl = null;
@@ -227,7 +227,7 @@ public class PlayerAction : MonoBehaviour
      * @brief 	マトリョーシカの中に入る処理
     */
     void NestInside()
-    {        
+    {
         // 残機を増やす
         this.matryoshkaManager.AddLife();
 
@@ -250,6 +250,7 @@ public class PlayerAction : MonoBehaviour
     */
     void PopOut()
     {
+        SoundManager.Instance.PlaySE("PLAYER_POP");
         // 残機を減らす
         int curLife = this.matryoshkaManager.LoseLife();
         if (curLife <= 0) { return; }
@@ -268,10 +269,10 @@ public class PlayerAction : MonoBehaviour
         // Playerタブ内に生成したマトリョーシカを配置
         this.newMatryoshka.transform.parent = this.playerObject.transform;
 
-       // 飛び出す範囲によって生成したマトリョーシカの飛び出す角度を決める
-        Vector3  angle = this.transform.eulerAngles;
-        if ((angle.z >= 0.0f && angle.z < 15.0f)|| (angle.z >= 345.0f && angle.z < 360.0f)) 
-        { 
+        // 飛び出す範囲によって生成したマトリョーシカの飛び出す角度を決める
+        Vector3 angle = this.transform.eulerAngles;
+        if ((angle.z >= 0.0f && angle.z < 15.0f) || (angle.z >= 345.0f && angle.z < 360.0f))
+        {
             rotation = Quaternion.Euler(angle.x, angle.y, 0.0f);
             //Debug.Log("真上");
         }
@@ -280,19 +281,19 @@ public class PlayerAction : MonoBehaviour
             rotation = Quaternion.Euler(angle.x, angle.y, (15.0f + this.outerAngle));
             //Debug.Log("左内側");
         }
-        else if (angle.z >= 52.5f && angle.z < 90.0f) 
-        { 
+        else if (angle.z >= 52.5f && angle.z < 90.0f)
+        {
             rotation = Quaternion.Euler(angle.x, angle.y, (52.5f + this.innerAngle));
             //Debug.Log("左外側");
         }
-        else if (angle.z >= 270.0f && angle.z < 307.5) 
-        { 
+        else if (angle.z >= 270.0f && angle.z < 307.5)
+        {
             rotation = Quaternion.Euler(angle.x, angle.y, (270.0f + this.outerAngle));
             //Debug.Log("右外側");
         }
-        else if (angle.z >= 307.5 && angle.z < 345.0f) 
+        else if (angle.z >= 307.5 && angle.z < 345.0f)
         {
-            rotation = Quaternion.Euler(angle.x, angle.y, (307.5f+this.innerAngle));
+            rotation = Quaternion.Euler(angle.x, angle.y, (307.5f + this.innerAngle));
             //Debug.Log("右内側");
         }
 
@@ -318,9 +319,9 @@ public class PlayerAction : MonoBehaviour
         PlayerMove newMatoryoshkaMove = this.newMatryoshka.GetComponent<PlayerMove>();
         if (newMatoryoshkaMove)
         {
-            newMatoryoshkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);   
+            newMatoryoshkaMove.ChangePlayerCondition(PlayerState.PlayerCondition.Flying);
         }
-        else{ Debug.LogError("生成したマトリョーシカのPlayerMoveを取得できませんでした。"); }
+        else { Debug.LogError("生成したマトリョーシカのPlayerMoveを取得できませんでした。"); }
     }
 
     /**
@@ -330,9 +331,10 @@ public class PlayerAction : MonoBehaviour
     */
     void Damage()
     {
+        SoundManager.Instance.PlaySE("PLAYER_DAMAGE");
         // 残機を減らす
         int curLife = this.matryoshkaManager.LoseLife();
-        if (curLife <= 0){ return; }
+        if (curLife <= 0) { return; }
 
         // 攻撃を受けた向きから飛び出る角度を決定
         float direction = this.transform.position.x - this.enemyColl.gameObject.transform.position.x;
@@ -340,14 +342,14 @@ public class PlayerAction : MonoBehaviour
         float angle = 0.0f;
 
         // 左向き
-        if (direction < 0.0f) 
-        { 
+        if (direction < 0.0f)
+        {
             moveAngle = 180.0f - this.knockbackAngle;
             angle = this.knockbackAngle;
         }
         // 右向き
         else
-        { 
+        {
             moveAngle = this.knockbackAngle;
             angle = 360.0f - this.knockbackAngle;
         }
@@ -386,7 +388,7 @@ public class PlayerAction : MonoBehaviour
         float angleInRadians = moveAngle * Mathf.Deg2Rad;
 
         // 飛び出す方向ベクトルを計算する
-        Vector2 knockbackDirection = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)).normalized * this.knockbackpForce;   
+        Vector2 knockbackDirection = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)).normalized * this.knockbackpForce;
         rb.AddForce(knockbackDirection, ForceMode2D.Impulse);
 
         // 飛び出たマトリョーシカは「飛んだ」状態に!!
@@ -403,6 +405,7 @@ public class PlayerAction : MonoBehaviour
     */
     void Attack()
     {
+        SoundManager.Instance.PlaySE("PLAYER_HIT");
         // 当たったオブジェクトの状態を取得
         CharaMove enemyState = enemyColl.GetComponent<CharaMove>();
         // 状態を「死んだ」に

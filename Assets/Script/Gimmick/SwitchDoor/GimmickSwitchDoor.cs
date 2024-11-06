@@ -94,6 +94,7 @@ public class GimmickSwitchDoor : MonoBehaviour
 
     public void Open()
     {
+        SoundManager.Instance.PlaySE("STAGE_DOOR");
         this.animator.SetBool("Open", true);
     }
 

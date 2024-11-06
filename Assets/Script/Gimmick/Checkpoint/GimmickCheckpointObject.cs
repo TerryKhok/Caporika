@@ -29,7 +29,12 @@ public class GimmickCheckpointObject : MonoBehaviour
     {
         if (_collision.gameObject.CompareTag("Player"))
         {
-            Activate();
+            // 死んでなかったらアクティベート
+            var player = _collision.gameObject;
+            if (player.GetComponent<PlayerMove>().playerCondition != PlayerState.PlayerCondition.Dead)
+            {
+                Activate();
+            }
         }
     }
 
@@ -42,6 +47,7 @@ public class GimmickCheckpointObject : MonoBehaviour
         // 何回もアクティベートしない
         if (activated) return;
 
+        SoundManager.Instance.PlaySE("STAGE_CHECKPOINT");
         GimmickCheckpointParam.SetCheckpointNum(checkpointIndex, cameraSceneIndex);
         // ここにマトリョシカの残機回復処理
         // マトリョシカを全て消して残機3のやつを生成

@@ -28,6 +28,7 @@ public class UIStageSerectButtonManager : MonoBehaviour
         // 右にスライド可能かチェック
         if (currentIndex + 1 < totalButtons && !isSliding)
         {
+            SoundManager.Instance.PlaySE("MENU_SELECT");
             StartCoroutine(SlideButtons(-buttonWidth));  // 右へ移動
             currentIndex++;
         }
@@ -38,6 +39,7 @@ public class UIStageSerectButtonManager : MonoBehaviour
         // 左にスライド可能かチェック
         if (currentIndex > 0 && !isSliding)
         {
+            SoundManager.Instance.PlaySE("MENU_SELECT");
             StartCoroutine(SlideButtons(buttonWidth));  // 左へ移動
             currentIndex--;
         }

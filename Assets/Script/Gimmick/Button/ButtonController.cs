@@ -109,6 +109,7 @@ public class ButtonController : MonoBehaviour
     // ボタンを押す処理
     private bool PressedButton()
     {
+        SoundManager.Instance.PlaySE("STAGE_BUTTON");
         bool isPressedButton = false;
 
         // ボタンを狭めて押した感を出す

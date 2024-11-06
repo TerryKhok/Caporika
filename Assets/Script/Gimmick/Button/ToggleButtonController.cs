@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
  * @brief   トグルボタンの制御スクリプト
  * 
  * @memo    ・OnCollisionEnter2Dでオンオフを切り替える
+ *          ・↑はEventTriggerを用意
  *          ・Onになったときの関数ButtonEnable()
  *          ・Offになった時の関数ButtonDisable()
  */
@@ -57,6 +58,7 @@ public class ToggleButtonController : MonoBehaviour
             // 直前に処理が走ってなくてかつ重さが十分なら
             if (CheckedMass())
             {
+                SoundManager.Instance.PlaySE("STAGE_BUTTON");
                 this.isOn = !this.isOn;
                 // トグルの状態に応じてイベントを発火
                 if (this.isOn)

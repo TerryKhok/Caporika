@@ -22,6 +22,7 @@ public class UIOptionButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointe
     public void OnPointerEnter(PointerEventData eventData)
     {
         // ポインターがボタンに重なったときの処理
+        SoundManager.Instance.PlaySE("MENU_MOVE");
         button.anchoredPosition = originalButtonPosition + selectedPositionOffset;   // ボタンの位置を調整
         shadowImage.SetActive(true);
     }
@@ -36,6 +37,7 @@ public class UIOptionButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointe
     // ボタンが押されたとき
     public void OnPointerDown(PointerEventData eventData)
     {
+        SoundManager.Instance.PlaySE("MENU_SELECT");
         // ボタンをさらに下げ、影と重なるようにする
         button.localPosition = originalButtonPosition;
     }

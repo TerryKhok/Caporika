@@ -23,6 +23,7 @@ public class ButtonSelectionEffect : MonoBehaviour, IPointerEnterHandler, IPoint
     public void OnPointerEnter(PointerEventData eventData)
     {
         // ポインターがボタンに重なったときの処理
+        SoundManager.Instance.PlaySE("MENU_MOVE");
         frame.anchoredPosition = originalFramePosition + selectedPositionOffset;   // ボタン枠の位置を調整
         button.anchoredPosition = originalButtonPosition + selectedPositionOffset;   // ボタンの位置を調整
     }
@@ -38,6 +39,7 @@ public class ButtonSelectionEffect : MonoBehaviour, IPointerEnterHandler, IPoint
     public void OnPointerDown(PointerEventData eventData)
     {
         // ボタンをさらに下げ、影と重なるようにする
+        SoundManager.Instance.PlaySE("MENU_SELECT");
         frame.localPosition = originalFramePosition + pressOffset;
         button.localPosition = originalButtonPosition + pressOffset;
     }

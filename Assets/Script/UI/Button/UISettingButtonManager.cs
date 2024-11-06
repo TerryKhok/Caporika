@@ -11,7 +11,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 /**
 * @brief 設定変更画面で使うスクリプト
 * @memo 設定のジャンルをボタンを押して変更するときに使う
-*/   
+*/
 public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private GameObject SoundCanvObj;    //SoundButtonをインスペクターで入れる
@@ -19,7 +19,7 @@ public class UISettingButtonManager : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public GameObject ButtonFlame;
     public RectTransform flameTransform;    // ボタン枠
-public RectTransform buttonTransform;       //ボタン
+    public RectTransform buttonTransform;       //ボタン
 
     private Canvas SoundCanvas;
     private Canvas DisplayCanvas;
@@ -48,20 +48,20 @@ public RectTransform buttonTransform;       //ボタン
         originalButtonPosition = buttonTransform.anchoredPosition;
     }
 
-/**
-* @brief Soundのボタンが押されたときに他二つを非表示にする
-* @memo 
-*/   
+    /**
+    * @brief Soundのボタンが押されたときに他二つを非表示にする
+    * @memo 
+*/
     public void SoundButtonEvent()
     {
         SoundCanvas.enabled = true;
         DisplayCanvas.enabled = false;
     }
 
-/**
-* @brief Displayのボタンが押されたときに他二つを非表示にする
-* @memo 
-*/   
+    /**
+    * @brief Displayのボタンが押されたときに他二つを非表示にする
+    * @memo 
+*/
     public void DisplayButtonEvent()
     {
         SoundCanvas.enabled = false;
@@ -75,6 +75,7 @@ public RectTransform buttonTransform;       //ボタン
      */
     public void OnPointerEnter(PointerEventData eventData)
     {
+        SoundManager.Instance.PlaySE("MENU_MOVE");
         ButtonFlame.SetActive(true);
         flameTransform.anchoredPosition = originalFramePosition + selectedPositionOffset;   // ボタン枠の位置を調整
         buttonTransform.anchoredPosition = originalButtonPosition + selectedPositionOffset;   // ボタンの位置を調整
@@ -83,6 +84,7 @@ public RectTransform buttonTransform;       //ボタン
     // ボタンが押されたとき
     public void OnPointerDown(PointerEventData eventData)
     {
+        SoundManager.Instance.PlaySE("MENU_SELECT");
         // ボタンをさらに下げ、影と重なるようにする
         flameTransform.localPosition = originalFramePosition + pressOffset;
         buttonTransform.localPosition = originalButtonPosition + pressOffset;

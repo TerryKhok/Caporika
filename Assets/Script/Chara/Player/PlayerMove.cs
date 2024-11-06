@@ -85,7 +85,10 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         this.currentState.Update();
-        this.currentState.CollisionEnter(this.trigger);
+        if (this.trigger != null)
+        {
+            this.currentState.CollisionEnter(this.trigger);
+        }
 
         // ÉSÅ[ÉãÇµÇΩÇÁâΩÇ‡çsÇÌÇ»Ç¢
         if (this.isGoal)
@@ -228,7 +231,7 @@ public class PlayerMove : MonoBehaviour
                 this.currentState = new PlayerStateGoal();
                 break;
             case PlayerState.PlayerCondition.Damaged:
-                this.currentState = new PlayerStateDamaged();  
+                this.currentState = new PlayerStateDamaged();
                 break;
             default:
                 this.currentState = null;

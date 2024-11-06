@@ -10,7 +10,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 /**
 * @brief ゲーム内のオプションで使用されているボタンたちにつけるスクリプト
 * @memo 
-*/   
+*/
 public class UIOptionButton : MonoBehaviour
 {
     private GameObject irisObject;
@@ -51,7 +51,7 @@ public class UIOptionButton : MonoBehaviour
      */
     public void ContinueButton()
     {
-        SystemPose poseCanvas= GameObject.Find ("PauseCanvas").GetComponent<SystemPose>();
+        SystemPose poseCanvas = GameObject.Find("PauseCanvas").GetComponent<SystemPose>();
         poseCanvas.PoseEnd();
     }
 
@@ -62,7 +62,7 @@ public class UIOptionButton : MonoBehaviour
     public void OptionButton()
     {
         OptionCanv.enabled = true;
-      
+
         soundCanvas.enabled = true;  //SoundCanvasを表示
         displayCanvas.enabled = false;  //SoundCanvasを表示
 
@@ -126,7 +126,7 @@ public class UIOptionButton : MonoBehaviour
 */
     public void PauseFinish()
     {
-        SystemPose poseCanvas= GameObject.Find ("PauseCanvas").GetComponent<SystemPose>();
+        SystemPose poseCanvas = GameObject.Find("PauseCanvas").GetComponent<SystemPose>();
 
         soundCanvas = soundOptionCanvas.GetComponent<Canvas>();
         displayCanvas = displayOptionCanvas.GetComponent<Canvas>();

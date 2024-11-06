@@ -7,7 +7,7 @@ public class UIStageSelectButton : MonoBehaviour
     [SerializeField] private string sceneName;  // ボタンクリック時に遷移するシーン名
     private GameObject irisObject;
     private UIIrisScript iris;
-    
+
     /**
     * @brief 初期化
     * @memo 
@@ -23,19 +23,10 @@ public class UIStageSelectButton : MonoBehaviour
     * @brief ステージセレクトボタン用
     * @memo 引数にシーン名を代入
     */
-    public void StageSerectButton(string _str)
+    public void StageSelectButton(string _str)
     {
-        iris.IrisOut(_str); //次のシーンを代入
-    }
-
-
-    /**
-     * @brief   ボタンクリック時に実行する関数
-     *          シーンロード時に必要な処理を記述する
-     */
-    public void OnClickButton()
-    {
+        SoundManager.Instance.PlaySE("MENU_SELECT");
         GimmickCheckpointParam.ResetCheckpointParams();    // チェックポイントのリセット
-        // シーンをロードする処理
+        iris.IrisOut(_str); //次のシーンを代入
     }
 }
