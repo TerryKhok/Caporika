@@ -31,7 +31,7 @@ public class MatryoshkaManager : MonoBehaviour
 
         // マトリョシカを生成してチェックポイントに移動
         var firstMatryoshka = InstanceMatryoshka(currentLife);
-        firstMatryoshka.gameObject.transform.position = checkpoints[GimmickCheckpointParam.GetCheckpointNum()].transform.position;
+        firstMatryoshka.gameObject.transform.position = checkpoints[GimmickCheckpointParam.GetCheckpointNum()].transform.position;-
     }
 
     // Update is called once per frame
