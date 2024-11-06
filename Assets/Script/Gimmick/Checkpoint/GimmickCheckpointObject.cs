@@ -12,6 +12,7 @@ public class GimmickCheckpointObject : MonoBehaviour
     [SerializeField] private int checkpointIndex = 0;
     // CameraControllerの移すシーンのインデックスと対応させる
     [SerializeField] private int cameraSceneIndex = 0;
+    private bool activated = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,9 +35,20 @@ public class GimmickCheckpointObject : MonoBehaviour
 
     /**
      * @brief   チェックポイントを有効化する
+     *          その後残機回復
      */
     void Activate()
     {
+        // 何回もアクティベートしない
+        if (activated) return;
+
         GimmickCheckpointParam.SetCheckpointNum(checkpointIndex, cameraSceneIndex);
+        // ここにマトリョシカの残機回復処理
+        // マトリョシカを全て消して残機3のやつを生成
+        // nullチェック全然してなくてクソ
+        var manager = GameObject.Find("MatryoshkaManager");
+        manager.GetComponent<MatryoshkaManager>().Respawn();
+
+        activated = true;
     }
 }
