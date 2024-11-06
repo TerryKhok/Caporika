@@ -22,7 +22,7 @@ public class ChaseEnemyMove : MonoBehaviour
     void Start()
     {
         // アニメーターの取得
-        if(!this.animator)
+        if (!this.animator)
         {
             animator = GetComponent<Animator>();
         }
@@ -43,7 +43,7 @@ public class ChaseEnemyMove : MonoBehaviour
         if (this.isEndMoveAnimation) { return; }
 
         // 攻撃範囲に入ったとき
-        if(this.isAttacking)
+        if (this.isAttacking)
         {
             // 追跡アニメーションの終了
             this.animator.SetTrigger("ChaseEndTrigger");
@@ -75,11 +75,10 @@ public class ChaseEnemyMove : MonoBehaviour
         {
             // マトリョーシカが死んでいなければ
             PlayerMove playerMove = _other.GetComponent<PlayerMove>();
-            if(playerMove.playerCondition!=PlayerState.PlayerCondition.Dead)
+            if (playerMove.playerCondition != PlayerState.PlayerCondition.Dead)
             {
                 // 「攻撃を行う」
                 this.isAttacking = true;
-                Debug.Log("あああああああああああああ");
 
                 // プレイヤーをゲームオーバーにする
                 MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
