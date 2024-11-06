@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0a00b047c2ad88b438583cd0d5009b5c
+guid: 3addbe3628d6c6640b6d3eb07ef3982d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -49,7 +49,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 2048
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 2208, y: 0, z: 0, w: 3000}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -97,12 +97,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wolf-walk_0
+      name: wolf-jump_0
       rect:
         serializedVersion: 2
         x: 0
         y: 3000
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -111,19 +111,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 377cc09425495bf4eaf09754bb5c2548
-      internalID: 865474200
+      spriteID: 9ded0d770274aad4bb2c4cfae686f449
+      internalID: -2005943812
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_1
+      name: wolf-jump_1
       rect:
         serializedVersion: 2
         x: 2208
         y: 3000
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -132,19 +132,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34a15c908509f91438d2d94974938046
-      internalID: 141515191
+      spriteID: 0e573c09fd68cd44197969daf87d1cd6
+      internalID: 216073141
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_2
+      name: wolf-jump_2
       rect:
         serializedVersion: 2
         x: 4416
         y: 3000
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -153,19 +153,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad22ad27401935249bef81df33503a7f
-      internalID: -1786992952
+      spriteID: 9ce32469bb1b9894ea3b3ebcfe3d8743
+      internalID: 1117949143
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_3
+      name: wolf-jump_3
       rect:
         serializedVersion: 2
         x: 6624
         y: 3000
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -174,19 +174,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e0e35d68d64e0a488edc9433b9a64b7
-      internalID: -28595600
+      spriteID: 0789d176ce793c3439ca1d58f88c9cf8
+      internalID: -1575908036
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_4
+      name: wolf-jump_4
       rect:
         serializedVersion: 2
         x: 8832
         y: 3000
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -195,19 +195,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4db68582128f8ba418ae33c433bb9a1e
-      internalID: 1480175379
+      spriteID: 5f89878f776f9f644954a172574bf1d6
+      internalID: 2041227495
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_5
+      name: wolf-jump_5
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -216,19 +216,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56f87c15e8687c74f86725d57bfb62fa
-      internalID: 256907723
+      spriteID: 6f8ef54b97e111b4fbbe0b141519867a
+      internalID: 2117329989
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_6
+      name: wolf-jump_6
       rect:
         serializedVersion: 2
         x: 2208
         y: 0
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -237,19 +237,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18bdb9d17984cfd45b83a3984d453c74
-      internalID: 220504175
+      spriteID: f220b528b81abcb48935df4971b76bc2
+      internalID: -1434117497
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_7
+      name: wolf-jump_7
       rect:
         serializedVersion: 2
         x: 4416
         y: 0
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -258,19 +258,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd6fa0946ad68ce4680d14f6b57375af
-      internalID: -981257380
+      spriteID: e6bf318c40f905f4f9c201efb80f9f7d
+      internalID: 1463625594
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_8
+      name: wolf-jump_8
       rect:
         serializedVersion: 2
         x: 6624
         y: 0
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -279,19 +279,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94f0c631bae40df4eafac2ebbbf1cb81
-      internalID: -560696525
+      spriteID: 98495a99c7793e04382b39c83ade620d
+      internalID: 518987101
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wolf-walk_9
+      name: wolf-jump_9
       rect:
         serializedVersion: 2
         x: 8832
         y: 0
-        width: 2208.4
+        width: 2208
         height: 3000
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -300,8 +300,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c85a2c85ad5792438a3342569fc9e04
-      internalID: -826380272
+      spriteID: 1bb2c3be1d3512342b47b7d9b24a6ecd
+      internalID: 117223837
       vertices: []
       indices: 
       edges: []
@@ -310,23 +310,23 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      wolf-walk_0: 865474200
-      wolf-walk_1: 141515191
-      wolf-walk_2: -1786992952
-      wolf-walk_3: -28595600
-      wolf-walk_4: 1480175379
-      wolf-walk_5: 256907723
-      wolf-walk_6: 220504175
-      wolf-walk_7: -981257380
-      wolf-walk_8: -560696525
-      wolf-walk_9: -826380272
+      wolf-jump_0: -2005943812
+      wolf-jump_1: 216073141
+      wolf-jump_2: 1117949143
+      wolf-jump_3: -1575908036
+      wolf-jump_4: 2041227495
+      wolf-jump_5: 2117329989
+      wolf-jump_6: -1434117497
+      wolf-jump_7: 1463625594
+      wolf-jump_8: 518987101
+      wolf-jump_9: 117223837
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
