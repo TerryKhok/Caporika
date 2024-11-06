@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -99,5 +100,24 @@ public class MatryoshkaManager : MonoBehaviour
     {
         Debug.Log("GameOver");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /**
+     *  @brief  再生成処理
+     *      現在のマトリョシカをすべて削除して新しく残機最大のマトリョシカをスポーンさせる
+     */
+    public void Respawn()
+    {
+        // Playerタグのオブジェクトをすべて削除
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            Destroy(player);
+        }
+
+        // 再生成
+        currentLife = maxLife;
+        var firstMatryoshka = InstanceMatryoshka(currentLife);
+        firstMatryoshka.gameObject.transform.position = checkpoints[GimmickCheckpointParam.GetCheckpointNum()].transform.position;
     }
 }

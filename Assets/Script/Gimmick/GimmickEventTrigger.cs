@@ -30,7 +30,6 @@ public class GimmickEventTrigger : MonoBehaviour
                 if (!this.triggeredEnter || !this.triggerOnce)    // 1回も発動していないか1回のみと指定されていないなら
                 {
                     triggeredCollider = _other;
-                    
                     this.onTriggerEnterEvent.Invoke();  // イベントを実行
                     triggeredEnter = true;
                 }
