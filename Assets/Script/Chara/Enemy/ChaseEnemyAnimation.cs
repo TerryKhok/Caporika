@@ -12,8 +12,8 @@ public class ChaseEnemyAnimation : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         string currentSceneName = SceneManager.GetActiveScene().name;
-        //Debug.Log(currentSceneName);
-        //Debug.Log("CP" + GimmickCheckpointParam.GetCheckpointNum());
+        Debug.Log(currentSceneName);
+        Debug.Log("CP" + GimmickCheckpointParam.GetCheckpointNum());
         switch (currentSceneName)
         {
             case "lvl_01":
