@@ -31,10 +31,10 @@ public class UIResultButton : MonoBehaviour
      * @brief 次のシーンに行く関数
      * @memo アイリスアウトを呼び出し、引数に次のシーンを代入
      */  
-        public void NextButton()
+        public void NextButton(string _str)
     {
         UIIrisScript iris = irisObject.GetComponent<UIIrisScript>();
-        iris.IrisOut(""); //次のシーンを代入
+        iris.IrisOut(_str); //次のシーンを代入
 
     }
 }
