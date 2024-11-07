@@ -9,5 +9,5 @@ AnimatorOverrideController:
   m_Name: Stage1_EnemyAnimation
   m_Controller: {fileID: 9100000, guid: 8f1ff515206e09449997cc91a35e6891, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: c51bb41699824fe4f943f8825559e72d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 58ff870de0052ee489bf4d202473823e, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: f91fafe2c00225e4590aeb171309712b, type: 2}

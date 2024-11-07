@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 564032873550273578}
   - component: {fileID: 7990540803496051922}
   - component: {fileID: 2683090441192830446}
+  - component: {fileID: 2453210817236514886}
   m_Layer: 10
   m_Name: ChaseEnemy
   m_TagString: chaseEnemy
@@ -160,6 +161,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.76, y: 1.45}
   m_Direction: 0
+--- !u!114 &2453210817236514886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052506463523984931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0317cff47610a4f4c8568d4e805f0864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1984800695082023168
 GameObject:
   m_ObjectHideFlags: 0
