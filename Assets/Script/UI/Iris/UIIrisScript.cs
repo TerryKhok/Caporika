@@ -16,13 +16,16 @@ public class UIIrisScript : MonoBehaviour
 
     private Animator irisAnim; //アイリスアウト用
     private Canvas irisCanv;
+    private CanvasGroup irisCanvasGroup;
 
 
     void Start()
     {
         irisAnim = iris.GetComponent<Animator>();
         irisCanv = this.GetComponent<Canvas>();
-        if(startIrisIn == true)
+        irisCanvasGroup = this.GetComponent<CanvasGroup>();
+
+        if (startIrisIn == true)
         {
             IrisIn();//アイリスインを再生
         }
@@ -30,6 +33,7 @@ public class UIIrisScript : MonoBehaviour
         {
             irisCanv.enabled = false;
         }
+
     }
 
     /**
@@ -39,6 +43,9 @@ public class UIIrisScript : MonoBehaviour
     {
         irisCanv.enabled = true;
         irisAnim.Play("IrisIn");    //アイリスインを再生
+
+        irisCanvasGroup.interactable = false;  // 操作不能にする
+        irisCanvasGroup.blocksRaycasts = false; // クリックなどのイベントを受け付けなくする
     }
 
     /**

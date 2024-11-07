@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 770932950501153090}
   - component: {fileID: 1980631336671313329}
   - component: {fileID: 7555058755492882552}
+  - component: {fileID: 2994753588869537171}
   m_Layer: 5
   m_Name: IrisCanv
   m_TagString: Untagged
@@ -414,3 +415,15 @@ MonoBehaviour:
   iris: {fileID: 7178097933219665512}
   startIrisIn: 1
   nextScene: 
+--- !u!225 &2994753588869537171
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8125198649656429101}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
