@@ -18,6 +18,8 @@ public class ChaseEnemyMove : MonoBehaviour
     private bool isAttacking = false;                   // true:攻撃する
     private bool isEndMoveAnimation = false;            // true:動作アニメーションを終了した
 
+    private float rayDistance = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +35,128 @@ public class ChaseEnemyMove : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    { }
+     void Update()
+    {
+        Vector2 origin = transform.position;
+        int layerMask = ~(1 << 10); // レイヤー8（HunterLayer）を無視するマスク
+
+        // 上方向にRayを飛ばす
+        RaycastHit2D hitUp = Physics2D.Raycast(origin, Vector2.up, rayDistance, layerMask);
+        if (hitUp.collider != null)
+        {
+
+            if (hitUp.collider.tag == "Player")
+            {
+                Debug.Log("上方向にPlayerにヒット");
+
+                PlayerMove playerMove = hitUp.collider.GetComponent<PlayerMove>();
+                Debug.Log(playerMove);
+                if (playerMove != null && playerMove.playerCondition != PlayerState.PlayerCondition.Dead)
+                {
+                    this.isAttacking = true;
+
+                    MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
+                    if (!playerManager)
+                    {
+                        Debug.LogError("MatryoshkaManagerを取得できませんでした。");
+                        return;
+                    }
+                    int currentLife = playerManager.GetCurrentLife();
+                    playerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
+                    playerManager.GameOver();
+                }
+            }
+            else if (hitUp.collider.tag == "TriggerArea")
+            {
+                Transform parentTransform = hitUp.collider.transform.parent;
+
+                // 親オブジェクトが存在する場合
+                if (parentTransform != null)
+                {
+
+                    PlayerMove playerMove = parentTransform.GetComponent<PlayerMove>();
+                    Debug.Log(playerMove);
+                    if (playerMove != null && playerMove.playerCondition != PlayerState.PlayerCondition.Dead)
+                    {
+                        this.isAttacking = true;
+
+                        MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
+                        if (!playerManager)
+                        {
+                            Debug.LogError("MatryoshkaManagerを取得できませんでした。");
+                            return;
+                        }
+                        int currentLife = playerManager.GetCurrentLife();
+                        playerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
+                        playerManager.GameOver();
+                    }
+                }
+            }
+            else
+            {
+                //Debug.Log("上方向: " + hitUp.collider.tag);
+            }
+        }
+
+        // 下方向にRayを飛ばす
+        RaycastHit2D hitDown = Physics2D.Raycast(origin, Vector2.down, rayDistance, layerMask);
+        if (hitDown.collider != null)
+        {
+            if (hitDown.collider.tag == "Player")
+            {
+                Debug.Log("下方向にPlayerにヒット");
+
+                PlayerMove playerMove = hitDown.collider.GetComponent<PlayerMove>();
+                Debug.Log(playerMove);
+                if (playerMove != null && playerMove.playerCondition != PlayerState.PlayerCondition.Dead)
+                {
+                    this.isAttacking = true;
+
+                    MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
+                    if (!playerManager)
+                    {
+                        Debug.LogError("MatryoshkaManagerを取得できませんでした。");
+                        return;
+                    }
+                    int currentLife = playerManager.GetCurrentLife();
+                    playerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
+                    playerManager.GameOver();
+                }
+            }
+            else if (hitDown.collider.tag == "TriggerArea")
+            {
+                Transform parentTransform = hitDown.collider.transform.parent;
+                Debug.Log("親 :" + parentTransform);
+
+                // 親オブジェクトが存在する場合
+                if (parentTransform != null)
+                {
+
+                    PlayerMove playerMove = parentTransform.GetComponent<PlayerMove>();
+                    Debug.Log(playerMove);
+                    if (playerMove != null && playerMove.playerCondition != PlayerState.PlayerCondition.Dead)
+                    {
+                        this.isAttacking = true;
+
+                        MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
+                        if (!playerManager)
+                        {
+                            Debug.LogError("MatryoshkaManagerを取得できませんでした。");
+                            return;
+                        }
+                        int currentLife = playerManager.GetCurrentLife();
+                        playerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
+                        playerManager.GameOver();
+                    }
+                }
+                else
+                {
+                    Debug.Log("下方向:" + hitDown.collider.tag);
+                }
+            }
+        }
+    }
+
 
     private void FixedUpdate()
     {
@@ -68,32 +189,31 @@ public class ChaseEnemyMove : MonoBehaviour
      * 
      * memo    ChildTriggerNotifier.cs に親にトリガー判定を渡す処理を記載
     */
-    public void OnChildTriggerStay2D(Collider2D _other)
-    {
-        Debug.Log("unti");
-        // マトリョーシカの後ろに来たとき
-        if (_other.CompareTag("Player"))
-        {
-            // マトリョーシカが死んでいなければ
-            PlayerMove playerMove = _other.GetComponent<PlayerMove>();
-            if(playerMove.playerCondition!=PlayerState.PlayerCondition.Dead)
-            {
-                // 「攻撃を行う」
-                this.isAttacking = true;
+    //public void OnChildTriggerStay2D(Collider2D _other)
+    //{
+    //    // マトリョーシカの後ろに来たとき
+    //    if (_other.CompareTag("Player"))
+    //    {
+    //        // マトリョーシカが死んでいなければ
+    //        PlayerMove playerMove = _other.GetComponent<PlayerMove>();
+    //        if(playerMove.playerCondition!=PlayerState.PlayerCondition.Dead)
+    //        {
+    //            // 「攻撃を行う」
+    //            this.isAttacking = true;
 
-                // プレイヤーをゲームオーバーにする
-                MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
-                if (!playerManager)
-                {
-                    Debug.LogError("MatryoshkaManagerを取得できませんでした。");
-                    return;
-                }
-                int currentLife = playerManager.GetCurrentLife();
-                playerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
-                playerManager.GameOver();
-            }
-        }
-    }
+    //            // プレイヤーをゲームオーバーにする
+    //            MatryoshkaManager playerManager = FindAnyObjectByType<MatryoshkaManager>();
+    //            if (!playerManager)
+    //            {
+    //                Debug.LogError("MatryoshkaManagerを取得できませんでした。");
+    //                return;
+    //            }
+    //            int currentLife = playerManager.GetCurrentLife();
+    //            playerMove.ChangePlayerCondition(PlayerState.PlayerCondition.Dead);
+    //            playerManager.GameOver();
+    //        }
+    //    }
+    //}
 
     /**
      * @brief 	攻撃をしたか取得する関数
