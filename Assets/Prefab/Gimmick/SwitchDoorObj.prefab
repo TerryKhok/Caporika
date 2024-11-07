@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1447877339384794831}
   m_Layer: 0
   m_Name: SwitchDoorObj
-  m_TagString: Untagged
+  m_TagString: Gimmick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 347678202103032690}
   m_Layer: 0
   m_Name: SwitchDoor
-  m_TagString: Untagged
+  m_TagString: Gimmick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

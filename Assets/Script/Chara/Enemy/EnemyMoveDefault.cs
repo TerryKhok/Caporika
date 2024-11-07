@@ -43,7 +43,7 @@ public class EnemyMoveDefault : CharaMove
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // •Ç‚É“–‚½‚Á‚½‚çˆÚ“®‚·‚éŒü‚«‚ð‹t“]‚·‚é
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Gimmick"))
         {
             direction *= -1;
             FlipObjectX();
